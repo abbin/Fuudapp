@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "FAColor.h"
 
 @interface AppDelegate ()
 
@@ -16,8 +17,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-    [[UITabBar appearance] setTintColor:[UIColor redColor]];
+    [[UINavigationBar appearance] setBarTintColor:[FAColor whiteColor]];
+    [[UITabBar appearance] setTintColor:[FAColor mainColor]];
+    [[UIBarButtonItem appearance] setTintColor:[FAColor blackColor]];
     return YES;
 }
 

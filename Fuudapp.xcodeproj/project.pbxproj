@@ -14,6 +14,13 @@
 		ED8D6DFB1D46552A00CA8777 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DF91D46552A00CA8777 /* Main.storyboard */; };
 		ED8D6DFD1D46552A00CA8777 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */; };
 		ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */; };
+		EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */; };
+		EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE01D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m */; };
+		EDB89AE61D473E3C00EE4BBB /* NSIndexSet+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE31D473E3C00EE4BBB /* NSIndexSet+Convenience.m */; };
+		EDB89AE71D473E3C00EE4BBB /* UICollectionView+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE51D473E3C00EE4BBB /* UICollectionView+Convenience.m */; };
+		EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE91D475ED900EE4BBB /* FAColor.m */; };
+		EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */; };
+		EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +36,20 @@
 		ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED8D6DFF1D46552A00CA8777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED8D6E011D46552A00CA8777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDB89ADB1D472C7D00EE4BBB /* FAImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImagePickerController.h; sourceTree = "<group>"; };
+		EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImagePickerController.m; sourceTree = "<group>"; };
+		EDB89ADF1D473DA000EE4BBB /* FAImagePickerCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImagePickerCollectionViewCell.h; sourceTree = "<group>"; };
+		EDB89AE01D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImagePickerCollectionViewCell.m; sourceTree = "<group>"; };
+		EDB89AE21D473E3C00EE4BBB /* NSIndexSet+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+Convenience.h"; sourceTree = "<group>"; };
+		EDB89AE31D473E3C00EE4BBB /* NSIndexSet+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+Convenience.m"; sourceTree = "<group>"; };
+		EDB89AE41D473E3C00EE4BBB /* UICollectionView+Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UICollectionView+Convenience.h"; sourceTree = "<group>"; };
+		EDB89AE51D473E3C00EE4BBB /* UICollectionView+Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UICollectionView+Convenience.m"; sourceTree = "<group>"; };
+		EDB89AE81D475ED900EE4BBB /* FAColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAColor.h; sourceTree = "<group>"; };
+		EDB89AE91D475ED900EE4BBB /* FAColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAColor.m; sourceTree = "<group>"; };
+		EDB89AEB1D478DF300EE4BBB /* FAAddViewControllerOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerOne.h; sourceTree = "<group>"; };
+		EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerOne.m; sourceTree = "<group>"; };
+		EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddOneCollectionViewCell.h; sourceTree = "<group>"; };
+		EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddOneCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,10 +84,7 @@
 			children = (
 				ED8D6DF01D46552A00CA8777 /* AppDelegate.h */,
 				ED8D6DF11D46552A00CA8777 /* AppDelegate.m */,
-				ED8D6DF31D46552A00CA8777 /* FirstViewController.h */,
-				ED8D6DF41D46552A00CA8777 /* FirstViewController.m */,
-				ED8D6DF61D46552A00CA8777 /* SecondViewController.h */,
-				ED8D6DF71D46552A00CA8777 /* SecondViewController.m */,
+				EDB89ADE1D472D7B00EE4BBB /* ViewControllers */,
 				ED8D6DF91D46552A00CA8777 /* Main.storyboard */,
 				ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */,
 				ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */,
@@ -82,6 +100,31 @@
 				ED8D6DEE1D46552A00CA8777 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EDB89ADE1D472D7B00EE4BBB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				ED8D6DF31D46552A00CA8777 /* FirstViewController.h */,
+				ED8D6DF41D46552A00CA8777 /* FirstViewController.m */,
+				ED8D6DF61D46552A00CA8777 /* SecondViewController.h */,
+				ED8D6DF71D46552A00CA8777 /* SecondViewController.m */,
+				EDB89ADB1D472C7D00EE4BBB /* FAImagePickerController.h */,
+				EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */,
+				EDB89ADF1D473DA000EE4BBB /* FAImagePickerCollectionViewCell.h */,
+				EDB89AE01D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m */,
+				EDB89AE21D473E3C00EE4BBB /* NSIndexSet+Convenience.h */,
+				EDB89AE31D473E3C00EE4BBB /* NSIndexSet+Convenience.m */,
+				EDB89AE41D473E3C00EE4BBB /* UICollectionView+Convenience.h */,
+				EDB89AE51D473E3C00EE4BBB /* UICollectionView+Convenience.m */,
+				EDB89AE81D475ED900EE4BBB /* FAColor.h */,
+				EDB89AE91D475ED900EE4BBB /* FAColor.m */,
+				EDB89AEB1D478DF300EE4BBB /* FAAddViewControllerOne.h */,
+				EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */,
+				EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */,
+				EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,9 +199,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED8D6DF81D46552A00CA8777 /* SecondViewController.m in Sources */,
+				EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */,
+				EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */,
 				ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */,
+				EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */,
+				EDB89AE61D473E3C00EE4BBB /* NSIndexSet+Convenience.m in Sources */,
 				ED8D6DF51D46552A00CA8777 /* FirstViewController.m in Sources */,
 				ED8D6DEF1D46552A00CA8777 /* main.m in Sources */,
+				EDB89AE71D473E3C00EE4BBB /* UICollectionView+Convenience.m in Sources */,
+				EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */,
+				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
