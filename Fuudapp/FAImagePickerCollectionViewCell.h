@@ -14,7 +14,8 @@
 @property (nonatomic, copy) NSString *representedAssetIdentifier;
 @property (weak, nonatomic) IBOutlet UIView *selectView;
 
--(void)selectCell;
+-(void)selectCell:(BOOL)animated;
+-(void)deSelectCell:(BOOL)animated;
 -(void)shakeCell;
 
 @end

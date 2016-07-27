@@ -53,6 +53,7 @@ static CGSize AssetGridThumbnailSize;
     PHFetchOptions *allPhotosOptions = [[PHFetchOptions alloc] init];
     allPhotosOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
     PHFetchResult *allPhotos = [PHAsset fetchAssetsWithOptions:allPhotosOptions];
+    allPhotosOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
     self.assetsFetchResults = allPhotos;
     
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
@@ -173,7 +174,12 @@ static CGSize AssetGridThumbnailSize;
     PHAsset *asset = self.assetsFetchResults[indexPath.item];
     FAImagePickerCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.representedAssetIdentifier = asset.localIdentifier;
-    
+    if ([self.selectedIndex containsObject:indexPath]) {
+        [cell selectCell:NO];
+    }
+    else{
+        [cell deSelectCell:NO];
+    }
     [self.imageManager requestImageForAsset:asset
                                  targetSize:AssetGridThumbnailSize
                                 contentMode:PHImageContentModeAspectFill
@@ -196,13 +202,13 @@ static CGSize AssetGridThumbnailSize;
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     FAImagePickerCollectionViewCell *cell = (FAImagePickerCollectionViewCell*)[collectionView cellForItemAtIndexPath:indexPath];
     if ([self.selectedIndex containsObject:indexPath]) {
-        [cell selectCell];
+        [cell deSelectCell:YES];
         [self.selectedIndex removeObject:indexPath];
     }else{
         if (self.selectedIndex.count>2) {
             [cell shakeCell];
         }else{
-            [cell selectCell];
+            [cell selectCell:YES];
             [self.selectedIndex addObject:indexPath];
         }
     }

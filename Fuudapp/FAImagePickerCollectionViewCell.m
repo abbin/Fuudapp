@@ -11,29 +11,59 @@
 
 @implementation FAImagePickerCollectionViewCell
 
--(void)selectCell{
-    // Create a basic animation changing the transform.scale value
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    
-    // Set the initial and the final values
-    [animation setFromValue:[NSNumber numberWithFloat:1.0f]];
-    [animation setToValue:[NSNumber numberWithFloat:0.95f]];
-    [animation setAutoreverses:YES];
-    // Set duration
-    [animation setDuration:0.1f];
-    
-    // Set animation to be consistent on completion
-    [animation setRemovedOnCompletion:YES];
-    [animation setFillMode:kCAFillModeForwards];
-    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-    // Add animation to the view's layer
-    [[self.cellImageView layer] addAnimation:animation forKey:@"scale"];
-    [[self.selectView layer] addAnimation:animation forKey:@"scale2"];
-    
-    if (self.selectView.alpha == 0) {
+-(void)selectCell:(BOOL)animated{
+    if (animated) {
+        // Create a basic animation changing the transform.scale value
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        
+        // Set the initial and the final values
+        [animation setFromValue:[NSNumber numberWithFloat:1.0f]];
+        [animation setToValue:[NSNumber numberWithFloat:0.95f]];
+        [animation setAutoreverses:YES];
+        // Set duration
+        [animation setDuration:0.1f];
+        
+        // Set animation to be consistent on completion
+        [animation setRemovedOnCompletion:YES];
+        [animation setFillMode:kCAFillModeForwards];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        // Add animation to the view's layer
+        [[self.cellImageView layer] addAnimation:animation forKey:@"scale"];
+        [[self.selectView layer] addAnimation:animation forKey:@"scale2"];
         self.selectView.alpha = 0.7;
-    }else{
-        self.selectView.alpha = 0;
+    }
+    else{
+        self.cellImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.95, 0.95);
+        self.selectView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.95, 0.95);
+        self.selectView.alpha = 0.7;
+    }
+}
+
+-(void)deSelectCell:(BOOL)animated{
+    if (animated) {
+        // Create a basic animation changing the transform.scale value
+        CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        
+        // Set the initial and the final values
+        [animation setFromValue:[NSNumber numberWithFloat:1.0f]];
+        [animation setToValue:[NSNumber numberWithFloat:0.95f]];
+        [animation setAutoreverses:YES];
+        // Set duration
+        [animation setDuration:0.1f];
+        
+        // Set animation to be consistent on completion
+        [animation setRemovedOnCompletion:YES];
+        [animation setFillMode:kCAFillModeForwards];
+        [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+        // Add animation to the view's layer
+        [[self.cellImageView layer] addAnimation:animation forKey:@"scale"];
+        [[self.selectView layer] addAnimation:animation forKey:@"scale2"];
+        self.selectView.alpha = 0.0;
+    }
+    else{
+        self.cellImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        self.selectView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        self.selectView.alpha = 0.0;
     }
 }
 

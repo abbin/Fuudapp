@@ -21,6 +21,8 @@
 		EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE91D475ED900EE4BBB /* FAColor.m */; };
 		EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */; };
 		EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */; };
+		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
+		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,10 @@
 		EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerOne.m; sourceTree = "<group>"; };
 		EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddOneCollectionViewCell.h; sourceTree = "<group>"; };
 		EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddOneCollectionViewCell.m; sourceTree = "<group>"; };
+		EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerTwo.h; sourceTree = "<group>"; };
+		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
+		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
+		EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerThree.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,10 @@
 				EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */,
 				EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */,
 				EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */,
+				EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */,
+				EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */,
+				EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */,
+				EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -198,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */,
 				ED8D6DF81D46552A00CA8777 /* SecondViewController.m in Sources */,
 				EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */,
 				EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */,
@@ -209,6 +220,7 @@
 				EDB89AE71D473E3C00EE4BBB /* UICollectionView+Convenience.m in Sources */,
 				EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */,
 				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
+				EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
