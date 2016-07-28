@@ -52,8 +52,9 @@ static CGSize AssetGridThumbnailSize;
 - (void)awakeFromNib{
     PHFetchOptions *allPhotosOptions = [[PHFetchOptions alloc] init];
     allPhotosOptions.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-    PHFetchResult *allPhotos = [PHAsset fetchAssetsWithOptions:allPhotosOptions];
     allPhotosOptions.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
+    PHFetchResult *allPhotos = [PHAsset fetchAssetsWithOptions:allPhotosOptions];
+    
     self.assetsFetchResults = allPhotos;
     
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
@@ -87,6 +88,8 @@ static CGSize AssetGridThumbnailSize;
         vc.imageArray = self.selectedImages;
     }
 }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Actions -
@@ -140,6 +143,8 @@ static CGSize AssetGridThumbnailSize;
     }
 }
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - PHPhotoLibraryChangeObserver -
 
@@ -157,6 +162,8 @@ static CGSize AssetGridThumbnailSize;
         [self resetCachedAssets];
     });
 }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UICollectionViewDataSource -
@@ -192,6 +199,8 @@ static CGSize AssetGridThumbnailSize;
     return cell;
 }
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UICollectionViewDelegate -
 
@@ -214,12 +223,16 @@ static CGSize AssetGridThumbnailSize;
     }
 }
 
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UIScrollViewDelegate -
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self updateCachedAssets];
 }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - UIImagePickerControllerDelegate -
@@ -261,6 +274,8 @@ static CGSize AssetGridThumbnailSize;
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Asset Caching -

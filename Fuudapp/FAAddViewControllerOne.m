@@ -6,10 +6,10 @@
 //  Copyright © 2016 Fuudapp. All rights reserved.
 //
 
-#import "FAAddViewControllerOne.h"
-#import "FAAddOneCollectionViewCell.h"
 #import "FAColor.h"
+#import "FAAddViewControllerOne.h"
 #import "FAAddViewControllerTwo.h"
+#import "FAAddOneCollectionViewCell.h"
 
 @interface FAAddViewControllerOne ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextViewDelegate,UITextFieldDelegate,FAAddViewControllerTwoDelegate>
 
@@ -43,60 +43,82 @@
     self.navigationItem.leftBarButtonItem = cancel;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"FAAddViewControllerTwoSegue"]) {
+        UINavigationController *nav = segue.destinationViewController;
+        FAAddViewControllerTwo *vc = nav.viewControllers[0];
+        vc.delegate = self;
+    }
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Actions -
+
 - (void)backButtonClicked:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)nextButtonClicked:(id)sender {
-    if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1) {
+//    if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1) {
         [self.view endEditing:YES];
         [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
-    }
-    else{
-        if (self.nameTextField.text.length == 0) {
-            // Create a basic animation changing the transform.scale value
-            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-            
-            // Set the initial and the final values
-            [animation setFromValue:[NSValue valueWithCGPoint:
-                                     CGPointMake([self.nameContainerView center].x - 2.0f, [self.nameContainerView center].y)]];
-            [animation setToValue:[NSValue valueWithCGPoint:
-                                   CGPointMake([self.nameContainerView center].x + 2.0f, [self.nameContainerView center].y)]];
-            [animation setAutoreverses:YES];
-            [animation setRepeatCount:3];
-            // Set duration
-            [animation setDuration:0.05];
-            
-            // Set animation to be consistent on completion
-            [animation setRemovedOnCompletion:YES];
-            [animation setFillMode:kCAFillModeForwards];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-            // Add animation to the view's layer
-            [[self.nameContainerView layer] addAnimation:animation forKey:@"position"];
-        }
-        if (self.priceTextField.text.length <= 1) {
-            // Create a basic animation changing the transform.scale value
-            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-            
-            // Set the initial and the final values
-            [animation setFromValue:[NSValue valueWithCGPoint:
-                                     CGPointMake([self.priceContainerView center].x - 2.0f, [self.priceContainerView center].y)]];
-            [animation setToValue:[NSValue valueWithCGPoint:
-                                   CGPointMake([self.priceContainerView center].x + 2.0f, [self.priceContainerView center].y)]];
-            [animation setAutoreverses:YES];
-            [animation setRepeatCount:3];
-            // Set duration
-            [animation setDuration:0.05];
-            
-            // Set animation to be consistent on completion
-            [animation setRemovedOnCompletion:YES];
-            [animation setFillMode:kCAFillModeForwards];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-            // Add animation to the view's layer
-            [[self.priceContainerView layer] addAnimation:animation forKey:@"position"];
-        }
-    }
+//    }
+//    else{
+//        if (self.nameTextField.text.length == 0) {
+//            // Create a basic animation changing the transform.scale value
+//            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+//            
+//            // Set the initial and the final values
+//            [animation setFromValue:[NSValue valueWithCGPoint:
+//                                     CGPointMake([self.nameContainerView center].x - 2.0f, [self.nameContainerView center].y)]];
+//            [animation setToValue:[NSValue valueWithCGPoint:
+//                                   CGPointMake([self.nameContainerView center].x + 2.0f, [self.nameContainerView center].y)]];
+//            [animation setAutoreverses:YES];
+//            [animation setRepeatCount:3];
+//            // Set duration
+//            [animation setDuration:0.05];
+//            
+//            // Set animation to be consistent on completion
+//            [animation setRemovedOnCompletion:YES];
+//            [animation setFillMode:kCAFillModeForwards];
+//            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+//            // Add animation to the view's layer
+//            [[self.nameContainerView layer] addAnimation:animation forKey:@"position"];
+//        }
+//        if (self.priceTextField.text.length <= 1) {
+//            // Create a basic animation changing the transform.scale value
+//            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+//            
+//            // Set the initial and the final values
+//            [animation setFromValue:[NSValue valueWithCGPoint:
+//                                     CGPointMake([self.priceContainerView center].x - 2.0f, [self.priceContainerView center].y)]];
+//            [animation setToValue:[NSValue valueWithCGPoint:
+//                                   CGPointMake([self.priceContainerView center].x + 2.0f, [self.priceContainerView center].y)]];
+//            [animation setAutoreverses:YES];
+//            [animation setRepeatCount:3];
+//            // Set duration
+//            [animation setDuration:0.05];
+//            
+//            // Set animation to be consistent on completion
+//            [animation setRemovedOnCompletion:YES];
+//            [animation setFillMode:kCAFillModeForwards];
+//            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+//            // Add animation to the view's layer
+//            [[self.priceContainerView layer] addAnimation:animation forKey:@"position"];
+//        }
+//    }
 }
+
+- (IBAction)didTapView:(id)sender {
+    [self.view endEditing:YES];
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UICollectionViewDataSource -
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
@@ -112,10 +134,20 @@
     return cell;
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UICollectionViewDelegate -
+
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     UIImage *image = [self.imageArray objectAtIndex:indexPath.row];
     return CGSizeMake(collectionView.frame.size.height*image.size.width/image.size.height, collectionView.frame.size.height);
 }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UITextFieldDelegate -
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
     if ([textField.text isEqualToString:@""]) {
@@ -155,6 +187,11 @@
     }
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UITextViewDelegate -
+
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     if ([textView.text isEqualToString:@"type here"]) {
         textView.text = @"";
@@ -177,24 +214,22 @@
     } completion:nil];
 }
 
-- (IBAction)didTapView:(id)sender {
-    [self.view endEditing:YES];
-}
 
--(NSString*)currencySymbol{
-    return [[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol];
-}
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"FAAddViewControllerTwoSegue"]) {
-        FAAddViewControllerTwo *vc = segue.destinationViewController;
-        vc.delegate = self;
-    }
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - FAAddViewControllerTwoDelegate -
 
 -(void)FAAddViewControllerTwo:(FAAddViewControllerTwo *)controller didFinishWithNewItem:(NSString *)itemName{
     self.nameTextField.text = itemName;
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Utility methods -
+
+-(NSString*)currencySymbol{
+    return [[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol];
+}
 
 @end

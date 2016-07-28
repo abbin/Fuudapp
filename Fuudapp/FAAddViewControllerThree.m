@@ -8,8 +8,9 @@
 
 #import "FAAddViewControllerThree.h"
 #import "FAColor.h"
+#import "FARestaurantPickerController.h"
 
-@interface FAAddViewControllerThree ()
+@interface FAAddViewControllerThree ()<UITextFieldDelegate,FARestaurantPickerControllerDelegate>
 
 @end
 
@@ -40,14 +41,27 @@
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    if (textField.tag == 0) {
+        [self performSegueWithIdentifier:@"FARestaurantPickerControllerSegue" sender:self];
+    }
+    return NO;
 }
-*/
+
+-(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithNewRestaurant:(NSString *)restaurantName{
+    
+}
+
+-(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
+    NSLog(@"%@",restaurant);
+}
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    UINavigationController *nav = segue.destinationViewController;
+    FARestaurantPickerController *vc = nav.viewControllers[0];
+    vc.delegate = self;
+}
+
 
 @end
