@@ -44,6 +44,8 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if (textField.tag == 0) {
         [self performSegueWithIdentifier:@"FARestaurantPickerControllerSegue" sender:self];
+    }else{
+        [self performSegueWithIdentifier:@"FAMapViewControllerSegue" sender:self];
     }
     return NO;
 }
@@ -58,9 +60,11 @@
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *nav = segue.destinationViewController;
-    FARestaurantPickerController *vc = nav.viewControllers[0];
-    vc.delegate = self;
+    if ([segue.identifier isEqualToString:@"FARestaurantPickerControllerSegue"]) {
+        UINavigationController *nav = segue.destinationViewController;
+        FARestaurantPickerController *vc = nav.viewControllers[0];
+        vc.delegate = self;
+    }
 }
 
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D0E49D2DDDCCBE14C6BB1F67 /* libPods-Fuudapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A3E6740F7F4DF384AAF0DA /* libPods-Fuudapp.a */; };
 		ED27D7E61D49EA13006CC721 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info.plist */; };
+		ED6570361D4B4E7A002B680E /* FAMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6570351D4B4E7A002B680E /* FAMapViewController.m */; };
 		ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */; };
 		ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ED74239E1D4A48B40030CE45 /* FAConstants.m */; };
 		ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */; };
@@ -35,6 +36,8 @@
 		32E844E13FC121B88976C22A /* Pods-Fuudapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fuudapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fuudapp/Pods-Fuudapp.debug.xcconfig"; sourceTree = "<group>"; };
 		82A3E6740F7F4DF384AAF0DA /* libPods-Fuudapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Fuudapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED27D7E51D49EA13006CC721 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ED6570341D4B4E7A002B680E /* FAMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAMapViewController.h; sourceTree = "<group>"; };
+		ED6570351D4B4E7A002B680E /* FAMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAMapViewController.m; sourceTree = "<group>"; };
 		ED7423961D4A05160030CE45 /* FARestaurantPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARestaurantPickerController.h; sourceTree = "<group>"; };
 		ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARestaurantPickerController.m; sourceTree = "<group>"; };
 		ED74239D1D4A48B40030CE45 /* FAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAConstants.h; sourceTree = "<group>"; };
@@ -175,6 +178,8 @@
 				ED74239E1D4A48B40030CE45 /* FAConstants.m */,
 				ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */,
 				ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */,
+				ED6570341D4B4E7A002B680E /* FAMapViewController.h */,
+				ED6570351D4B4E7A002B680E /* FAMapViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 				ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */,
 				EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */,
 				ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */,
+				ED6570361D4B4E7A002B680E /* FAMapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
