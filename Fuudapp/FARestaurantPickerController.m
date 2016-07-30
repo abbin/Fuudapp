@@ -71,7 +71,7 @@
             if (!error) {
                 self.restArray = responseObject[@"results"];
                 if (self.restArray.count==0) {
-                    self.restArray = @[[NSString stringWithFormat:@"Add '%@' as new restaurant",searchText]];
+                    self.restArray = @[[NSString stringWithFormat:@"Add '%@' as new a restaurant",searchText]];
                 }
                 [self.restTableView reloadData];
             }

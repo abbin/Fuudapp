@@ -44,10 +44,17 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if (textField.tag == 0) {
         [self performSegueWithIdentifier:@"FARestaurantPickerControllerSegue" sender:self];
-    }else{
-        [self performSegueWithIdentifier:@"FAMapViewControllerSegue" sender:self];
+        return NO;
+    }else if (textField.tag == 2){
+        return NO;
     }
-    return NO;
+    else if (textField.tag == 3){
+        [self performSegueWithIdentifier:@"FAMapViewControllerSegue" sender:self];
+        return NO;
+    }
+    else{
+        return YES;
+    }
 }
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithNewRestaurant:(NSString *)restaurantName{
