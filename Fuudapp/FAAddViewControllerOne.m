@@ -163,16 +163,36 @@
     if ([textField.text isEqualToString:@""]) {
         textField.text = [self currencySymbol];
     }
-    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
-    [self.scrollView setScrollEnabled:NO];
+    if (IS_IPHONE_4_OR_LESS) {
+        [self.scrollView setContentOffset:CGPointMake(0, 219) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else if (IS_IPHONE_5){
+        [self.scrollView setContentOffset:CGPointMake(0, 236) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else if (IS_IPHONE_6){
+        [self.scrollView setContentOffset:CGPointMake(0, 149) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else{
+        [self.scrollView setContentOffset:CGPointMake(0, 117) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     if ([textField.text isEqualToString:[self currencySymbol]]) {
         textField.text = @"";
     }
-    [self.scrollView setScrollEnabled:YES];
-    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
+    if (IS_IPHONE_4_OR_LESS) {
+        [self.scrollView setContentOffset:CGPointMake(0, 44) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+    else{
+        [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
@@ -186,6 +206,7 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if (textField.tag == 0) {
+        [self.view endEditing:YES];
         [self performSegueWithIdentifier:@"FAAddViewControllerTwoSegue" sender:self];
         return NO;
     }else{
@@ -203,8 +224,22 @@
         textView.text = @"";
         textView.textColor = [UIColor darkTextColor];
     }
-    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
-    [self.scrollView setScrollEnabled:NO];
+    if (IS_IPHONE_4_OR_LESS) {
+        [self.scrollView setContentOffset:CGPointMake(0, 298) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else if (IS_IPHONE_5){
+        [self.scrollView setContentOffset:CGPointMake(0, 245) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else if (IS_IPHONE_6){
+        [self.scrollView setContentOffset:CGPointMake(0, 190) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else{
+        [self.scrollView setContentOffset:CGPointMake(0, 163) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView{
@@ -212,9 +247,14 @@
         textView.text = @"type here";
         textView.textColor = [UIColor colorWithWhite:0 alpha:0.25];
     }
-    [self.scrollView setScrollEnabled:YES];
-    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
-
+    if (IS_IPHONE_4_OR_LESS) {
+        [self.scrollView setContentOffset:CGPointMake(0, 44) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+    else{
+        [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
 }
 
 

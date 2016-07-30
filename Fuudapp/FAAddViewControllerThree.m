@@ -167,6 +167,7 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if (textField.tag == 0) {
+        [self.view endEditing:YES];
         [self performSegueWithIdentifier:@"FARestaurantPickerControllerSegue" sender:self];
         return NO;
     }
@@ -174,9 +175,11 @@
         return YES;
     }
     else if (textField.tag == 2){
+        [self.view endEditing:YES];
         return NO;
     }
     else if (textField.tag == 3){
+        [self.view endEditing:YES];
         [self performSegueWithIdentifier:@"FAMapViewControllerSegue" sender:self];
         return NO;
     }
@@ -184,6 +187,7 @@
         return YES;
     }
     else if (textField.tag == 5){
+        [self.view endEditing:YES];
         return NO;
     }
     else{
