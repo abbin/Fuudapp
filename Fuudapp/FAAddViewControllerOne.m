@@ -11,10 +11,20 @@
 #import "FAAddViewControllerTwo.h"
 #import "FAAddOneCollectionViewCell.h"
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
+#define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
+#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
+#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+
 @interface FAAddViewControllerOne ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextViewDelegate,UITextFieldDelegate,FAAddViewControllerTwoDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *priceSectionHeader;
-@property (weak, nonatomic) IBOutlet UILabel *discriptionSectionHeader;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *priceTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -153,7 +163,7 @@
     if ([textField.text isEqualToString:@""]) {
         textField.text = [self currencySymbol];
     }
-    [self.scrollView setContentOffset:CGPointMake(0, self.priceSectionHeader.frame.origin.y-15) animated:YES];
+    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
     [self.scrollView setScrollEnabled:NO];
 }
 
@@ -162,14 +172,7 @@
         textField.text = @"";
     }
     [self.scrollView setScrollEnabled:YES];
-    if (self.scrollView.contentSize.height>self.view.frame.size.height-64) {
-        CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
-        [self.scrollView setContentOffset:bottomOffset animated:YES];
-    }
-    else{
-        CGPoint bottomOffset = CGPointMake(0, 0);
-        [self.scrollView setContentOffset:bottomOffset animated:YES];
-    }
+    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
@@ -200,7 +203,7 @@
         textView.text = @"";
         textView.textColor = [UIColor darkTextColor];
     }
-    [self.scrollView setContentOffset:CGPointMake(0, self.discriptionSectionHeader.frame.origin.y-15) animated:YES];
+    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
     [self.scrollView setScrollEnabled:NO];
 }
 
@@ -210,14 +213,8 @@
         textView.textColor = [UIColor colorWithWhite:0 alpha:0.25];
     }
     [self.scrollView setScrollEnabled:YES];
-    if (self.scrollView.contentSize.height>self.view.frame.size.height-64) {
-        CGPoint bottomOffset = CGPointMake(0, self.scrollView.contentSize.height - self.scrollView.bounds.size.height);
-        [self.scrollView setContentOffset:bottomOffset animated:YES];
-    }
-    else{
-        CGPoint bottomOffset = CGPointMake(0, 0);
-        [self.scrollView setContentOffset:bottomOffset animated:YES];
-    }
+    [self.scrollView setContentOffset:CGPointMake(0, 100) animated:YES];
+
 }
 
 
