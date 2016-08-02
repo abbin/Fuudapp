@@ -9,6 +9,10 @@
 #import "FAAddViewControllerThree.h"
 #import "FAColor.h"
 #import "FARestaurantPickerController.h"
+#import "FAMapViewController.h"
+#import "FALocalityPickerController.h"
+#import "TLTagsControl.h"
+#import "FAWorkingDaysViewController.h"
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
@@ -22,11 +26,16 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-@interface FAAddViewControllerThree ()<UITextFieldDelegate,FARestaurantPickerControllerDelegate>
+@interface FAAddViewControllerThree ()<UITextFieldDelegate,FARestaurantPickerControllerDelegate,FAMapViewControllerDelegate,FALocalityPickerControllerDelegate,TLTagsControlDelegate,FAWorkingDaysViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *fromTextField;
 @property (weak, nonatomic) IBOutlet UITextField *tillTExtField;
+@property (weak, nonatomic) IBOutlet UITextField *restaurantNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *addressTextField;
+@property (weak, nonatomic) IBOutlet UITextField *localityTextField;
+@property (weak, nonatomic) IBOutlet UITextField *coordinatesTextField;
+@property (weak, nonatomic) IBOutlet TLTagsControl *tagControl;
 
 @end
 
@@ -59,14 +68,22 @@
     [fromDatePicker setBackgroundColor:[UIColor whiteColor]];
     [fromDatePicker addTarget:self action:@selector(fromDatePickerDidSelectDate:) forControlEvents:UIControlEventValueChanged];
     self.fromTextField.inputView = fromDatePicker;
+    
+    self.tagControl.tapDelegate = self;
 }
 
-- (void)tillDatePickerDidSelectDate:(id)sender {
+- (void)tillDatePickerDidSelectDate:(UIDatePicker*)sender {
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"h:mm a"];
     
+    self.tillTExtField.text = [outputFormatter stringFromDate:sender.date];
 }
 
-- (void)fromDatePickerDidSelectDate:(id)sender {
+- (void)fromDatePickerDidSelectDate:(UIDatePicker*)sender {
+    NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+    [outputFormatter setDateFormat:@"h:mm a"];
     
+    self.fromTextField.text = [outputFormatter stringFromDate:sender.date];
 }
 
 - (void)backButtonClicked:(id)sender {
@@ -176,6 +193,7 @@
     }
     else if (textField.tag == 2){
         [self.view endEditing:YES];
+        [self performSegueWithIdentifier:@"FALocalityPickerControllerSegue" sender:self];
         return NO;
     }
     else if (textField.tag == 3){
@@ -188,6 +206,7 @@
     }
     else if (textField.tag == 5){
         [self.view endEditing:YES];
+        [self performSegueWithIdentifier:@"FAWorkingDaysViewControllerSegue" sender:self];
         return NO;
     }
     else{
@@ -196,18 +215,36 @@
 }
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithNewRestaurant:(NSString *)restaurantName{
-    
+    self.restaurantNameTextField.text = restaurantName;
 }
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
-    NSLog(@"%@",restaurant);
+
 }
 
+-(void)FAMapViewController:(FAMapViewController *)controller didFinishWithLocation:(CLLocationCoordinate2D)location{
+    self.coordinatesTextField.text = [NSString stringWithFormat:@"%f, %f",location.latitude,location.longitude];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"FARestaurantPickerControllerSegue"]) {
         UINavigationController *nav = segue.destinationViewController;
         FARestaurantPickerController *vc = nav.viewControllers[0];
+        vc.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"FAMapViewControllerSegue"]){
+        UINavigationController *nav = segue.destinationViewController;
+        FAMapViewController *vc = nav.viewControllers[0];
+        vc.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"FALocalityPickerControllerSegue"]){
+        UINavigationController *nav = segue.destinationViewController;
+        FALocalityPickerController *vc = nav.viewControllers[0];
+        vc.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"FAWorkingDaysViewControllerSegue"]){
+        UINavigationController *nav = segue.destinationViewController;
+        FAWorkingDaysViewController *vc = nav.viewControllers[0];
         vc.delegate = self;
     }
 }
@@ -216,5 +253,50 @@
     [self.view endEditing:YES];
 }
 
+-(void)FALocalityPickerController:(FALocalityPickerController *)controller didFinisheWithLocation:(NSString *)location{
+    self.localityTextField.text = location;
+}
+
+-(void)tagsControlDidEndEditing:(TLTagsControl *)tagsControl{
+    if (IS_IPHONE_4_OR_LESS) {
+        [self.scrollView setContentOffset:CGPointMake(0, 212) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+    else if (IS_IPHONE_5){
+        [self.scrollView setContentOffset:CGPointMake(0, 124) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+    else if (IS_IPHONE_6){
+        [self.scrollView setContentOffset:CGPointMake(0, 25) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+    else{
+        [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+}
+
+-(void)FAWorkingDaysViewController:(FAWorkingDaysViewController *)controller didFinishWithDays:(NSMutableArray *)days{
+    
+}
+
+-(void)tagsControlDidBeginEditing:(TLTagsControl *)tagsControl{
+    if (IS_IPHONE_4_OR_LESS) {
+        [self.scrollView setContentOffset:CGPointMake(0, 334) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else if (IS_IPHONE_5){
+        [self.scrollView setContentOffset:CGPointMake(0, 334) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else if (IS_IPHONE_6){
+        [self.scrollView setContentOffset:CGPointMake(0, 242) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+    else{
+        [self.scrollView setContentOffset:CGPointMake(0, 183) animated:YES];
+        [self.scrollView setScrollEnabled:NO];
+    }
+}
 
 @end

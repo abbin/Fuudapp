@@ -52,8 +52,9 @@
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self.dataTask suspend];
+    [self.dataTask cancel];
     if (searchText.length>0) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
@@ -68,6 +69,7 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             if (!error) {
                 self.restArray = responseObject[@"results"];
                 if (self.restArray.count==0) {
@@ -113,13 +115,12 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.dataTask suspend];
-    
+    [self.dataTask cancel];
     if ([[self.restArray objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
         [self.searchBar resignFirstResponder];
         [self dismissViewControllerAnimated:YES completion:^{
             if ([self.delegate respondsToSelector:@selector(FARestaurantPickerController:didFinishWithNewRestaurant:)]) {
-                [self.delegate FARestaurantPickerController:self didFinishWithNewRestaurant:[self.restArray objectAtIndex:indexPath.row]];
+                [self.delegate FARestaurantPickerController:self didFinishWithNewRestaurant:self.searchBar.text];
             }
         }];
     }

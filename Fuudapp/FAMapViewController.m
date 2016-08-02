@@ -9,8 +9,11 @@
 #import "FAMapViewController.h"
 #import "FAColor.h"
 
-@interface FAMapViewController ()
+@interface FAMapViewController ()<CLLocationManagerDelegate>
 
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (weak, nonatomic) IBOutlet GMSMapView *mapView;
+@property (nonatomic, strong) CLLocation *currLoc;
 @end
 
 @implementation FAMapViewController
@@ -30,6 +33,29 @@
                                action:@selector(cancelButtonClicked:)];
     
     self.navigationItem.leftBarButtonItem = cancel;
+    
+    [self requestLocationServicesAuthorization];
+}
+
+- (void)requestLocationServicesAuthorization {
+    if (!self.locationManager) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+    }
+    
+    /*
+     Gets user permission to get their location while the app is in the foreground.
+     
+     To monitor the user's location even when the app is in the background:
+     1. Replace [self.locationManager requestWhenInUseAuthorization] with [self.locationManager requestAlwaysAuthorization]
+     2. Change NSLocationWhenInUseUsageDescription to NSLocationAlwaysUsageDescription in InfoPlist.strings
+     */
+    [self.locationManager requestWhenInUseAuthorization];
+    
+    /*
+     Requests a single location after the user is presented with a consent dialog.
+     */
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)cancelButtonClicked:(id)sender {
@@ -37,22 +63,33 @@
 }
 
 - (void)doneButtonClicked:(id)sender {
-    
+    [self dismissViewControllerAnimated:YES completion:^{
+        if ([self.delegate respondsToSelector:@selector(FAMapViewController:didFinishWithLocation:)]) {
+            [self.delegate FAMapViewController:self didFinishWithLocation:self.mapView.camera.target];
+        }
+    }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    [self.locationManager stopUpdatingLocation];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    self.currLoc = [locations firstObject];
+    [self.mapView setCamera:[GMSCameraPosition cameraWithLatitude:self.currLoc.coordinate.latitude
+                                                        longitude:self.currLoc.coordinate.longitude
+                                                             zoom:15]];
+    [self.locationManager stopUpdatingLocation];
 }
-*/
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+
+}
+
+- (IBAction)goTocurrentLocation:(UIButton *)sender {
+    [self.mapView animateToCameraPosition:[GMSCameraPosition cameraWithLatitude:self.currLoc.coordinate.latitude
+                                                                      longitude:self.currLoc.coordinate.longitude
+                                                                           zoom:15]];
+}
 
 @end

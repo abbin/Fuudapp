@@ -8,5 +8,6 @@ target 'Fuudapp' do
   # Pods for Fuudapp
 
 pod 'AFNetworking', '~> 3.0'
+pod 'GoogleMaps'
 
 end
