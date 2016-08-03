@@ -17,6 +17,7 @@
 - (void)tagsControl:(TLTagsControl *)tagsControl tappedAtIndex:(NSInteger)index;
 - (void)tagsControlDidBeginEditing:(TLTagsControl *)tagsControl;
 - (void)tagsControlDidEndEditing:(TLTagsControl *)tagsControl;
+- (BOOL)tagsControlShouldBeginEditing:(TLTagsControl *)tagsControl;
 
 @end
 

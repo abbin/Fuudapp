@@ -8,7 +8,7 @@
 
 #import "FARestaurantPickerController.h"
 #import "FAColor.h"
-#import <AFNetworking.h>
+#import "AFNetworking.h"
 #import "FAConstants.h"
 #import "NSMutableDictionary+FARestaurant.h"
 

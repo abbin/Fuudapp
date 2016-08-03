@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D0E49D2DDDCCBE14C6BB1F67 /* libPods-Fuudapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A3E6740F7F4DF384AAF0DA /* libPods-Fuudapp.a */; };
-		ED27D7E61D49EA13006CC721 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info.plist */; };
+		184D8283C4BE93E9388FF949 /* Pods_Fuudapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */; };
+		ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */; };
 		ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FE51D4F429F00854980 /* FALocalityPickerController.m */; };
 		ED482FEC1D4F7C5300854980 /* TLTagsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FEB1D4F7C5300854980 /* TLTagsControl.m */; };
 		ED6570361D4B4E7A002B680E /* FAMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6570351D4B4E7A002B680E /* FAMapViewController.m */; };
@@ -23,6 +23,7 @@
 		ED8D6DFD1D46552A00CA8777 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */; };
 		ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */; };
 		EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */; };
+		EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */; };
 		EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */; };
 		EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE01D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m */; };
 		EDB89AE61D473E3C00EE4BBB /* NSIndexSet+Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE31D473E3C00EE4BBB /* NSIndexSet+Convenience.m */; };
@@ -36,9 +37,9 @@
 
 /* Begin PBXFileReference section */
 		12B5A52FBD971E5F8521E0D9 /* Pods-Fuudapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fuudapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-Fuudapp/Pods-Fuudapp.release.xcconfig"; sourceTree = "<group>"; };
+		24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fuudapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32E844E13FC121B88976C22A /* Pods-Fuudapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fuudapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fuudapp/Pods-Fuudapp.debug.xcconfig"; sourceTree = "<group>"; };
-		82A3E6740F7F4DF384AAF0DA /* libPods-Fuudapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Fuudapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ED27D7E51D49EA13006CC721 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info(live).plist"; sourceTree = "<group>"; };
 		ED482FE41D4F429F00854980 /* FALocalityPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALocalityPickerController.h; sourceTree = "<group>"; };
 		ED482FE51D4F429F00854980 /* FALocalityPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALocalityPickerController.m; sourceTree = "<group>"; };
 		ED482FEA1D4F7C5300854980 /* TLTagsControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLTagsControl.h; sourceTree = "<group>"; };
@@ -65,6 +66,7 @@
 		ED8D6E011D46552A00CA8777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EDAD34351D506C6F001E5D74 /* FAWorkingDaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWorkingDaysViewController.h; sourceTree = "<group>"; };
 		EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAWorkingDaysViewController.m; sourceTree = "<group>"; };
+		EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EDB89ADB1D472C7D00EE4BBB /* FAImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImagePickerController.h; sourceTree = "<group>"; };
 		EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImagePickerController.m; sourceTree = "<group>"; };
 		EDB89ADF1D473DA000EE4BBB /* FAImagePickerCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImagePickerCollectionViewCell.h; sourceTree = "<group>"; };
@@ -90,7 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0E49D2DDDCCBE14C6BB1F67 /* libPods-Fuudapp.a in Frameworks */,
+				184D8283C4BE93E9388FF949 /* Pods_Fuudapp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +102,7 @@
 		180F28C265828560256D1332 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				82A3E6740F7F4DF384AAF0DA /* libPods-Fuudapp.a */,
+				24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -142,7 +144,8 @@
 				ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */,
 				ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */,
 				ED8D6E011D46552A00CA8777 /* Info.plist */,
-				ED27D7E51D49EA13006CC721 /* GoogleService-Info.plist */,
+				ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */,
+				EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */,
 				ED8D6DED1D46552A00CA8777 /* Supporting Files */,
 			);
 			path = Fuudapp;
@@ -262,7 +265,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */,
-				ED27D7E61D49EA13006CC721 /* GoogleService-Info.plist in Resources */,
+				ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */,
+				EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */,
 				ED8D6DFD1D46552A00CA8777 /* Assets.xcassets in Resources */,
 				ED8D6DFB1D46552A00CA8777 /* Main.storyboard in Resources */,
 			);

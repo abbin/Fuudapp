@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "FAColor.h"
 @import GoogleMaps;
+@import Firebase;
 
 @interface AppDelegate ()
 
@@ -22,7 +23,9 @@
     [[UITabBar appearance] setTintColor:[FAColor mainColor]];
     [[UIBarButtonItem appearance] setTintColor:[FAColor blackColor]];
     
+    [FIRApp configure];
     [GMSServices provideAPIKey:@"AIzaSyD6PMkkD1Ecqyhm1E3BWAag-JX-5tQbRU4"];
+    
     return YES;
 }
 

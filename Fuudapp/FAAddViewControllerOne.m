@@ -10,6 +10,8 @@
 #import "FAAddViewControllerOne.h"
 #import "FAAddViewControllerTwo.h"
 #import "FAAddOneCollectionViewCell.h"
+#import "FAAddViewControllerThree.h"
+#import <HCSStarRatingView/HCSStarRatingView.h>
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
@@ -31,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIView *priceContainerView;
 @property (weak, nonatomic) IBOutlet UIView *nameContainerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet HCSStarRatingView *ratingView;
 
 @end
 
@@ -51,6 +54,8 @@
                                action:@selector(backButtonClicked:)];
     
     self.navigationItem.leftBarButtonItem = cancel;
+    
+    self.ratingView.tintColor = [FAColor mainColor];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -58,6 +63,24 @@
         UINavigationController *nav = segue.destinationViewController;
         FAAddViewControllerTwo *vc = nav.viewControllers[0];
         vc.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"FAAddViewControllerThreeSegue"]){
+        FAAddViewControllerThree *vc = segue.destinationViewController;
+        vc.itemName = self.nameTextField.text;
+        
+        NSString *newStr = [self.priceTextField.text substringFromIndex:1];
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        NSNumber *myNumber = [f numberFromString:newStr];
+        
+        vc.itemPrice = myNumber;
+        vc.itemdescription = self.descriptionTextView.text;
+        vc.itemRating = [NSNumber numberWithFloat:self.ratingView.value];
+        vc.itemimages = self.imageArray;
+        
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setLocale:[NSLocale currentLocale]];
+        NSString *localizedMoneyString = [formatter currencyCode];
+        vc.itemcurrency = localizedMoneyString;
     }
 }
 
@@ -71,54 +94,76 @@
 }
 
 - (void)nextButtonClicked:(id)sender {
-//    if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1) {
+    if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1 && self.ratingView.value>0) {
         [self.view endEditing:YES];
         [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
-//    }
-//    else{
-//        if (self.nameTextField.text.length == 0) {
-//            // Create a basic animation changing the transform.scale value
-//            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-//            
-//            // Set the initial and the final values
-//            [animation setFromValue:[NSValue valueWithCGPoint:
-//                                     CGPointMake([self.nameContainerView center].x - 2.0f, [self.nameContainerView center].y)]];
-//            [animation setToValue:[NSValue valueWithCGPoint:
-//                                   CGPointMake([self.nameContainerView center].x + 2.0f, [self.nameContainerView center].y)]];
-//            [animation setAutoreverses:YES];
-//            [animation setRepeatCount:3];
-//            // Set duration
-//            [animation setDuration:0.05];
-//            
-//            // Set animation to be consistent on completion
-//            [animation setRemovedOnCompletion:YES];
-//            [animation setFillMode:kCAFillModeForwards];
-//            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-//            // Add animation to the view's layer
-//            [[self.nameContainerView layer] addAnimation:animation forKey:@"position"];
-//        }
-//        if (self.priceTextField.text.length <= 1) {
-//            // Create a basic animation changing the transform.scale value
-//            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-//            
-//            // Set the initial and the final values
-//            [animation setFromValue:[NSValue valueWithCGPoint:
-//                                     CGPointMake([self.priceContainerView center].x - 2.0f, [self.priceContainerView center].y)]];
-//            [animation setToValue:[NSValue valueWithCGPoint:
-//                                   CGPointMake([self.priceContainerView center].x + 2.0f, [self.priceContainerView center].y)]];
-//            [animation setAutoreverses:YES];
-//            [animation setRepeatCount:3];
-//            // Set duration
-//            [animation setDuration:0.05];
-//            
-//            // Set animation to be consistent on completion
-//            [animation setRemovedOnCompletion:YES];
-//            [animation setFillMode:kCAFillModeForwards];
-//            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-//            // Add animation to the view's layer
-//            [[self.priceContainerView layer] addAnimation:animation forKey:@"position"];
-//        }
-//    }
+    }
+    else{
+        if (self.ratingView.value == 0) {
+            [self.view endEditing:YES];
+            // Create a basic animation changing the transform.scale value
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+            
+            // Set the initial and the final values
+            [animation setFromValue:[NSValue valueWithCGPoint:
+                                     CGPointMake([self.ratingView center].x - 3.0f, [self.ratingView center].y)]];
+            [animation setToValue:[NSValue valueWithCGPoint:
+                                   CGPointMake([self.ratingView center].x + 3.0f, [self.ratingView center].y)]];
+            [animation setAutoreverses:YES];
+            [animation setRepeatCount:3];
+            // Set duration
+            [animation setDuration:0.05];
+            
+            // Set animation to be consistent on completion
+            [animation setRemovedOnCompletion:YES];
+            [animation setFillMode:kCAFillModeForwards];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            // Add animation to the view's layer
+            [[self.ratingView layer] addAnimation:animation forKey:@"position"];
+        }
+        if (self.nameTextField.text.length == 0) {
+            // Create a basic animation changing the transform.scale value
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+            
+            // Set the initial and the final values
+            [animation setFromValue:[NSValue valueWithCGPoint:
+                                     CGPointMake([self.nameContainerView center].x - 3.0f, [self.nameContainerView center].y)]];
+            [animation setToValue:[NSValue valueWithCGPoint:
+                                   CGPointMake([self.nameContainerView center].x + 3.0f, [self.nameContainerView center].y)]];
+            [animation setAutoreverses:YES];
+            [animation setRepeatCount:3];
+            // Set duration
+            [animation setDuration:0.05];
+            
+            // Set animation to be consistent on completion
+            [animation setRemovedOnCompletion:YES];
+            [animation setFillMode:kCAFillModeForwards];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            // Add animation to the view's layer
+            [[self.nameContainerView layer] addAnimation:animation forKey:@"position"];
+        }
+        if (self.priceTextField.text.length <= 1) {
+            // Create a basic animation changing the transform.scale value
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+            
+            // Set the initial and the final values
+            [animation setFromValue:[NSValue valueWithCGPoint:
+                                     CGPointMake([self.priceContainerView center].x - 3.0f, [self.priceContainerView center].y)]];
+            [animation setToValue:[NSValue valueWithCGPoint:
+                                   CGPointMake([self.priceContainerView center].x + 3.0f, [self.priceContainerView center].y)]];
+            [animation setAutoreverses:YES];
+            [animation setRepeatCount:3];
+            // Set duration
+            [animation setDuration:0.05];
+            
+            // Set animation to be consistent on completion
+            [animation setRemovedOnCompletion:YES];
+            [animation setFillMode:kCAFillModeForwards];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            // Add animation to the view's layer
+            [[self.priceContainerView layer] addAnimation:animation forKey:@"position"];
+        }
+    }
 }
 
 - (IBAction)didTapView:(id)sender {
@@ -160,33 +205,41 @@
 #pragma mark - UITextFieldDelegate -
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    if ([textField.text isEqualToString:@""]) {
-        textField.text = [self currencySymbol];
+    if (textField.tag == 1) {
+        if ([textField.text isEqualToString:@""]) {
+            textField.text = [self currencySymbol];
+        }
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 219) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 285) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_5){
-        [self.scrollView setContentOffset:CGPointMake(0, 236) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 275) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_6){
-        [self.scrollView setContentOffset:CGPointMake(0, 149) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 215) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else{
-        [self.scrollView setContentOffset:CGPointMake(0, 117) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 183) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    if ([textField.text isEqualToString:[self currencySymbol]]) {
-        textField.text = @"";
+    if (textField.tag == 1) {
+        if ([textField.text isEqualToString:[self currencySymbol]]) {
+            textField.text = @"";
+        }
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 44) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 110) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+    else if (IS_IPHONE_5){
+        [self.scrollView setContentOffset:CGPointMake(0, 57) animated:YES];
         [self.scrollView setScrollEnabled:YES];
     }
     else{
@@ -196,8 +249,13 @@
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    if (range.location == 0 && range.length == 1) {
-        return NO;
+    if (textField.tag == 1) {
+        if (range.location == 0 && range.length == 1) {
+            return NO;
+        }
+        else{
+            return YES;
+        }
     }
     else{
         return YES;
@@ -225,19 +283,19 @@
         textView.textColor = [UIColor darkTextColor];
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 298) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 369) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_5){
-        [self.scrollView setContentOffset:CGPointMake(0, 245) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 311) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_6){
-        [self.scrollView setContentOffset:CGPointMake(0, 190) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 257) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else{
-        [self.scrollView setContentOffset:CGPointMake(0, 163) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 230) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
 }
@@ -248,7 +306,11 @@
         textView.textColor = [UIColor colorWithWhite:0 alpha:0.25];
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 44) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 110) animated:YES];
+        [self.scrollView setScrollEnabled:YES];
+    }
+    else if (IS_IPHONE_5){
+        [self.scrollView setContentOffset:CGPointMake(0, 57) animated:YES];
         [self.scrollView setScrollEnabled:YES];
     }
     else{

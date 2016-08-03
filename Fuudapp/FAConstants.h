@@ -12,4 +12,24 @@
 
 FOUNDATION_EXPORT NSString *const kFAGoogleServerKey;
 
+FOUNDATION_EXPORT NSString *const kFAItemNameKey;
+FOUNDATION_EXPORT NSString *const kFAItemPriceKey;
+FOUNDATION_EXPORT NSString *const kFAItemCurrencyKey;
+FOUNDATION_EXPORT NSString *const kFAItemDescriptionKey;
+FOUNDATION_EXPORT NSString *const kFAItemRestaurantKey;
+FOUNDATION_EXPORT NSString *const kFAItemRatingKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesKey;
+FOUNDATION_EXPORT NSString *const kFAItemIdKey;
+
+FOUNDATION_EXPORT NSString *const kFARestaurantNameKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantAddressKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantLatitudeKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantLongitudeKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantPhoneNumberKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantWorkingHoursKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantIdKey;
+
+FOUNDATION_EXPORT NSString *const kFAItemPathKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantPathKey;
+FOUNDATION_EXPORT NSString *const kFAStoragePathKey;
 @end

@@ -67,7 +67,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     if (indexPath.row == self.itemArray.count-1) {
-        cell.textLabel.text = [NSString stringWithFormat:@"Add '%@'",self.itemArray[indexPath.row]];
+        cell.textLabel.text = [NSString stringWithFormat:@"Add '%@' as a new item?",self.itemArray[indexPath.row]];
         cell.detailTextLabel.text = @"";
     }
     return cell;
@@ -94,6 +94,7 @@
 #pragma mark - UISearchBarDelegate -
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    
     if (self.itemArray == nil) {
         self.itemArray = [NSMutableArray new];
         [self.itemArray addObject: searchText];

@@ -80,30 +80,12 @@
     tagInputField_.backgroundColor = [UIColor colorWithWhite:0.90 alpha:1];
     tagInputField_.delegate = self;
     tagInputField_.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    tagInputField_.placeholder = @"type here";
+    tagInputField_.placeholder = @"";
     tagInputField_.autocorrectionType = UITextAutocorrectionTypeNo;
     tagInputField_.keyboardType = UIKeyboardTypePhonePad;
     
-    UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 50)];
-    UIBarButtonItem * item = [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneClicked:)];
-    [item setTintColor:[FAColor redColor]];
-    numberToolbar.items = [NSArray arrayWithObjects:
-                           [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                           item,
-                           nil];
-    [numberToolbar sizeToFit];
-    tagInputField_.inputAccessoryView = numberToolbar;
-    
     if (_mode == TLTagsControlModeEdit) {
         [self addSubview:tagInputField_];
-    }
-}
-
--(void)doneClicked:(id)sender{
-    if (tagInputField_.text.length > 0) {
-        NSString *tag = tagInputField_.text;
-        tagInputField_.text = @"";
-        [self addTag:tag];
     }
 }
 
@@ -325,6 +307,11 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
+    if (tagInputField_.text.length > 0) {
+        NSString *tag = tagInputField_.text;
+        tagInputField_.text = @"";
+        [self addTag:tag];
+    }
     if ([self.tapDelegate respondsToSelector:@selector(tagsControlDidEndEditing:)]) {
         [self.tapDelegate tagsControlDidEndEditing:self];
     }
@@ -338,6 +325,14 @@
     }
     
     return YES;
+}
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    if ([self.tapDelegate respondsToSelector:@selector(tagsControlShouldBeginEditing:)]) {
+        return [self.tapDelegate tagsControlShouldBeginEditing:self];
+    }else{
+        return YES;
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
