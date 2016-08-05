@@ -41,6 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Next" style:UIBarButtonItemStylePlain
                              target:self
@@ -67,6 +68,7 @@
     else if ([segue.identifier isEqualToString:@"FAAddViewControllerThreeSegue"]){
         FAAddViewControllerThree *vc = segue.destinationViewController;
         vc.itemName = self.nameTextField.text;
+        vc.start = self.start;
         
         NSString *newStr = [self.priceTextField.text substringFromIndex:1];
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
@@ -99,75 +101,82 @@
 }
 
 - (void)nextButtonClicked:(id)sender {
-    if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1 && self.ratingView.value>0) {
+    if ([self.priceTextField isFirstResponder] || [self.descriptionTextView isFirstResponder]) {
         [self.view endEditing:YES];
-        [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
+        [self performSelector:@selector(nextButtonClicked:) withObject:nil afterDelay:0.3];
     }
     else{
-        if (self.ratingView.value == 0) {
+        if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1 && self.ratingView.value>0) {
             [self.view endEditing:YES];
-            // Create a basic animation changing the transform.scale value
-            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-            
-            // Set the initial and the final values
-            [animation setFromValue:[NSValue valueWithCGPoint:
-                                     CGPointMake([self.ratingView center].x - 3.0f, [self.ratingView center].y)]];
-            [animation setToValue:[NSValue valueWithCGPoint:
-                                   CGPointMake([self.ratingView center].x + 3.0f, [self.ratingView center].y)]];
-            [animation setAutoreverses:YES];
-            [animation setRepeatCount:3];
-            // Set duration
-            [animation setDuration:0.05];
-            
-            // Set animation to be consistent on completion
-            [animation setRemovedOnCompletion:YES];
-            [animation setFillMode:kCAFillModeForwards];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-            // Add animation to the view's layer
-            [[self.ratingView layer] addAnimation:animation forKey:@"position"];
+            [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
         }
-        if (self.nameTextField.text.length == 0) {
-            // Create a basic animation changing the transform.scale value
-            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-            
-            // Set the initial and the final values
-            [animation setFromValue:[NSValue valueWithCGPoint:
-                                     CGPointMake([self.nameContainerView center].x - 3.0f, [self.nameContainerView center].y)]];
-            [animation setToValue:[NSValue valueWithCGPoint:
-                                   CGPointMake([self.nameContainerView center].x + 3.0f, [self.nameContainerView center].y)]];
-            [animation setAutoreverses:YES];
-            [animation setRepeatCount:3];
-            // Set duration
-            [animation setDuration:0.05];
-            
-            // Set animation to be consistent on completion
-            [animation setRemovedOnCompletion:YES];
-            [animation setFillMode:kCAFillModeForwards];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-            // Add animation to the view's layer
-            [[self.nameContainerView layer] addAnimation:animation forKey:@"position"];
+        else{
+            if (self.ratingView.value == 0) {
+                [self.view endEditing:YES];
+                // Create a basic animation changing the transform.scale value
+                CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+                
+                // Set the initial and the final values
+                [animation setFromValue:[NSValue valueWithCGPoint:
+                                         CGPointMake([self.ratingView center].x - 3.0f, [self.ratingView center].y)]];
+                [animation setToValue:[NSValue valueWithCGPoint:
+                                       CGPointMake([self.ratingView center].x + 3.0f, [self.ratingView center].y)]];
+                [animation setAutoreverses:YES];
+                [animation setRepeatCount:3];
+                // Set duration
+                [animation setDuration:0.05];
+                
+                // Set animation to be consistent on completion
+                [animation setRemovedOnCompletion:YES];
+                [animation setFillMode:kCAFillModeForwards];
+                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+                // Add animation to the view's layer
+                [[self.ratingView layer] addAnimation:animation forKey:@"position"];
+            }
+            if (self.nameTextField.text.length == 0) {
+                // Create a basic animation changing the transform.scale value
+                CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+                
+                // Set the initial and the final values
+                [animation setFromValue:[NSValue valueWithCGPoint:
+                                         CGPointMake([self.nameContainerView center].x - 3.0f, [self.nameContainerView center].y)]];
+                [animation setToValue:[NSValue valueWithCGPoint:
+                                       CGPointMake([self.nameContainerView center].x + 3.0f, [self.nameContainerView center].y)]];
+                [animation setAutoreverses:YES];
+                [animation setRepeatCount:3];
+                // Set duration
+                [animation setDuration:0.05];
+                
+                // Set animation to be consistent on completion
+                [animation setRemovedOnCompletion:YES];
+                [animation setFillMode:kCAFillModeForwards];
+                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+                // Add animation to the view's layer
+                [[self.nameContainerView layer] addAnimation:animation forKey:@"position"];
+            }
+            if (self.priceTextField.text.length <= 1) {
+                // Create a basic animation changing the transform.scale value
+                CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+                
+                // Set the initial and the final values
+                [animation setFromValue:[NSValue valueWithCGPoint:
+                                         CGPointMake([self.priceContainerView center].x - 3.0f, [self.priceContainerView center].y)]];
+                [animation setToValue:[NSValue valueWithCGPoint:
+                                       CGPointMake([self.priceContainerView center].x + 3.0f, [self.priceContainerView center].y)]];
+                [animation setAutoreverses:YES];
+                [animation setRepeatCount:3];
+                // Set duration
+                [animation setDuration:0.05];
+                
+                // Set animation to be consistent on completion
+                [animation setRemovedOnCompletion:YES];
+                [animation setFillMode:kCAFillModeForwards];
+                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+                // Add animation to the view's layer
+                [[self.priceContainerView layer] addAnimation:animation forKey:@"position"];
+            }
         }
-        if (self.priceTextField.text.length <= 1) {
-            // Create a basic animation changing the transform.scale value
-            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-            
-            // Set the initial and the final values
-            [animation setFromValue:[NSValue valueWithCGPoint:
-                                     CGPointMake([self.priceContainerView center].x - 3.0f, [self.priceContainerView center].y)]];
-            [animation setToValue:[NSValue valueWithCGPoint:
-                                   CGPointMake([self.priceContainerView center].x + 3.0f, [self.priceContainerView center].y)]];
-            [animation setAutoreverses:YES];
-            [animation setRepeatCount:3];
-            // Set duration
-            [animation setDuration:0.05];
-            
-            // Set animation to be consistent on completion
-            [animation setRemovedOnCompletion:YES];
-            [animation setFillMode:kCAFillModeForwards];
-            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-            // Add animation to the view's layer
-            [[self.priceContainerView layer] addAnimation:animation forKey:@"position"];
-        }
+
     }
 }
 

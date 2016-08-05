@@ -177,10 +177,10 @@
                         
                         
                         [Answers logCustomEventWithName:kFAAnalyticsImageUploadTimeKey
-                                       customAttributes:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]]}];
+                                       customAttributes:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]/3]}];
                         
                         [FIRAnalytics logEventWithName:kFAAnalyticsImageUploadTimeKey
-                                            parameters:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]]}];
+                                            parameters:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]/3]}];
                         
                         
                         NSArray *imageArray = [NSArray arrayWithObjects:
@@ -194,11 +194,11 @@
                         [restaurant setObject:restKey forKey:kFARestaurantIdKey];
                         
                         if ([[restaurant objectForKey:kFAUserAddedRestaurantKey] boolValue]) {
-                            [Answers logCustomEventWithName:kFAAnalyticsNewRestaurantKey
+                            [Answers logCustomEventWithName:kFAUserAddedRestaurantKey
                                            customAttributes:@{kFARestaurantNameKey: [restaurant objectForKey:kFARestaurantNameKey],
                                                               kFARestaurantIdKey: [restaurant objectForKey:kFARestaurantIdKey]}];
                             
-                            [FIRAnalytics logEventWithName:kFAAnalyticsNewRestaurantKey
+                            [FIRAnalytics logEventWithName:kFAUserAddedRestaurantKey
                                                 parameters:@{kFARestaurantNameKey: [restaurant objectForKey:kFARestaurantNameKey],
                                                              kFARestaurantIdKey: [restaurant objectForKey:kFARestaurantIdKey]}];
                         }
@@ -227,10 +227,10 @@
                     
                     
                     [Answers logCustomEventWithName:kFAAnalyticsImageUploadTimeKey
-                                   customAttributes:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]]}];
+                                   customAttributes:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]/2]}];
                     
                     [FIRAnalytics logEventWithName:kFAAnalyticsImageUploadTimeKey
-                                        parameters:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]]}];
+                                        parameters:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]/2]}];
                     
                     NSArray *imageArray = [NSArray arrayWithObjects:
                                            [NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
@@ -242,11 +242,11 @@
                     [restaurant setObject:restKey forKey:kFARestaurantIdKey];
                     
                     if ([[restaurant objectForKey:kFAUserAddedRestaurantKey] boolValue]) {
-                        [Answers logCustomEventWithName:kFAAnalyticsNewRestaurantKey
+                        [Answers logCustomEventWithName:kFAUserAddedRestaurantKey
                                        customAttributes:@{kFARestaurantNameKey: [restaurant objectForKey:kFARestaurantNameKey],
                                                           kFARestaurantIdKey: [restaurant objectForKey:kFARestaurantIdKey]}];
                         
-                        [FIRAnalytics logEventWithName:kFAAnalyticsNewRestaurantKey
+                        [FIRAnalytics logEventWithName:kFAUserAddedRestaurantKey
                                             parameters:@{kFARestaurantNameKey: [restaurant objectForKey:kFARestaurantNameKey],
                                                          kFARestaurantIdKey: [restaurant objectForKey:kFARestaurantIdKey]}];
                     }
@@ -291,11 +291,11 @@
             [restaurant setObject:restKey forKey:kFARestaurantIdKey];
             
             if ([[restaurant objectForKey:kFAUserAddedRestaurantKey] boolValue]) {
-                [Answers logCustomEventWithName:kFAAnalyticsNewRestaurantKey
+                [Answers logCustomEventWithName:kFAUserAddedRestaurantKey
                                customAttributes:@{kFARestaurantNameKey: [restaurant objectForKey:kFARestaurantNameKey],
                                                   kFARestaurantIdKey: [restaurant objectForKey:kFARestaurantIdKey]}];
                 
-                [FIRAnalytics logEventWithName:kFAAnalyticsNewRestaurantKey
+                [FIRAnalytics logEventWithName:kFAUserAddedRestaurantKey
                                     parameters:@{kFARestaurantNameKey: [restaurant objectForKey:kFARestaurantNameKey],
                                                  kFARestaurantIdKey: [restaurant objectForKey:kFARestaurantIdKey]}];
             }

@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *restArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
+
 @end
 
 @implementation FARestaurantPickerController

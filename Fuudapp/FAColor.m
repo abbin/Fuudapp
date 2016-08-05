@@ -16,11 +16,4 @@
     return UIColorFromRGB(0xF44336);
 }
 
-+(UIColor *)imagePickerBorderColor{
-    return UIColorFromRGB(0x4CAF50);
-}
-
-+(UIColor*)alertRed{
-    return UIColorFromRGB(0xD32F2F);
-}
 @end

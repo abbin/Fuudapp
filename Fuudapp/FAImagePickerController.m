@@ -12,6 +12,9 @@
 #import "FAImagePickerCollectionViewCell.h"
 #import "FAAddViewControllerOne.h"
 #import "FAColor.h"
+#import <Crashlytics/Crashlytics.h>
+#import "FAConstants.h"
+@import FirebaseAnalytics;
 @import Photos;
 
 @interface FAImagePickerController ()<PHPhotoLibraryChangeObserver,UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -20,6 +23,7 @@
 @property (nonatomic, strong) PHCachingImageManager *imageManager;
 @property (nonatomic, strong) NSMutableArray *selectedIndex;
 @property (nonatomic, strong) NSMutableArray *selectedImages;
+@property (strong, nonatomic) NSDate *start;
 @property CGRect previousPreheatRect;
 
 @end
@@ -31,6 +35,9 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.start = [NSDate date];
+    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Next" style:UIBarButtonItemStylePlain
                                    target:self
@@ -86,6 +93,7 @@ static CGSize AssetGridThumbnailSize;
     if ([segue.identifier isEqualToString:@"FAAddViewControllerOneSegue"]) {
         FAAddViewControllerOne *vc = segue.destinationViewController;
         vc.imageArray = self.selectedImages;
+        vc.start = self.start;
     }
 }
 
@@ -138,6 +146,13 @@ static CGSize AssetGridThumbnailSize;
                                               [self.selectedImages addObject:image];
                                               
                                               if (self.selectedImages.count == self.selectedIndex.count) {
+                                                  
+                                                  [Answers logCustomEventWithName:kFAAnalyticsImageSourceKey
+                                                                 customAttributes:@{kFAAnalyticsSourceKey:kFAAnalyticsGalleryKey}];
+                                                  
+                                                  [FIRAnalytics logEventWithName:kFAAnalyticsImageSourceKey
+                                                                      parameters:@{kFAAnalyticsSourceKey:kFAAnalyticsGalleryKey}];
+                                                  
                                                   [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
                                               }
                                           }];
@@ -240,6 +255,13 @@ static CGSize AssetGridThumbnailSize;
 #pragma mark - UIImagePickerControllerDelegate -
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    [Answers logCustomEventWithName:kFAAnalyticsImageSourceKey
+                   customAttributes:@{kFAAnalyticsSourceKey:kFAAnalyticsCameraKey}];
+    
+    [FIRAnalytics logEventWithName:kFAAnalyticsImageSourceKey
+                        parameters:@{kFAAnalyticsSourceKey:kFAAnalyticsCameraKey}];
+    
     if (self.selectedImages == nil) {
         self.selectedImages = [NSMutableArray new];
     }

@@ -12,8 +12,4 @@
 
 +(UIColor*)mainColor;
 
-+(UIColor*)imagePickerBorderColor;
-
-+(UIColor*)alertRed;
-
 @end

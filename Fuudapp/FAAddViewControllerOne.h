@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSArray *imageArray;
 
+@property (strong, nonatomic) NSDate *start;
+
 @end

@@ -18,6 +18,7 @@
 #import "NSMutableDictionary+FAItem.h"
 #import "NSMutableDictionary+FARestaurant.h"
 #import <Crashlytics/Crashlytics.h>
+@import FirebaseAnalytics;
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
@@ -183,6 +184,15 @@
         if (self.workingDaysArray.count>0) {
             if (self.fromTime.length>0 && self.tillTime.length>0) {
                 [self.view endEditing:YES];
+                
+                NSDate *end = [NSDate date];
+                
+                [Answers logCustomEventWithName:kFAAnalyticsItemUploadTimeKey
+                               customAttributes:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:self.start]]}];
+                
+                [FIRAnalytics logEventWithName:kFAAnalyticsItemUploadTimeKey
+                                    parameters:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:self.start]]}];
+                
                 [self dismissViewControllerAnimated:YES completion:^{
                     NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
                     NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
@@ -445,6 +455,15 @@
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
     self.restaurantNameTextField.text = [restaurant objectForKey:kFARestaurantNameKey];
+    
+    NSDate *end = [NSDate date];
+    
+    [Answers logCustomEventWithName:kFAAnalyticsItemUploadTimeKey
+                   customAttributes:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:self.start]]}];
+    
+    [FIRAnalytics logEventWithName:kFAAnalyticsItemUploadTimeKey
+                        parameters:@{kFAAnalyticsTimeKey:[NSNumber numberWithDouble:[end timeIntervalSinceDate:self.start]]}];
+    
     [self dismissViewControllerAnimated:YES completion:^{
         NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
         [FAManager saveItem:item andRestaurant:restaurant withImages:self.itemimages];
