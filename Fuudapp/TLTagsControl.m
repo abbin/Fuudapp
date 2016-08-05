@@ -289,6 +289,9 @@
     NSInteger index = [tagSubviews_ indexOfObject:view];
     [_tags removeObjectAtIndex:index];
     [self reloadTagSubviews];
+    if ([self.tapDelegate respondsToSelector:@selector(tagsControl:didDeleteTagAtIndex:)]) {
+        [self.tapDelegate tagsControl:self didDeleteTagAtIndex:index];
+    }
 }
 
 - (void)tagButtonPressed:(id)sender {

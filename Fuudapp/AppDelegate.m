@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "FAColor.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 @import GoogleMaps;
 @import Firebase;
 
@@ -23,6 +25,7 @@
     [[UITabBar appearance] setTintColor:[FAColor mainColor]];
     [[UIBarButtonItem appearance] setTintColor:[FAColor blackColor]];
     
+    [Fabric with:@[[Crashlytics class]]];
     [FIRApp configure];
     [GMSServices provideAPIKey:@"AIzaSyD6PMkkD1Ecqyhm1E3BWAag-JX-5tQbRU4"];
     

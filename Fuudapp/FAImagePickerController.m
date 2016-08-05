@@ -95,22 +95,24 @@ static CGSize AssetGridThumbnailSize;
 #pragma mark - Actions -
 
 - (void)cameraButtonClicked:(id)sender {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] != AVAuthorizationStatusDenied) {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        
-        [self presentViewController:picker animated:YES completion:NULL];
-    }
-    else{
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Couldn't acess camera" message:@"Please allow app to access your camera by going to Settings > Privacy > Camera" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
-        UIAlertAction *setting = [UIAlertAction actionWithTitle:@"Go to settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        }];
-        [alert addAction:cancel];
-        [alert addAction:setting];
-        [self presentViewController:alert animated:YES completion:nil];
+    if (self.selectedIndex.count < 3) {
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] != AVAuthorizationStatusDenied) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
+        else{
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Couldn't acess camera" message:@"Please allow app to access your camera by going to Settings > Privacy > Camera" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+            UIAlertAction *setting = [UIAlertAction actionWithTitle:@"Go to settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+            }];
+            [alert addAction:cancel];
+            [alert addAction:setting];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     }
 }
 

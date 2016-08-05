@@ -7,6 +7,7 @@
 //
 
 #import "NSMutableDictionary+FARestaurant.h"
+#import "FAConstants.h"
 
 @implementation NSMutableDictionary (FARestaurant)
 
@@ -14,51 +15,75 @@
      self = [self init];
     if (self) {
         @try {
-            [self setObject:[restaurant objectForKey:@"formatted_address"] forKey:@"formatted_address"];
+            [self setObject:[restaurant objectForKey:@"name"] forKey:kFARestaurantNameKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"formatted_address"];
+            [self setObject:@"" forKey:kFARestaurantNameKey];
         }
         
         @try {
-            [self setObject:[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] forKey:@"lat"];
+            [self setObject:[restaurant objectForKey:@"formatted_address"] forKey:kFARestaurantAddressKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"lat"];
+            [self setObject:@"" forKey:kFARestaurantAddressKey];
         }
         
         @try {
-            [self setObject:[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] forKey:@"lng"];
+            [self setObject:[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] forKey:kFARestaurantLatitudeKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"lng"];
+            [self setObject:@"" forKey:kFARestaurantLatitudeKey];
         }
         
         @try {
-            [self setObject:[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] forKey:@"lng"];
+            [self setObject:[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] forKey:kFARestaurantLongitudeKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"lng"];
+            [self setObject:@"" forKey:kFARestaurantLongitudeKey];
         }
         
         @try {
-            [self setObject:[restaurant objectForKey:@"international_phone_number"] forKey:@"international_phone_number"];
+            [self setObject:@[[restaurant objectForKey:@"formatted_phone_number"]] forKey:kFARestaurantPhoneNumberKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"international_phone_number"];
+            [self setObject:@"" forKey:kFARestaurantPhoneNumberKey];
         }
         
         @try {
-            [self setObject:[restaurant objectForKey:@"name"] forKey:@"name"];
-        } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"name"];
-        }
-        
-        @try {
-            [self setObject:[[restaurant objectForKey:@"opening_hours"] objectForKey:@"periods"] forKey:@"opening_hours"];
+            NSMutableArray *array = [NSMutableArray new];
+            for (NSDictionary *dict in [[restaurant objectForKey:@"opening_hours"] objectForKey:@"periods"]) {
+                
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                NSArray *daySymbols = dateFormatter.standaloneWeekdaySymbols;
+                
+                NSInteger dayIndex = [[[dict objectForKey:@"close"] objectForKey:@"day"] integerValue]; // 0 = Sunday, ... 6 = Saturday
+                NSString *dayName = daySymbols[dayIndex];
+                
+                NSMutableDictionary *close = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                              [[dict objectForKey:@"close"] objectForKey:@"day"],@"day",
+                                              [[dict objectForKey:@"close"] objectForKey:@"time"],@"time",
+                                              dayName, @"dayName", nil];
+                
+                NSMutableDictionary *open = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                             [[dict objectForKey:@"open"] objectForKey:@"day"],@"day",
+                                             [[dict objectForKey:@"open"] objectForKey:@"time"],@"time",
+                                             dayName, @"dayName", nil];
+                
+                NSMutableDictionary *mainDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:close,@"close",open,@"open", nil];
+                [array addObject:mainDict];
+            }
+            [self setObject:array forKey:@"opening_hours"];
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:@"opening_hours"];
         }
         
         @try {
-            NSArray *filtered = [restaurant[@"address_components"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(types CONTAINS[cd] %@)", @"locality"]];
-            NSDictionary *item = [filtered objectAtIndex:0];
-            [self setObject:item[@"long_name"] forKey:@"locality"];
+            NSArray *locality = [restaurant[@"address_components"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(types CONTAINS[cd] %@)", @"locality"]];
+            NSDictionary *locDict = [locality objectAtIndex:0];
+            
+            NSArray *administrative_area_level_1 = [restaurant[@"address_components"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(types CONTAINS[cd] %@)", @"administrative_area_level_1"]];
+            NSDictionary *adminDict = [administrative_area_level_1 objectAtIndex:0];
+            
+            NSArray *country = [restaurant[@"address_components"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(types CONTAINS[cd] %@)", @"country"]];
+            NSDictionary *countryDict = [country objectAtIndex:0];
+            
+            [self setObject:[NSString stringWithFormat:@"%@, %@, %@",locDict[@"long_name"],adminDict[@"long_name"],countryDict[@"long_name"]] forKey:@"locality"];
+            
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:@"locality"];
         }

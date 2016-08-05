@@ -21,7 +21,6 @@
                                    target:self
                                    action:@selector(addButtonClicked:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning {

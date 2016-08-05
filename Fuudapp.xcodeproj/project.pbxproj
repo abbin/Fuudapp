@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		184D8283C4BE93E9388FF949 /* Pods_Fuudapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */; };
+		ED044A081D53605100CF57DF /* FAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED044A071D53605100CF57DF /* FAManager.m */; };
 		ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */; };
 		ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FE51D4F429F00854980 /* FALocalityPickerController.m */; };
 		ED482FEC1D4F7C5300854980 /* TLTagsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FEB1D4F7C5300854980 /* TLTagsControl.m */; };
@@ -22,6 +23,7 @@
 		ED8D6DFB1D46552A00CA8777 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DF91D46552A00CA8777 /* Main.storyboard */; };
 		ED8D6DFD1D46552A00CA8777 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */; };
 		ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */; };
+		EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */; };
 		EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */; };
 		EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */; };
 		EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */; };
@@ -39,6 +41,8 @@
 		12B5A52FBD971E5F8521E0D9 /* Pods-Fuudapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fuudapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-Fuudapp/Pods-Fuudapp.release.xcconfig"; sourceTree = "<group>"; };
 		24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fuudapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32E844E13FC121B88976C22A /* Pods-Fuudapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fuudapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fuudapp/Pods-Fuudapp.debug.xcconfig"; sourceTree = "<group>"; };
+		ED044A061D53605100CF57DF /* FAManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAManager.h; sourceTree = "<group>"; };
+		ED044A071D53605100CF57DF /* FAManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAManager.m; sourceTree = "<group>"; };
 		ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info(live).plist"; sourceTree = "<group>"; };
 		ED482FE41D4F429F00854980 /* FALocalityPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALocalityPickerController.h; sourceTree = "<group>"; };
 		ED482FE51D4F429F00854980 /* FALocalityPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALocalityPickerController.m; sourceTree = "<group>"; };
@@ -64,6 +68,8 @@
 		ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED8D6DFF1D46552A00CA8777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED8D6E011D46552A00CA8777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FAItem.h"; sourceTree = "<group>"; };
+		EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FAItem.m"; sourceTree = "<group>"; };
 		EDAD34351D506C6F001E5D74 /* FAWorkingDaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWorkingDaysViewController.h; sourceTree = "<group>"; };
 		EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAWorkingDaysViewController.m; sourceTree = "<group>"; };
 		EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -139,6 +145,12 @@
 			children = (
 				ED8D6DF01D46552A00CA8777 /* AppDelegate.h */,
 				ED8D6DF11D46552A00CA8777 /* AppDelegate.m */,
+				ED044A061D53605100CF57DF /* FAManager.h */,
+				ED044A071D53605100CF57DF /* FAManager.m */,
+				EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */,
+				EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */,
+				ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */,
+				ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */,
 				EDB89ADE1D472D7B00EE4BBB /* ViewControllers */,
 				ED8D6DF91D46552A00CA8777 /* Main.storyboard */,
 				ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */,
@@ -188,8 +200,6 @@
 				ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */,
 				ED74239D1D4A48B40030CE45 /* FAConstants.h */,
 				ED74239E1D4A48B40030CE45 /* FAConstants.m */,
-				ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */,
-				ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */,
 				ED6570341D4B4E7A002B680E /* FAMapViewController.h */,
 				ED6570351D4B4E7A002B680E /* FAMapViewController.m */,
 				ED482FE41D4F429F00854980 /* FALocalityPickerController.h */,
@@ -215,6 +225,7 @@
 				ED8D6DE81D46552A00CA8777 /* Resources */,
 				F22064D8C4DB55ABAA8CC57F /* [CP] Embed Pods Frameworks */,
 				16C3B0E06033B72E75090DF4 /* [CP] Copy Pods Resources */,
+				ED044A051D532F0C00CF57DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -305,6 +316,20 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		ED044A051D532F0C00CF57DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 1ec1e874f64c2bf34f536ca38f6a25c79ceb31bb 7a94891b0423cc3297b223f3cb930d0167ee3b4068a79cdd32c7bedf75e799a4";
+			showEnvVarsInLog = 0;
+		};
 		F22064D8C4DB55ABAA8CC57F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,7 +359,9 @@
 				EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */,
 				ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */,
 				EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */,
+				EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */,
 				EDB89AE61D473E3C00EE4BBB /* NSIndexSet+Convenience.m in Sources */,
+				ED044A081D53605100CF57DF /* FAManager.m in Sources */,
 				ED8D6DF51D46552A00CA8777 /* FirstViewController.m in Sources */,
 				ED8D6DEF1D46552A00CA8777 /* main.m in Sources */,
 				EDB89AE71D473E3C00EE4BBB /* UICollectionView+Convenience.m in Sources */,
@@ -464,6 +491,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Abbin Varghese (365M9G4VL5)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = Fuudapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

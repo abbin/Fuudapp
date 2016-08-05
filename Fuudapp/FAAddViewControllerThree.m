@@ -15,9 +15,6 @@
 #import "FAWorkingDaysViewController.h"
 #import "FARestaurantPickerController.h"
 
-@import FirebaseDatabase;
-@import FirebaseStorage;
-
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
@@ -68,15 +65,12 @@
 @property (strong, nonatomic) NSNumber *lat;
 @property (strong, nonatomic) NSNumber *lng;
 
-@property (strong, nonatomic) FIRDatabaseReference *ref;
 @end
 
 @implementation FAAddViewControllerThree
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.ref = [[FIRDatabase database] reference];
     
 //    self.addressSectionHeading.alpha = 0;
 //    self.addressContainerView.alpha = 0;
@@ -188,8 +182,7 @@
 }
 
 -(void)submit{
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         
         [df setDateFormat:@"MM"];
@@ -320,24 +313,32 @@
                                 [[dict objectForKey:@"open"] setObject:self.fromTime forKey:@"time"];
                             }
                             
-                            NSDictionary *rest = @{kFARestaurantNameKey: self.restaurantNameTextField.text,
-                                                   kFARestaurantAddressKey: [NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text],
-                                                   kFARestaurantLatitudeKey: self.lat,
-                                                   kFARestaurantLongitudeKey: self.lng,
-                                                   kFARestaurantPhoneNumberKey: self.tagControl.tags,
-                                                   kFARestaurantWorkingHoursKey: self.workingDaysArray,
-                                                   kFARestaurantIdKey: restKey};
+                            NSMutableDictionary *rest = [NSMutableDictionary new];
                             
-                            NSDictionary *item = @{kFAItemNameKey: self.itemName,
-                                                   kFAItemPriceKey: self.itemPrice,
-                                                   kFAItemCurrencyKey: self.itemcurrency,
-                                                   kFAItemDescriptionKey: self.itemdescription,
-                                                   kFAItemRestaurantKey: rest,
-                                                   kFAItemRatingKey: self.itemRating,
-                                                   kFAItemImagesKey: imageArray,
-                                                   kFARestaurantLatitudeKey: self.lat,
-                                                   kFARestaurantLongitudeKey: self.lng,
-                                                   kFAItemIdKey: itemKey};
+                            [rest setObject:self.restaurantNameTextField.text forKey:kFARestaurantNameKey];
+                            [rest setObject:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] forKey:kFARestaurantAddressKey];
+                            [rest setObject:self.lat forKey:kFARestaurantLatitudeKey];
+                            [rest setObject:self.lng forKey:kFARestaurantLongitudeKey];
+                            [rest setObject:self.tagControl.tags forKey:kFARestaurantPhoneNumberKey];
+                            
+                            if (self.workingDaysArray) {
+                                [rest setObject:self.workingDaysArray forKey:kFARestaurantWorkingHoursKey];
+                            }
+                            
+                            [rest setObject:restKey forKey:kFARestaurantIdKey];
+                            
+                            NSMutableDictionary *item = [NSMutableDictionary new];
+                            
+                            [item setObject:self.itemName forKey:kFAItemNameKey];
+                            [item setObject:self.itemPrice forKey:kFAItemPriceKey];
+                            [item setObject:self.itemcurrency forKey:kFAItemCurrencyKey];
+                            [item setObject:self.itemdescription forKey:kFAItemDescriptionKey];
+                            [item setObject:rest forKey:kFAItemRestaurantKey];
+                            [item setObject:self.itemRating forKey:kFAItemRatingKey];
+                            [item setObject:imageArray forKey:kFAItemImagesKey];
+                            [item setObject:self.lat forKey:kFARestaurantLatitudeKey];
+                            [item setObject:self.lng forKey:kFARestaurantLongitudeKey];
+                            [item setObject:itemKey forKey:kFAItemIdKey];
                             
                             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
                                                            [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: rest};
@@ -348,6 +349,7 @@
                         }];
                     }
                     else{
+                        
                         NSArray *imageArray = [NSArray arrayWithObjects:
                                                [NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                                [NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],nil];
@@ -360,24 +362,32 @@
                             [[dict objectForKey:@"open"] setObject:self.fromTime forKey:@"time"];
                         }
                         
-                        NSDictionary *rest = @{kFARestaurantNameKey: self.restaurantNameTextField.text,
-                                               kFARestaurantAddressKey: [NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text],
-                                               kFARestaurantLatitudeKey: self.lat,
-                                               kFARestaurantLongitudeKey: self.lng,
-                                               kFARestaurantPhoneNumberKey: self.tagControl.tags,
-                                               kFARestaurantWorkingHoursKey: self.workingDaysArray,
-                                               kFARestaurantIdKey: restKey};
+                        NSMutableDictionary *rest = [NSMutableDictionary new];
                         
-                        NSDictionary *item = @{kFAItemNameKey: self.itemName,
-                                               kFAItemPriceKey: self.itemPrice,
-                                               kFAItemCurrencyKey: self.itemcurrency,
-                                               kFAItemDescriptionKey: self.itemdescription,
-                                               kFAItemRestaurantKey: rest,
-                                               kFAItemRatingKey: self.itemRating,
-                                               kFAItemImagesKey: imageArray,
-                                               kFARestaurantLatitudeKey: self.lat,
-                                               kFARestaurantLongitudeKey: self.lng,
-                                               kFAItemIdKey: itemKey};
+                        [rest setObject:self.restaurantNameTextField.text forKey:kFARestaurantNameKey];
+                        [rest setObject:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] forKey:kFARestaurantAddressKey];
+                        [rest setObject:self.lat forKey:kFARestaurantLatitudeKey];
+                        [rest setObject:self.lng forKey:kFARestaurantLongitudeKey];
+                        [rest setObject:self.tagControl.tags forKey:kFARestaurantPhoneNumberKey];
+                        
+                        if (self.workingDaysArray) {
+                            [rest setObject:self.workingDaysArray forKey:kFARestaurantWorkingHoursKey];
+                        }
+                        
+                        [rest setObject:restKey forKey:kFARestaurantIdKey];
+                        
+                        NSMutableDictionary *item = [NSMutableDictionary new];
+                        
+                        [item setObject:self.itemName forKey:kFAItemNameKey];
+                        [item setObject:self.itemPrice forKey:kFAItemPriceKey];
+                        [item setObject:self.itemcurrency forKey:kFAItemCurrencyKey];
+                        [item setObject:self.itemdescription forKey:kFAItemDescriptionKey];
+                        [item setObject:rest forKey:kFAItemRestaurantKey];
+                        [item setObject:self.itemRating forKey:kFAItemRatingKey];
+                        [item setObject:imageArray forKey:kFAItemImagesKey];
+                        [item setObject:self.lat forKey:kFARestaurantLatitudeKey];
+                        [item setObject:self.lng forKey:kFARestaurantLongitudeKey];
+                        [item setObject:itemKey forKey:kFAItemIdKey];
                         
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
                                                        [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: rest};
@@ -390,6 +400,7 @@
                 
             }
             else{
+                
                 NSArray *imageArray = [NSArray arrayWithObjects:
                                        [NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],nil];
                 
@@ -401,24 +412,32 @@
                     [[dict objectForKey:@"open"] setObject:self.fromTime forKey:@"time"];
                 }
                 
-                NSDictionary *rest = @{kFARestaurantNameKey: self.restaurantNameTextField.text,
-                                       kFARestaurantAddressKey: [NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text],
-                                       kFARestaurantLatitudeKey: self.lat,
-                                       kFARestaurantLongitudeKey: self.lng,
-                                       kFARestaurantPhoneNumberKey: self.tagControl.tags,
-                                       kFARestaurantWorkingHoursKey: self.workingDaysArray,
-                                       kFARestaurantIdKey: restKey};
+                NSMutableDictionary *rest = [NSMutableDictionary new];
                 
-                NSDictionary *item = @{kFAItemNameKey: self.itemName,
-                                       kFAItemPriceKey: self.itemPrice,
-                                       kFAItemCurrencyKey: self.itemcurrency,
-                                       kFAItemDescriptionKey: self.itemdescription,
-                                       kFAItemRestaurantKey: rest,
-                                       kFAItemRatingKey: self.itemRating,
-                                       kFAItemImagesKey: imageArray,
-                                       kFARestaurantLatitudeKey: self.lat,
-                                       kFARestaurantLongitudeKey: self.lng,
-                                       kFAItemIdKey: itemKey};
+                [rest setObject:self.restaurantNameTextField.text forKey:kFARestaurantNameKey];
+                [rest setObject:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] forKey:kFARestaurantAddressKey];
+                [rest setObject:self.lat forKey:kFARestaurantLatitudeKey];
+                [rest setObject:self.lng forKey:kFARestaurantLongitudeKey];
+                [rest setObject:self.tagControl.tags forKey:kFARestaurantPhoneNumberKey];
+                
+                if (self.workingDaysArray) {
+                    [rest setObject:self.workingDaysArray forKey:kFARestaurantWorkingHoursKey];
+                }
+                
+                [rest setObject:restKey forKey:kFARestaurantIdKey];
+                
+                NSMutableDictionary *item = [NSMutableDictionary new];
+                
+                [item setObject:self.itemName forKey:kFAItemNameKey];
+                [item setObject:self.itemPrice forKey:kFAItemPriceKey];
+                [item setObject:self.itemcurrency forKey:kFAItemCurrencyKey];
+                [item setObject:self.itemdescription forKey:kFAItemDescriptionKey];
+                [item setObject:rest forKey:kFAItemRestaurantKey];
+                [item setObject:self.itemRating forKey:kFAItemRatingKey];
+                [item setObject:imageArray forKey:kFAItemImagesKey];
+                [item setObject:self.lat forKey:kFARestaurantLatitudeKey];
+                [item setObject:self.lng forKey:kFARestaurantLongitudeKey];
+                [item setObject:itemKey forKey:kFAItemIdKey];
                 
                 NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
                                                [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: rest};
@@ -426,18 +445,17 @@
                 [_ref updateChildValues:childUpdates];
                 
                 NSLog(@"All Uploads Finished");
-                
             }
         }];
-        
-    });
 }
 
 - (void)submitButtonClicked:(id)sender {
     if (self.restaurantNameTextField.text.length>0 && self.addressTextField.text.length>0 && self.localityTextField.text.length>0 && self.lat>0 && self.lng>0) {
         if (self.workingDaysArray.count>0) {
             if (self.fromTime.length>0 && self.tillTime.length>0) {
-                [self submit];
+                [self dismissViewControllerAnimated:YES completion:^{
+                    [self submit];
+                }];
             }
             else{
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Missing time" message:@"Working hours are needed" preferredStyle:UIAlertControllerStyleAlert];
@@ -447,7 +465,9 @@
             }
         }
         else{
-            [self submit];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self submit];
+            }];
         }
     }
     else{
@@ -689,6 +709,7 @@
 }
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
+    self.restaurantNameTextField.text = [restaurant objectForKey:@"name"];
     
 }
 
@@ -764,6 +785,10 @@
         [self performSegueWithIdentifier:@"FAWorkingDaysViewControllerSegue" sender:self];
         return NO;
     }
+}
+
+-(void)tagsControl:(TLTagsControl *)tagsControl didDeleteTagAtIndex:(NSInteger)index{
+    [self.workingDaysArray removeObjectAtIndex:index];
 }
 
 

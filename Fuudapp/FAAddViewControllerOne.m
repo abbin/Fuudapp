@@ -73,7 +73,12 @@
         NSNumber *myNumber = [f numberFromString:newStr];
         
         vc.itemPrice = myNumber;
-        vc.itemdescription = self.descriptionTextView.text;
+        if ([self.descriptionTextView.text isEqualToString:@"type here"]) {
+            vc.itemdescription = @"";
+        }
+        else{
+            vc.itemdescription = self.descriptionTextView.text;
+        }
         vc.itemRating = [NSNumber numberWithFloat:self.ratingView.value];
         vc.itemimages = self.imageArray;
         

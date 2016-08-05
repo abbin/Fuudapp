@@ -55,8 +55,8 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         NSArray *daySymbols = dateFormatter.standaloneWeekdaySymbols;
         
-        NSInteger dayIndex = [num integerValue]; // 1 = Monday, ... 7 = Sunday
-        NSString *dayName = daySymbols[dayIndex % 7];
+        NSInteger dayIndex = [num integerValue]; // 0 = Sunday, ... 6 = Saturday
+        NSString *dayName = daySymbols[dayIndex];
         
         NSMutableDictionary *close = [NSMutableDictionary dictionaryWithObjectsAndKeys:num,@"day",@"",@"time",dayName, @"dayName", nil];
         NSMutableDictionary *open = [NSMutableDictionary dictionaryWithObjectsAndKeys:num,@"day",@"",@"time",dayName, @"dayName", nil];
