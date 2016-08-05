@@ -58,8 +58,8 @@
         NSInteger dayIndex = [num integerValue]; // 0 = Sunday, ... 6 = Saturday
         NSString *dayName = daySymbols[dayIndex];
         
-        NSMutableDictionary *close = [NSMutableDictionary dictionaryWithObjectsAndKeys:num,@"day",@"",@"time",dayName, @"dayName", nil];
-        NSMutableDictionary *open = [NSMutableDictionary dictionaryWithObjectsAndKeys:num,@"day",@"",@"time",dayName, @"dayName", nil];
+        NSMutableDictionary *close = [NSMutableDictionary dictionaryWithObjectsAndKeys:num,@"day",dayName, @"dayName", nil];
+        NSMutableDictionary *open = [NSMutableDictionary dictionaryWithObjectsAndKeys:num,@"day",dayName, @"dayName", nil];
         NSMutableDictionary *mainDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:close,@"close",open,@"open", nil];
         [arrayOfDays addObject:mainDict];
     }
@@ -152,12 +152,12 @@
     if (sender.selected) {
         [sender setSelected:NO];
         [self.sundayImageView setImage:[UIImage imageNamed:@"uncheck"]];
-        [self.daysArray removeObject:[NSNumber numberWithInteger:7]];
+        [self.daysArray removeObject:[NSNumber numberWithInteger:0]];
     }
     else{
         [sender setSelected:YES];
         [self.sundayImageView setImage:[UIImage imageNamed:@"check"]];
-        [self.daysArray addObject:[NSNumber numberWithInteger:7]];
+        [self.daysArray addObject:[NSNumber numberWithInteger:0]];
     }
 }
 

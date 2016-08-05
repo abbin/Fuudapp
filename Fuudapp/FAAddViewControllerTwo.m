@@ -8,6 +8,7 @@
 
 #import "FAAddViewControllerTwo.h"
 #import "FAColor.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface FAAddViewControllerTwo ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
@@ -34,6 +35,7 @@
     [self.searchBar setTintColor:[FAColor mainColor]];
     self.searchBar.placeholder = @"type name here";
     self.searchBar.delegate = self;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeWords;
     self.navigationItem.titleView = self.searchBar;
 }
 

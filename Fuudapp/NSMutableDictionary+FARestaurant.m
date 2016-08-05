@@ -8,45 +8,71 @@
 
 #import "NSMutableDictionary+FARestaurant.h"
 #import "FAConstants.h"
+#import <Crashlytics/Crashlytics.h>
+
+@import FirebaseAnalytics;
 
 @implementation NSMutableDictionary (FARestaurant)
 
 -(instancetype)initWithRestaurant:(NSDictionary*)restaurant{
-     self = [self init];
+    self = [self init];
     if (self) {
         @try {
             [self setObject:[restaurant objectForKey:@"name"] forKey:kFARestaurantNameKey];
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:kFARestaurantNameKey];
+            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
+            
+            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
         }
         
         @try {
             [self setObject:[restaurant objectForKey:@"formatted_address"] forKey:kFARestaurantAddressKey];
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:kFARestaurantAddressKey];
+            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
+            
+            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
         }
         
         @try {
-            [self setObject:[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] forKey:kFARestaurantLatitudeKey];
+            [self setObject:[NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] doubleValue]] forKey:kFARestaurantLatitudeKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:kFARestaurantLatitudeKey];
+            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
+            
+            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
         }
         
         @try {
-            [self setObject:[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] forKey:kFARestaurantLongitudeKey];
+            [self setObject:[NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] doubleValue]] forKey:kFARestaurantLongitudeKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:kFARestaurantLongitudeKey];
+            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
+            
+            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
         }
         
         @try {
             [self setObject:@[[restaurant objectForKey:@"formatted_phone_number"]] forKey:kFARestaurantPhoneNumberKey];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:kFARestaurantPhoneNumberKey];
+            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
+            
+            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
         }
         
         @try {
+            NSArray *periods = [[restaurant objectForKey:@"opening_hours"] objectForKey:@"periods"];
             NSMutableArray *array = [NSMutableArray new];
-            for (NSDictionary *dict in [[restaurant objectForKey:@"opening_hours"] objectForKey:@"periods"]) {
+            for (NSDictionary *dict in periods) {
                 
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 NSArray *daySymbols = dateFormatter.standaloneWeekdaySymbols;
@@ -69,36 +95,37 @@
             }
             [self setObject:array forKey:@"opening_hours"];
         } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"opening_hours"];
+            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
+            
+            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
+                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
         }
         
-        @try {
-            NSArray *locality = [restaurant[@"address_components"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(types CONTAINS[cd] %@)", @"locality"]];
-            NSDictionary *locDict = [locality objectAtIndex:0];
-            
-            NSArray *administrative_area_level_1 = [restaurant[@"address_components"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(types CONTAINS[cd] %@)", @"administrative_area_level_1"]];
-            NSDictionary *adminDict = [administrative_area_level_1 objectAtIndex:0];
-            
-            NSArray *country = [restaurant[@"address_components"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"(types CONTAINS[cd] %@)", @"country"]];
-            NSDictionary *countryDict = [country objectAtIndex:0];
-            
-            [self setObject:[NSString stringWithFormat:@"%@, %@, %@",locDict[@"long_name"],adminDict[@"long_name"],countryDict[@"long_name"]] forKey:@"locality"];
-            
-        } @catch (NSException *exception) {
-            [self setObject:@"" forKey:@"locality"];
-        }
-        
-        [self setObject:[self uuid] forKey:@"id"];
     }
     return self;
 }
 
-- (NSString *)uuid
-{
-    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-    CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
-    CFRelease(uuidRef);
-    return (__bridge_transfer NSString *)uuidStringRef;
+-(instancetype)initRestaurantWithName:(NSString*)name address:(NSString*)address latitude:(NSNumber*)latitude longitude:(NSNumber*)longitude phonumber:(NSMutableArray*)phoneNumber workingDays:(NSArray*)workingDays from:(NSString*)from till:(NSString*)till{
+    self = [self init];
+    if (self) {
+        [self setObject:[NSNumber numberWithBool:YES] forKey:kFAUserAddedRestaurantKey];
+        [self setObject:name forKey:kFARestaurantNameKey];
+        [self setObject:address forKey:kFARestaurantAddressKey];
+        [self setObject:latitude forKey:kFARestaurantLatitudeKey];
+        [self setObject:longitude forKey:kFARestaurantLongitudeKey];
+        if (phoneNumber.count>0) {
+            [self setObject:phoneNumber forKey:kFARestaurantPhoneNumberKey];
+        }
+        if (workingDays.count>0) {
+            for (NSMutableDictionary *dict in workingDays) {
+                [[dict objectForKey:@"close"] setObject:till forKey:@"time"];
+                [[dict objectForKey:@"open"] setObject:from forKey:@"time"];
+            }
+            [self setObject:workingDays forKey:kFARestaurantWorkingHoursKey];
+        }
+    }
+    return self;
 }
 
 @end

@@ -10,6 +10,6 @@
 
 @interface FAManager : NSObject
 
-+(void)saveItemWithName:(NSString*)itemName price:(NSNumber*)itemPrice currency:(NSString*)itemCurrency description:(NSString*)itemDescription rating:(NSNumber*)itemRating images:(NSArray*)images restaurant:(NSMutableDictionary*)restaurant;
++(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images;
 
 @end

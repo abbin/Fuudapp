@@ -14,6 +14,10 @@
 #import "FALocalityPickerController.h"
 #import "FAWorkingDaysViewController.h"
 #import "FARestaurantPickerController.h"
+#import "FAManager.h"
+#import "NSMutableDictionary+FAItem.h"
+#import "NSMutableDictionary+FARestaurant.h"
+#import <Crashlytics/Crashlytics.h>
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
@@ -72,21 +76,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.addressSectionHeading.alpha = 0;
-//    self.addressContainerView.alpha = 0;
-//    self.localitySectionHeader.alpha = 0;
-//    self.localityContainerView.alpha = 0;
-//    self.coordinatesSectionHeader.alpha = 0;
-//    self.coordinatesContainerView.alpha = 0;
-//    self.phoneNumberSectionHeading.alpha = 0;
-//    self.phoneNumberContainerView.alpha = 0;
-//    self.workingDaysSectionHeader.alpha = 0;
-//    self.workingDaysContainerView.alpha = 0;
-//    self.workingTimeSectionHeader.alpha = 0;
-//    self.fromSectionHeader.alpha = 0;
-//    self.tillSectionHeader.alpha = 0;
-//    self.workingFromContainerView.alpha = 0;
-//    self.workingTillContainerView.alpha = 0;
+    self.addressSectionHeading.alpha = 0;
+    self.addressContainerView.alpha = 0;
+    self.localitySectionHeader.alpha = 0;
+    self.localityContainerView.alpha = 0;
+    self.coordinatesSectionHeader.alpha = 0;
+    self.coordinatesContainerView.alpha = 0;
+    self.phoneNumberSectionHeading.alpha = 0;
+    self.phoneNumberContainerView.alpha = 0;
+    self.workingDaysSectionHeader.alpha = 0;
+    self.workingDaysContainerView.alpha = 0;
+    self.workingTimeSectionHeader.alpha = 0;
+    self.fromSectionHeader.alpha = 0;
+    self.tillSectionHeader.alpha = 0;
+    self.workingFromContainerView.alpha = 0;
+    self.workingTillContainerView.alpha = 0;
     
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Submit" style:UIBarButtonItemStylePlain
@@ -174,287 +178,15 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (NSString *)uuid{
-    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-    CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
-    CFRelease(uuidRef);
-    return (__bridge_transfer NSString *)uuidStringRef;
-}
-
--(void)submit{
-        
-        NSDateFormatter *df = [[NSDateFormatter alloc] init];
-        
-        [df setDateFormat:@"MM"];
-        NSString *myMonthString = [df stringFromDate:[NSDate date]];
-        
-        [df setDateFormat:@"yyyy"];
-        NSString *myYearString = [df stringFromDate:[NSDate date]];
-        
-        FIRStorageReference *storageRef = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-        
-        // Create the file metadata
-        FIRStorageMetadata *metadata = [[FIRStorageMetadata alloc] init];
-        metadata.contentType = @"image/jpeg";
-        
-        // Upload file and metadata to the object 'images/mountains.jpg'
-        ;
-        FIRStorageUploadTask *uploadTask = [storageRef putData:UIImageJPEGRepresentation(self.itemimages[0], 0.5) metadata:metadata];
-        
-        [uploadTask observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot) {
-            // Upload reported progress
-            double percentComplete = 100.0 * (snapshot.progress.completedUnitCount) / (snapshot.progress.totalUnitCount);
-            NSLog(@"First = %f",percentComplete);
-        }];
-        
-        // Errors only occur in the "Failure" case
-        [uploadTask observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot) {
-            if (snapshot.error != nil) {
-                switch (snapshot.error.code) {
-                    case FIRStorageErrorCodeObjectNotFound:
-                        // File doesn't exist
-                        break;
-                        
-                    case FIRStorageErrorCodeUnauthorized:
-                        // User doesn't have permission to access file
-                        break;
-                        
-                    case FIRStorageErrorCodeCancelled:
-                        // User canceled the upload
-                        break;
-                        
-                    case FIRStorageErrorCodeUnknown:
-                        // Unknown error occurred, inspect the server response
-                        break;
-                }
-            }
-        }];
-        
-        [uploadTask observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot) {
-            if (self.itemimages.count>1) {
-                FIRStorageReference *storageRef2 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-                FIRStorageUploadTask *uploadTask2 = [storageRef2 putData:UIImageJPEGRepresentation(self.itemimages[1], 0.5) metadata:metadata];
-                
-                [uploadTask2 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot2) {
-                    // Upload reported progress
-                    double percentComplete = 100.0 * (snapshot2.progress.completedUnitCount) / (snapshot2.progress.totalUnitCount);
-                    NSLog(@"Second = %f",percentComplete);
-                }];
-                
-                // Errors only occur in the "Failure" case
-                [uploadTask2 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot2) {
-                    if (snapshot2.error != nil) {
-                        switch (snapshot2.error.code) {
-                            case FIRStorageErrorCodeObjectNotFound:
-                                // File doesn't exist
-                                break;
-                                
-                            case FIRStorageErrorCodeUnauthorized:
-                                // User doesn't have permission to access file
-                                break;
-                                
-                            case FIRStorageErrorCodeCancelled:
-                                // User canceled the upload
-                                break;
-                                
-                            case FIRStorageErrorCodeUnknown:
-                                // Unknown error occurred, inspect the server response
-                                break;
-                        }
-                    }
-                }];
-                
-                [uploadTask2 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot2) {
-                    if (self.itemimages.count>2) {
-                        FIRStorageReference *storageRef3 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-                        FIRStorageUploadTask *uploadTask3 = [storageRef3 putData:UIImageJPEGRepresentation(self.itemimages[2], 0.5) metadata:metadata];
-                        
-                        [uploadTask3 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                            // Upload reported progress
-                            double percentComplete = 100.0 * (snapshot3.progress.completedUnitCount) / (snapshot3.progress.totalUnitCount);
-                            NSLog(@"Thrid = %f",percentComplete);
-                        }];
-                        
-                        // Errors only occur in the "Failure" case
-                        [uploadTask3 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                            if (snapshot3.error != nil) {
-                                switch (snapshot3.error.code) {
-                                    case FIRStorageErrorCodeObjectNotFound:
-                                        // File doesn't exist
-                                        break;
-                                        
-                                    case FIRStorageErrorCodeUnauthorized:
-                                        // User doesn't have permission to access file
-                                        break;
-                                        
-                                    case FIRStorageErrorCodeCancelled:
-                                        // User canceled the upload
-                                        break;
-                                        
-                                    case FIRStorageErrorCodeUnknown:
-                                        // Unknown error occurred, inspect the server response
-                                        break;
-                                }
-                            }
-                        }];
-                        
-                        [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                            
-                            NSArray *imageArray = [NSArray arrayWithObjects:
-                                                   [NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                                   [NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
-                                                   [NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],nil];
-                            
-                            NSString *itemKey = [[_ref child:kFAItemPathKey] childByAutoId].key;
-                            NSString *restKey = [[_ref child:kFAItemPathKey] childByAutoId].key;
-                            
-                            for (NSMutableDictionary *dict in self.workingDaysArray) {
-                                [[dict objectForKey:@"close"] setObject:self.tillTime forKey:@"time"];
-                                [[dict objectForKey:@"open"] setObject:self.fromTime forKey:@"time"];
-                            }
-                            
-                            NSMutableDictionary *rest = [NSMutableDictionary new];
-                            
-                            [rest setObject:self.restaurantNameTextField.text forKey:kFARestaurantNameKey];
-                            [rest setObject:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] forKey:kFARestaurantAddressKey];
-                            [rest setObject:self.lat forKey:kFARestaurantLatitudeKey];
-                            [rest setObject:self.lng forKey:kFARestaurantLongitudeKey];
-                            [rest setObject:self.tagControl.tags forKey:kFARestaurantPhoneNumberKey];
-                            
-                            if (self.workingDaysArray) {
-                                [rest setObject:self.workingDaysArray forKey:kFARestaurantWorkingHoursKey];
-                            }
-                            
-                            [rest setObject:restKey forKey:kFARestaurantIdKey];
-                            
-                            NSMutableDictionary *item = [NSMutableDictionary new];
-                            
-                            [item setObject:self.itemName forKey:kFAItemNameKey];
-                            [item setObject:self.itemPrice forKey:kFAItemPriceKey];
-                            [item setObject:self.itemcurrency forKey:kFAItemCurrencyKey];
-                            [item setObject:self.itemdescription forKey:kFAItemDescriptionKey];
-                            [item setObject:rest forKey:kFAItemRestaurantKey];
-                            [item setObject:self.itemRating forKey:kFAItemRatingKey];
-                            [item setObject:imageArray forKey:kFAItemImagesKey];
-                            [item setObject:self.lat forKey:kFARestaurantLatitudeKey];
-                            [item setObject:self.lng forKey:kFARestaurantLongitudeKey];
-                            [item setObject:itemKey forKey:kFAItemIdKey];
-                            
-                            NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
-                                                           [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: rest};
-                            
-                            [_ref updateChildValues:childUpdates];
-                            
-                            NSLog(@"All Uploads Finished");
-                        }];
-                    }
-                    else{
-                        
-                        NSArray *imageArray = [NSArray arrayWithObjects:
-                                               [NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                               [NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],nil];
-                        
-                        NSString *itemKey = [[_ref child:kFAItemPathKey] childByAutoId].key;
-                        NSString *restKey = [[_ref child:kFAItemPathKey] childByAutoId].key;
-                        
-                        for (NSMutableDictionary *dict in self.workingDaysArray) {
-                            [[dict objectForKey:@"close"] setObject:self.tillTime forKey:@"time"];
-                            [[dict objectForKey:@"open"] setObject:self.fromTime forKey:@"time"];
-                        }
-                        
-                        NSMutableDictionary *rest = [NSMutableDictionary new];
-                        
-                        [rest setObject:self.restaurantNameTextField.text forKey:kFARestaurantNameKey];
-                        [rest setObject:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] forKey:kFARestaurantAddressKey];
-                        [rest setObject:self.lat forKey:kFARestaurantLatitudeKey];
-                        [rest setObject:self.lng forKey:kFARestaurantLongitudeKey];
-                        [rest setObject:self.tagControl.tags forKey:kFARestaurantPhoneNumberKey];
-                        
-                        if (self.workingDaysArray) {
-                            [rest setObject:self.workingDaysArray forKey:kFARestaurantWorkingHoursKey];
-                        }
-                        
-                        [rest setObject:restKey forKey:kFARestaurantIdKey];
-                        
-                        NSMutableDictionary *item = [NSMutableDictionary new];
-                        
-                        [item setObject:self.itemName forKey:kFAItemNameKey];
-                        [item setObject:self.itemPrice forKey:kFAItemPriceKey];
-                        [item setObject:self.itemcurrency forKey:kFAItemCurrencyKey];
-                        [item setObject:self.itemdescription forKey:kFAItemDescriptionKey];
-                        [item setObject:rest forKey:kFAItemRestaurantKey];
-                        [item setObject:self.itemRating forKey:kFAItemRatingKey];
-                        [item setObject:imageArray forKey:kFAItemImagesKey];
-                        [item setObject:self.lat forKey:kFARestaurantLatitudeKey];
-                        [item setObject:self.lng forKey:kFARestaurantLongitudeKey];
-                        [item setObject:itemKey forKey:kFAItemIdKey];
-                        
-                        NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
-                                                       [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: rest};
-                        
-                        [_ref updateChildValues:childUpdates];
-                        
-                        NSLog(@"All Uploads Finished");
-                    }
-                }];
-                
-            }
-            else{
-                
-                NSArray *imageArray = [NSArray arrayWithObjects:
-                                       [NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],nil];
-                
-                NSString *itemKey = [[_ref child:kFAItemPathKey] childByAutoId].key;
-                NSString *restKey = [[_ref child:kFAItemPathKey] childByAutoId].key;
-                
-                for (NSMutableDictionary *dict in self.workingDaysArray) {
-                    [[dict objectForKey:@"close"] setObject:self.tillTime forKey:@"time"];
-                    [[dict objectForKey:@"open"] setObject:self.fromTime forKey:@"time"];
-                }
-                
-                NSMutableDictionary *rest = [NSMutableDictionary new];
-                
-                [rest setObject:self.restaurantNameTextField.text forKey:kFARestaurantNameKey];
-                [rest setObject:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] forKey:kFARestaurantAddressKey];
-                [rest setObject:self.lat forKey:kFARestaurantLatitudeKey];
-                [rest setObject:self.lng forKey:kFARestaurantLongitudeKey];
-                [rest setObject:self.tagControl.tags forKey:kFARestaurantPhoneNumberKey];
-                
-                if (self.workingDaysArray) {
-                    [rest setObject:self.workingDaysArray forKey:kFARestaurantWorkingHoursKey];
-                }
-                
-                [rest setObject:restKey forKey:kFARestaurantIdKey];
-                
-                NSMutableDictionary *item = [NSMutableDictionary new];
-                
-                [item setObject:self.itemName forKey:kFAItemNameKey];
-                [item setObject:self.itemPrice forKey:kFAItemPriceKey];
-                [item setObject:self.itemcurrency forKey:kFAItemCurrencyKey];
-                [item setObject:self.itemdescription forKey:kFAItemDescriptionKey];
-                [item setObject:rest forKey:kFAItemRestaurantKey];
-                [item setObject:self.itemRating forKey:kFAItemRatingKey];
-                [item setObject:imageArray forKey:kFAItemImagesKey];
-                [item setObject:self.lat forKey:kFARestaurantLatitudeKey];
-                [item setObject:self.lng forKey:kFARestaurantLongitudeKey];
-                [item setObject:itemKey forKey:kFAItemIdKey];
-                
-                NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
-                                               [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: rest};
-                
-                [_ref updateChildValues:childUpdates];
-                
-                NSLog(@"All Uploads Finished");
-            }
-        }];
-}
-
 - (void)submitButtonClicked:(id)sender {
     if (self.restaurantNameTextField.text.length>0 && self.addressTextField.text.length>0 && self.localityTextField.text.length>0 && self.lat>0 && self.lng>0) {
         if (self.workingDaysArray.count>0) {
             if (self.fromTime.length>0 && self.tillTime.length>0) {
+                [self.view endEditing:YES];
                 [self dismissViewControllerAnimated:YES completion:^{
-                    [self submit];
+                    NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
+                    NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
+                    [FAManager saveItem:item andRestaurant:rest withImages:self.itemimages];
                 }];
             }
             else{
@@ -465,8 +197,11 @@
             }
         }
         else{
+            [self.view endEditing:YES];
             [self dismissViewControllerAnimated:YES completion:^{
-                [self submit];
+                NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
+                NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
+                [FAManager saveItem:item andRestaurant:rest withImages:self.itemimages];
             }];
         }
     }
@@ -709,8 +444,11 @@
 }
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
-    self.restaurantNameTextField.text = [restaurant objectForKey:@"name"];
-    
+    self.restaurantNameTextField.text = [restaurant objectForKey:kFARestaurantNameKey];
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
+        [FAManager saveItem:item andRestaurant:restaurant withImages:self.itemimages];
+    }];
 }
 
 

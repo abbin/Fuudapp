@@ -28,8 +28,22 @@ FOUNDATION_EXPORT NSString *const kFARestaurantLongitudeKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantPhoneNumberKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantWorkingHoursKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantIdKey;
+FOUNDATION_EXPORT NSString *const kFAUserAddedRestaurantKey;
 
 FOUNDATION_EXPORT NSString *const kFAItemPathKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantPathKey;
 FOUNDATION_EXPORT NSString *const kFAStoragePathKey;
+
+FOUNDATION_EXPORT NSString *const kFAAnalyticsGoogleRestaurantExceptionKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsNewRestaurantKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsImageUploadCountKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsFireBaseFailureKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsImageUploadTimeKey;
+
+FOUNDATION_EXPORT NSString *const kFAAnalyticsTimeKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsReasonKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsCountKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsCategoryKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsSucessKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsResultsKey;
 @end

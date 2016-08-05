@@ -28,9 +28,26 @@ NSString *const kFARestaurantLongitudeKey = @"restaurantLongitude";
 NSString *const kFARestaurantPhoneNumberKey = @"restaurantPhoneNumber";
 NSString *const kFARestaurantWorkingHoursKey = @"restaurantWorkingHours";
 NSString *const kFARestaurantIdKey = @"restaurantId";
+NSString *const kFAUserAddedRestaurantKey = @"userAddedRestaurant";
 
 NSString *const kFAItemPathKey = @"items";
 NSString *const kFARestaurantPathKey = @"restaurants";
 NSString *const kFAStoragePathKey = @"gs://fuudappdev.appspot.com/";
+
+
+NSString *const kFAAnalyticsGoogleRestaurantExceptionKey = @"GoogleRestaurantException";
+NSString *const kFAAnalyticsNewRestaurantKey = @"NewRestaurant";
+NSString *const kFAAnalyticsImageUploadCountKey = @"ImageUploadCount";
+NSString *const kFAAnalyticsFireBaseFailureKey = @"FireBaseFailures";
+NSString *const kFAAnalyticsImageUploadTimeKey = @"ImageUploadTime";
+NSString *const kFAAnalyticsItemUploadKey = @"ItemUpload";
+
+
+NSString *const kFAAnalyticsTimeKey = @"Time";
+NSString *const kFAAnalyticsReasonKey = @"Reason";
+NSString *const kFAAnalyticsCountKey = @"Count";
+NSString *const kFAAnalyticsCategoryKey = @"Category";
+NSString *const kFAAnalyticsSucessKey = @"Sucess";
+NSString *const kFAAnalyticsResultsKey = @"Results";
 
 @end

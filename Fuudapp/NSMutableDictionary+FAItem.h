@@ -10,4 +10,6 @@
 
 @interface NSMutableDictionary (FAItem)
 
+-(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description rating:(NSNumber*)rating;
+
 @end

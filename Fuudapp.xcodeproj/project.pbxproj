@@ -145,12 +145,9 @@
 			children = (
 				ED8D6DF01D46552A00CA8777 /* AppDelegate.h */,
 				ED8D6DF11D46552A00CA8777 /* AppDelegate.m */,
-				ED044A061D53605100CF57DF /* FAManager.h */,
-				ED044A071D53605100CF57DF /* FAManager.m */,
-				EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */,
-				EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */,
-				ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */,
-				ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */,
+				EDA5FE3D1D54DB3300BD4F57 /* UI */,
+				EDA5FE361D54DABC00BD4F57 /* Picker */,
+				EDA5FE301D54D9AB00BD4F57 /* Modal */,
 				EDB89ADE1D472D7B00EE4BBB /* ViewControllers */,
 				ED8D6DF91D46552A00CA8777 /* Main.storyboard */,
 				ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */,
@@ -171,43 +168,190 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EDB89ADE1D472D7B00EE4BBB /* ViewControllers */ = {
+		EDA5FE301D54D9AB00BD4F57 /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				ED044A061D53605100CF57DF /* FAManager.h */,
+				ED044A071D53605100CF57DF /* FAManager.m */,
+				ED74239D1D4A48B40030CE45 /* FAConstants.h */,
+				ED74239E1D4A48B40030CE45 /* FAConstants.m */,
+				EDA5FE321D54D9CE00BD4F57 /* Restaurant */,
+				EDA5FE311D54D9C400BD4F57 /* Item */,
+			);
+			name = Modal;
+			sourceTree = "<group>";
+		};
+		EDA5FE311D54D9C400BD4F57 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */,
+				EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */,
+			);
+			name = Item;
+			sourceTree = "<group>";
+		};
+		EDA5FE321D54D9CE00BD4F57 /* Restaurant */ = {
+			isa = PBXGroup;
+			children = (
+				ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */,
+				ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */,
+			);
+			name = Restaurant;
+			sourceTree = "<group>";
+		};
+		EDA5FE331D54D9DE00BD4F57 /* Nearby */ = {
 			isa = PBXGroup;
 			children = (
 				ED8D6DF31D46552A00CA8777 /* FirstViewController.h */,
 				ED8D6DF41D46552A00CA8777 /* FirstViewController.m */,
+				EDA5FE351D54DA6000BD4F57 /* Add */,
+			);
+			name = Nearby;
+			sourceTree = "<group>";
+		};
+		EDA5FE341D54D9E900BD4F57 /* Favourite */ = {
+			isa = PBXGroup;
+			children = (
 				ED8D6DF61D46552A00CA8777 /* SecondViewController.h */,
 				ED8D6DF71D46552A00CA8777 /* SecondViewController.m */,
+			);
+			name = Favourite;
+			sourceTree = "<group>";
+		};
+		EDA5FE351D54DA6000BD4F57 /* Add */ = {
+			isa = PBXGroup;
+			children = (
+				EDB89AEB1D478DF300EE4BBB /* FAAddViewControllerOne.h */,
+				EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */,
+				EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */,
+				EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */,
+			);
+			name = Add;
+			sourceTree = "<group>";
+		};
+		EDA5FE361D54DABC00BD4F57 /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				EDA5FE371D54DAEE00BD4F57 /* Image */,
+				EDA5FE381D54DAFF00BD4F57 /* Item */,
+				EDA5FE391D54DB0900BD4F57 /* Restaurant */,
+				EDA5FE3A1D54DB1100BD4F57 /* Map */,
+				EDA5FE3B1D54DB1900BD4F57 /* Locality */,
+				EDA5FE3C1D54DB2000BD4F57 /* Working Days */,
+			);
+			name = Picker;
+			sourceTree = "<group>";
+		};
+		EDA5FE371D54DAEE00BD4F57 /* Image */ = {
+			isa = PBXGroup;
+			children = (
 				EDB89ADB1D472C7D00EE4BBB /* FAImagePickerController.h */,
 				EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */,
+			);
+			name = Image;
+			sourceTree = "<group>";
+		};
+		EDA5FE381D54DAFF00BD4F57 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */,
+				EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */,
+			);
+			name = Item;
+			sourceTree = "<group>";
+		};
+		EDA5FE391D54DB0900BD4F57 /* Restaurant */ = {
+			isa = PBXGroup;
+			children = (
+				ED7423961D4A05160030CE45 /* FARestaurantPickerController.h */,
+				ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */,
+			);
+			name = Restaurant;
+			sourceTree = "<group>";
+		};
+		EDA5FE3A1D54DB1100BD4F57 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				ED6570341D4B4E7A002B680E /* FAMapViewController.h */,
+				ED6570351D4B4E7A002B680E /* FAMapViewController.m */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		EDA5FE3B1D54DB1900BD4F57 /* Locality */ = {
+			isa = PBXGroup;
+			children = (
+				ED482FE41D4F429F00854980 /* FALocalityPickerController.h */,
+				ED482FE51D4F429F00854980 /* FALocalityPickerController.m */,
+			);
+			name = Locality;
+			sourceTree = "<group>";
+		};
+		EDA5FE3C1D54DB2000BD4F57 /* Working Days */ = {
+			isa = PBXGroup;
+			children = (
+				EDAD34351D506C6F001E5D74 /* FAWorkingDaysViewController.h */,
+				EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */,
+			);
+			name = "Working Days";
+			sourceTree = "<group>";
+		};
+		EDA5FE3D1D54DB3300BD4F57 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EDA5FE411D54DBAD00BD4F57 /* Color */,
+				EDA5FE401D54DB8D00BD4F57 /* Gallery Convenience */,
+				EDA5FE3F1D54DB7200BD4F57 /* Tag */,
+				EDA5FE3E1D54DB5000BD4F57 /* CollectionViewCell */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		EDA5FE3E1D54DB5000BD4F57 /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
 				EDB89ADF1D473DA000EE4BBB /* FAImagePickerCollectionViewCell.h */,
 				EDB89AE01D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m */,
+				EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */,
+				EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */,
+			);
+			name = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		EDA5FE3F1D54DB7200BD4F57 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				ED482FEA1D4F7C5300854980 /* TLTagsControl.h */,
+				ED482FEB1D4F7C5300854980 /* TLTagsControl.m */,
+			);
+			name = Tag;
+			sourceTree = "<group>";
+		};
+		EDA5FE401D54DB8D00BD4F57 /* Gallery Convenience */ = {
+			isa = PBXGroup;
+			children = (
 				EDB89AE21D473E3C00EE4BBB /* NSIndexSet+Convenience.h */,
 				EDB89AE31D473E3C00EE4BBB /* NSIndexSet+Convenience.m */,
 				EDB89AE41D473E3C00EE4BBB /* UICollectionView+Convenience.h */,
 				EDB89AE51D473E3C00EE4BBB /* UICollectionView+Convenience.m */,
+			);
+			name = "Gallery Convenience";
+			sourceTree = "<group>";
+		};
+		EDA5FE411D54DBAD00BD4F57 /* Color */ = {
+			isa = PBXGroup;
+			children = (
 				EDB89AE81D475ED900EE4BBB /* FAColor.h */,
 				EDB89AE91D475ED900EE4BBB /* FAColor.m */,
-				EDB89AEB1D478DF300EE4BBB /* FAAddViewControllerOne.h */,
-				EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */,
-				EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */,
-				EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */,
-				EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */,
-				EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */,
-				EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */,
-				EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */,
-				ED7423961D4A05160030CE45 /* FARestaurantPickerController.h */,
-				ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */,
-				ED74239D1D4A48B40030CE45 /* FAConstants.h */,
-				ED74239E1D4A48B40030CE45 /* FAConstants.m */,
-				ED6570341D4B4E7A002B680E /* FAMapViewController.h */,
-				ED6570351D4B4E7A002B680E /* FAMapViewController.m */,
-				ED482FE41D4F429F00854980 /* FALocalityPickerController.h */,
-				ED482FE51D4F429F00854980 /* FALocalityPickerController.m */,
-				ED482FEA1D4F7C5300854980 /* TLTagsControl.h */,
-				ED482FEB1D4F7C5300854980 /* TLTagsControl.m */,
-				EDAD34351D506C6F001E5D74 /* FAWorkingDaysViewController.h */,
-				EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */,
+			);
+			name = Color;
+			sourceTree = "<group>";
+		};
+		EDB89ADE1D472D7B00EE4BBB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				EDA5FE331D54D9DE00BD4F57 /* Nearby */,
+				EDA5FE341D54D9E900BD4F57 /* Favourite */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";

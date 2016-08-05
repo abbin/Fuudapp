@@ -11,6 +11,8 @@
 #import "AFNetworking.h"
 #import "FAConstants.h"
 #import "NSMutableDictionary+FARestaurant.h"
+#import <Crashlytics/Crashlytics.h>
+@import FirebaseAnalytics;
 
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -37,6 +39,7 @@
     [self.searchBar setTintColor:[FAColor mainColor]];
     self.searchBar.placeholder = @"type restaurant name here";
     self.searchBar.delegate = self;
+    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeWords;
     self.navigationItem.titleView = self.searchBar;
 
 }
@@ -53,6 +56,7 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self.dataTask cancel];
+    NSDate *start = [NSDate date];
     if (searchText.length>0) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -69,13 +73,54 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            NSDate *end = [NSDate date];
+            NSTimeInterval distanceBetweenDates = [end timeIntervalSinceDate:start];
+            
             [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             if (!error) {
                 self.restArray = responseObject[@"results"];
+                
+                NSDictionary *dict = @{kFAAnalyticsCategoryKey : kFARestaurantNameKey,
+                                       kFAAnalyticsSucessKey : @"YES",
+                                       kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
+                                       kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
+                
+                [Answers logSearchWithQuery:searchText
+                           customAttributes:dict];
+                
+                NSDictionary *dict2 = @{kFIRParameterSearchTerm : searchText,
+                                        kFAAnalyticsCategoryKey : kFARestaurantNameKey,
+                                       kFAAnalyticsSucessKey : @"YES",
+                                       kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
+                                       kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
+                
+                [FIRAnalytics logEventWithName:kFIREventSearch
+                                    parameters:dict2];
+                
                 if (self.restArray.count==0) {
                     self.restArray = @[[NSString stringWithFormat:@"Add '%@' as new a restaurant",searchText]];
                 }
                 [self.restTableView reloadData];
+            }
+            else{
+                if (error.code != -999) {
+                    NSDictionary *dict = @{kFAAnalyticsCategoryKey : kFARestaurantNameKey,
+                                           kFAAnalyticsSucessKey : @"NO",
+                                           kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
+                                           kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
+                    
+                    [Answers logSearchWithQuery:searchText
+                               customAttributes:dict];
+                    
+                    NSDictionary *dict2 = @{kFIRParameterSearchTerm : searchText,
+                                            kFAAnalyticsCategoryKey : kFARestaurantNameKey,
+                                            kFAAnalyticsSucessKey : @"NO",
+                                            kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
+                                            kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
+                    
+                    [FIRAnalytics logEventWithName:kFIREventSearch
+                                        parameters:dict2];
+                }
             }
         }];
         [self.dataTask resume];

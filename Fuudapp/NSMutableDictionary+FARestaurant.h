@@ -12,4 +12,6 @@
 
 -(instancetype)initWithRestaurant:(NSDictionary*)restaurant;
 
+-(instancetype)initRestaurantWithName:(NSString*)name address:(NSString*)address latitude:(NSNumber*)latitude longitude:(NSNumber*)longitude phonumber:(NSMutableArray*)phoneNumber workingDays:(NSArray*)workingDays from:(NSString*)from till:(NSString*)till;
+
 @end
