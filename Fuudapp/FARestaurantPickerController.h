@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 
 @class FARestaurantPickerController;
+
 @protocol FARestaurantPickerControllerDelegate <NSObject>
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController*)controller didFinishWithRestaurant:(NSMutableDictionary*)restaurant;

@@ -44,8 +44,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [FAAnalyticsManager logEventWithName:kFAAnalyticsItemMakeStartedKey parameters:nil];
-    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Next" style:UIBarButtonItemStylePlain
                              target:self

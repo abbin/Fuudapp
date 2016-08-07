@@ -14,6 +14,7 @@
 @interface FALocalityPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *locTableView;
+
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *locArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
@@ -40,20 +41,30 @@
     self.navigationItem.titleView = self.searchBar;
 }
 
-- (void)cancelButtonClicked:(id)sender {
-    [self.searchBar resignFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.searchBar becomeFirstResponder];
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Action -
+
+- (void)cancelButtonClicked:(id)sender {
+    [self.searchBar resignFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UISearchBarDelegate -
+
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self.dataTask cancel];
     if (searchText.length>0) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
@@ -68,13 +79,9 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             if (!error) {
                 self.locArray = responseObject[@"predictions"];
                 [self.locTableView reloadData];
-            }
-            else{
-                NSLog(@"%@",error.localizedDescription);
             }
         }];
         [self.dataTask resume];
@@ -85,9 +92,19 @@
     }
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UIScrollViewDelegate -
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [self.searchBar resignFirstResponder];
 }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UITableViewDataSource -
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -121,6 +138,11 @@
     return cell;
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UITableViewDelegate -
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.searchBar resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:^{
@@ -129,6 +151,5 @@
         }
     }];
 }
-
 
 @end

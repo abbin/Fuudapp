@@ -76,8 +76,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [FAAnalyticsManager logEventWithName:kFAAnalyticsRestaurantMakeStartedKey parameters:nil];
-    
     self.addressSectionHeading.alpha = 0;
     self.addressContainerView.alpha = 0;
     self.localitySectionHeader.alpha = 0;
@@ -185,8 +183,6 @@
         if (self.workingDaysArray.count>0) {
             if (self.fromTime.length>0 && self.tillTime.length>0) {
                 [self.view endEditing:YES];
-                
-                [FAAnalyticsManager sharedManager].itemMakeEnd = [NSDate date];
                 
                 [self dismissViewControllerAnimated:YES completion:^{
                     NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
@@ -428,7 +424,7 @@
 #pragma mark - FARestaurantPickerControllerDelegate -
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithNewRestaurant:(NSString *)restaurantName{
-    [FAAnalyticsManager sharedManager].isNewRestaurant = [NSNumber numberWithBool:YES];
+    
     self.restaurantNameTextField.text = restaurantName;
     [UIView animateWithDuration:0.5 animations:^{
         self.addressSectionHeading.alpha = 1;
@@ -451,8 +447,6 @@
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
     self.restaurantNameTextField.text = [restaurant objectForKey:kFARestaurantNameKey];
-    [FAAnalyticsManager sharedManager].isNewRestaurant = [NSNumber numberWithBool:NO];
-    [FAAnalyticsManager sharedManager].itemMakeEnd = [NSDate date];
     
     [self dismissViewControllerAnimated:YES completion:^{
         NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];

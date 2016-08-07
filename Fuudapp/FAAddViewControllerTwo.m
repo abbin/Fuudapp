@@ -8,7 +8,6 @@
 
 #import "FAAddViewControllerTwo.h"
 #import "FAColor.h"
-#import <Crashlytics/Crashlytics.h>
 
 @interface FAAddViewControllerTwo ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 

@@ -18,7 +18,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *fridayImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *saturdayImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *sundayImageView;
+
 @property (strong, nonatomic) NSMutableArray *daysArray;
+
 @end
 
 @implementation FAWorkingDaysViewController
@@ -43,6 +45,11 @@
         self.daysArray = [NSMutableArray new];
     }
 }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Action -
 
 - (void)cancelButtonClicked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];

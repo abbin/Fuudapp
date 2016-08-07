@@ -11,15 +11,18 @@
 
 @interface FAMapViewController ()<CLLocationManagerDelegate>
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (strong, nonatomic) CLLocation *currLoc;
+@property (strong, nonatomic) CLLocationManager *locationManager;
+
 @property (weak, nonatomic) IBOutlet GMSMapView *mapView;
-@property (nonatomic, strong) CLLocation *currLoc;
+
 @end
 
 @implementation FAMapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Done" style:UIBarButtonItemStylePlain
                              target:self
@@ -37,26 +40,10 @@
     [self requestLocationServicesAuthorization];
 }
 
-- (void)requestLocationServicesAuthorization {
-    if (!self.locationManager) {
-        self.locationManager = [[CLLocationManager alloc] init];
-        self.locationManager.delegate = self;
-    }
-    
-    /*
-     Gets user permission to get their location while the app is in the foreground.
-     
-     To monitor the user's location even when the app is in the background:
-     1. Replace [self.locationManager requestWhenInUseAuthorization] with [self.locationManager requestAlwaysAuthorization]
-     2. Change NSLocationWhenInUseUsageDescription to NSLocationAlwaysUsageDescription in InfoPlist.strings
-     */
-    [self.locationManager requestWhenInUseAuthorization];
-    
-    /*
-     Requests a single location after the user is presented with a consent dialog.
-     */
-    [self.locationManager startUpdatingLocation];
-}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Action -
 
 - (void)cancelButtonClicked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -70,6 +57,17 @@
     }];
 }
 
+- (IBAction)goTocurrentLocation:(UIButton *)sender {
+    [self.mapView animateToCameraPosition:[GMSCameraPosition cameraWithLatitude:self.currLoc.coordinate.latitude
+                                                                      longitude:self.currLoc.coordinate.longitude
+                                                                           zoom:15]];
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - CLLocationManagerDelegate -
+
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     [self.locationManager stopUpdatingLocation];
 }
@@ -82,14 +80,21 @@
     [self.locationManager stopUpdatingLocation];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Utility Methods -
+
+- (void)requestLocationServicesAuthorization {
+    if (!self.locationManager) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+    }
+    
+    [self.locationManager requestWhenInUseAuthorization];
+    
+    [self.locationManager startUpdatingLocation];
 }
 
-- (IBAction)goTocurrentLocation:(UIButton *)sender {
-    [self.mapView animateToCameraPosition:[GMSCameraPosition cameraWithLatitude:self.currLoc.coordinate.latitude
-                                                                      longitude:self.currLoc.coordinate.longitude
-                                                                           zoom:15]];
-}
 
 @end

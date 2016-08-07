@@ -8,6 +8,7 @@
 
 #import "FAColor.h"
 #import "AppDelegate.h"
+#import "FAConstants.h"
 
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
@@ -30,7 +31,7 @@
     
     [Fabric with:@[[Crashlytics class]]];
     [FIRApp configure];
-    [GMSServices provideAPIKey:@"AIzaSyD6PMkkD1Ecqyhm1E3BWAag-JX-5tQbRU4"];
+    [GMSServices provideAPIKey:kFAGoogleMapsKey];
     
     return YES;
 }

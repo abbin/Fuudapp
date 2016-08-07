@@ -6,12 +6,13 @@
 //  Copyright © 2016 Fuudapp. All rights reserved.
 //
 
-#import "FARestaurantPickerController.h"
+
 #import "FAColor.h"
-#import "AFNetworking.h"
 #import "FAConstants.h"
-#import "NSMutableDictionary+FARestaurant.h"
+#import "AFNetworking.h"
 #import "FAAnalyticsManager.h"
+#import "FARestaurantPickerController.h"
+#import "NSMutableDictionary+FARestaurant.h"
 
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -41,12 +42,6 @@
     self.searchBar.delegate = self;
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeWords;
     self.navigationItem.titleView = self.searchBar;
-
-}
-
-- (void)cancelButtonClicked:(id)sender {
-    [self.searchBar resignFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -54,11 +49,26 @@
     [self.searchBar becomeFirstResponder];
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Action -
+
+- (void)cancelButtonClicked:(id)sender {
+    [self.searchBar resignFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UISearchBarDelegate -
+
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self.dataTask cancel];
-    NSDate *start = [NSDate date];
+    
     if (searchText.length>0) {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
@@ -73,40 +83,18 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            NSDate *end = [NSDate date];
-            NSTimeInterval distanceBetweenDates = [end timeIntervalSinceDate:start];
             
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             if (!error) {
                 self.restArray = responseObject[@"results"];
-                
-                NSMutableDictionary *para = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                             kFARestaurantNameKey,kFAAnalyticsSectionKey,
-                                             @"YES",kFAAnalyticsSucessKey,
-                                             [NSNumber numberWithDouble:distanceBetweenDates],kFAAnalyticsTimeKey,
-                                             [NSNumber numberWithInteger:self.restArray.count],kFAAnalyticsResultsKey,nil];
-                
-                [FAAnalyticsManager logSearchWithQuery:searchText customAttributes:para];
                 
                 if (self.restArray.count==0) {
                     self.restArray = @[[NSString stringWithFormat:@"Add '%@' as new a restaurant",searchText]];
                 }
+                
                 [self.restTableView reloadData];
             }
-            else{
-                if (error.code != -999) {
-                    
-                    NSMutableDictionary *para = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                 kFARestaurantNameKey,kFAAnalyticsSectionKey,
-                                                 @"NO",kFAAnalyticsSucessKey,
-                                                 [NSNumber numberWithDouble:distanceBetweenDates],kFAAnalyticsTimeKey,
-                                                 [NSNumber numberWithInteger:self.restArray.count],kFAAnalyticsResultsKey,nil];
-                    
-                    [FAAnalyticsManager logSearchWithQuery:searchText customAttributes:para];
-                    
-                }
-            }
         }];
+        
         [self.dataTask resume];
     }
     else{
@@ -115,9 +103,19 @@
     }
 }
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UIScrollViewDelegate -
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [self.searchBar resignFirstResponder];
 }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UITableViewDataSource -
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -139,9 +137,13 @@
         cell.textLabel.text = string;
         cell.detailTextLabel.text = @"";
     }
-
     return cell;
 }
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - UITableViewDelegate -
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.dataTask cancel];
@@ -154,7 +156,6 @@
         }];
     }
     else{
-        
         NSString *placeID = [[self.restArray objectAtIndex:indexPath.row] objectForKey:@"place_id"];
         
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -176,7 +177,7 @@
             }
         }];
         [self.dataTask resume];
-
+        
     }
 }
 

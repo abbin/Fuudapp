@@ -15,6 +15,7 @@
 -(void)FAWorkingDaysViewController:(FAWorkingDaysViewController*)controller didFinishWithDays:(NSMutableArray*)days;
 
 @end
+
 @interface FAWorkingDaysViewController : UIViewController
 
 @property id <FAWorkingDaysViewControllerDelegate> delegate;

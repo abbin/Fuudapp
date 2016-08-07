@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class FAAddViewControllerTwo;
+
 @protocol FAAddViewControllerTwoDelegate <NSObject>
 
 -(void)FAAddViewControllerTwo:(FAAddViewControllerTwo*)controller didFinishWithNewItem:(NSString*)itemName;

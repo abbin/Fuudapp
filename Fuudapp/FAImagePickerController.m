@@ -36,8 +36,6 @@ static CGSize AssetGridThumbnailSize;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [FAAnalyticsManager sharedManager].itemMakeStart = [NSDate date];
-    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Next" style:UIBarButtonItemStylePlain
                                    target:self
@@ -146,8 +144,6 @@ static CGSize AssetGridThumbnailSize;
                                               
                                               if (self.selectedImages.count == self.selectedIndex.count) {
                                                   
-                                                  [FAAnalyticsManager sharedManager].imageSource = kFAAnalyticsGalleryKey;
-                                                  
                                                   [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
                                               }
                                           }];
@@ -250,8 +246,6 @@ static CGSize AssetGridThumbnailSize;
 #pragma mark - UIImagePickerControllerDelegate -
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
-    [FAAnalyticsManager sharedManager].imageSource = kFAAnalyticsCameraKey;
     
     if (self.selectedImages == nil) {
         self.selectedImages = [NSMutableArray new];

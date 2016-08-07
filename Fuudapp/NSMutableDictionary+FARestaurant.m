@@ -19,46 +19,30 @@
             [self setObject:[restaurant objectForKey:@"name"] forKey:kFARestaurantNameKey];
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:kFARestaurantNameKey];
-            
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
-                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
-
         }
         
         @try {
             [self setObject:[restaurant objectForKey:@"formatted_address"] forKey:kFARestaurantAddressKey];
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:kFARestaurantAddressKey];
-            
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
-                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
-
         }
         
         @try {
             [self setObject:[NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] doubleValue]] forKey:kFARestaurantLatitudeKey];
         } @catch (NSException *exception) {
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
-                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
+
         }
         
         @try {
             [self setObject:[NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] doubleValue]] forKey:kFARestaurantLongitudeKey];
         } @catch (NSException *exception) {
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
-                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
+
         }
         
         @try {
             [self setObject:@[[restaurant objectForKey:@"formatted_phone_number"]] forKey:kFARestaurantPhoneNumberKey];
         } @catch (NSException *exception) {
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
-                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
+
         }
         
         @try {
@@ -87,9 +71,7 @@
             }
             [self setObject:array forKey:@"opening_hours"];
         } @catch (NSException *exception) {
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
-                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
+
         }
         
     }

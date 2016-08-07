@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class FALocalityPickerController;
+
 @protocol FALocalityPickerControllerDelegate <NSObject>
 
 -(void)FALocalityPickerController:(FALocalityPickerController*)controller didFinisheWithLocation:(NSString*)location;
