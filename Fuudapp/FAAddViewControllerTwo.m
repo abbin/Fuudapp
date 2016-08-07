@@ -96,13 +96,15 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     
-    if (self.itemArray == nil) {
-        self.itemArray = [NSMutableArray new];
-        [self.itemArray addObject: searchText];
-    }else{
-        [self.itemArray replaceObjectAtIndex:0 withObject:searchText];
-    }
-    [self.itemTableView reloadData];
+//    if (self.itemArray == nil) {
+//        self.itemArray = [NSMutableArray new];
+//        [self.itemArray addObject: searchText];
+//    }else{
+//        [self.itemArray replaceObjectAtIndex:0 withObject:searchText];
+//    }
+//    [self.itemTableView reloadData];
+    
+    
 }
 
 @end

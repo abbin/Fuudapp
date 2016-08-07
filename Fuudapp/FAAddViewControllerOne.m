@@ -12,8 +12,8 @@
 #import "FAAddOneCollectionViewCell.h"
 #import "FAAddViewControllerThree.h"
 #import <HCSStarRatingView/HCSStarRatingView.h>
-#import "FAAnalyticsManager.h"
 #import "FAConstants.h"
+#import "FAAnalyticsManager.h"
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
@@ -59,6 +59,8 @@
     self.navigationItem.leftBarButtonItem = cancel;
     
     self.ratingView.tintColor = [FAColor mainColor];
+    
+    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddItemKey parameters:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -340,6 +342,7 @@
 #pragma mark - FAAddViewControllerTwoDelegate -
 
 -(void)FAAddViewControllerTwo:(FAAddViewControllerTwo *)controller didFinishWithNewItem:(NSString *)itemName{
+    [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:YES];
     self.nameTextField.text = itemName;
 }
 

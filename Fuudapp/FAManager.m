@@ -26,6 +26,8 @@
 
 +(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images{
     
+    [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];
+    
     FIRDatabaseReference *ref = [[FIRDatabase database] reference];
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"MM"];
@@ -51,6 +53,10 @@
     // Errors only occur in the "Failure" case
     [uploadTask observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot) {
         if (snapshot.error != nil) {
+            
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                      parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
+                                                   kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
             
             switch (snapshot.error.code) {
                 case FIRStorageErrorCodeObjectNotFound:
@@ -88,6 +94,11 @@
             [uploadTask2 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot2) {
                 if (snapshot2.error != nil) {
                     
+                    [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                              parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
+                                                           kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+
+                    
                     switch (snapshot2.error.code) {
                         case FIRStorageErrorCodeObjectNotFound:
                             // File doesn't exist
@@ -122,6 +133,11 @@
                     
                     // Errors only occur in the "Failure" case
                     [uploadTask3 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot3) {
+                        
+                        [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                                  parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
+                                                               kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+
                         
                         if (snapshot3.error != nil) {
                             switch (snapshot3.error.code) {
@@ -159,11 +175,22 @@
                         [item setObject:restaurant forKey:kFAItemRestaurantKey];
                         [item setObject:imageArray forKey:kFAItemImagesKey];
                         [item setObject:itemKey forKey:kFAItemIdKey];
+                        [item setObject:[restaurant objectForKey:kFARestaurantLatitudeKey] forKey:kFARestaurantLatitudeKey];
+                        [item setObject:[restaurant objectForKey:kFARestaurantLongitudeKey] forKey:kFARestaurantLongitudeKey];
                         
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
                                                        [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
                         
                         [ref updateChildValues:childUpdates];
+                        
+                        [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
+                        [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
+                                                  parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                               kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                               kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
+                                                               kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                                               kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
+                                                               kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
                         
                         NSLog(@"All Uploads Finished");
                     }];
@@ -188,6 +215,15 @@
                     
                     [ref updateChildValues:childUpdates];
                     
+                    [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
+                    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
+                                              parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                           kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:2],
+                                                           kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                                           kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
+                                                           kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+                    
                     NSLog(@"All Uploads Finished");
                 }
             }];
@@ -211,6 +247,15 @@
                                            [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
             
             [ref updateChildValues:childUpdates];
+            
+            [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
+                                      parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                   kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                   kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:1],
+                                                   kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                                   kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
+                                                   kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
             
             NSLog(@"All Uploads Finished");
         }

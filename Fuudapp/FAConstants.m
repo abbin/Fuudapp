@@ -44,15 +44,51 @@ NSString *const kFAItemIdKey                        = @"item_id";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Restaurant -
 
-NSString *const kFARestaurantNameKey = @"restaurant_name";
-NSString *const kFARestaurantAddressKey = @"restaurant_address";
-NSString *const kFARestaurantLatitudeKey = @"restaurant_latitude";
-NSString *const kFARestaurantLongitudeKey = @"restaurant_longitude";
-NSString *const kFARestaurantPhoneNumberKey = @"restaurant_phone_number";
-NSString *const kFARestaurantWorkingHoursKey = @"restaurant_working_hours";
-NSString *const kFARestaurantIdKey = @"restaurant_id";
+NSString *const kFARestaurantNameKey                = @"restaurant_name";
+NSString *const kFARestaurantAddressKey             = @"restaurant_address";
+NSString *const kFARestaurantLatitudeKey            = @"restaurant_latitude";
+NSString *const kFARestaurantLongitudeKey           = @"restaurant_longitude";
+NSString *const kFARestaurantPhoneNumberKey         = @"restaurant_phone_number";
+NSString *const kFARestaurantWorkingHoursKey        = @"restaurant_working_hours";
+NSString *const kFARestaurantIdKey                  = @"restaurant_id";
 
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Analytics Events -
+
+NSString *const kFAAnalyticsAddPhotosKey            = @"add_photos";
+NSString *const kFAAnalyticsAddItemKey              = @"add_item";
+NSString *const kFAAnalyticsAddRestaurantKey        = @"add_restaurant";
+NSString *const kFAAnalyticsAddCompletedKey         = @"add_completed";
+NSString *const kFAAnalyticsFailureKey              = @"failure";
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Analytics Parameters Keys -
+
+NSString *const kFAAnalyticsNetworkTimeKey          = @"network_time";
+NSString *const kFAAnalyticsScreenTimeKey           = @"screen_time";
+NSString *const kFAAnalyticsImageCountKey           = @"image_count";
+NSString *const kFAAnalyticsImageSourceKey          = @"image_source";
+NSString *const kFAAnalyticsUserItemKey             = @"user_item";
+NSString *const kFAAnalyticsUserRestaurantKey       = @"user_restaurant";
+
+NSString *const kFAAnalyticsReasonKey               = @"reason";
+NSString *const kFAAnalyticsSectionKey              = @"section";
+
+NSString *const kFAAnalyticsSucessKey               = @"sucess";
+NSString *const kFAAnalyticsResultCountKey          = @"result_count";
+NSString *const kFAAnalyticsResultTimeKey           = @"result_time";
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Analytics Parameters Values-
+
+NSString *const kFAAnalyticsStorageTaskKey          = @"firebase_storage_task";
+NSString *const kFAAnalyticsInitRestaurantKey       = @"init_restaurant";
+NSString *const kFAAnalyticsRestaurantSearchKey       = @"restaurant_search";
 
 @end

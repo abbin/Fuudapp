@@ -112,10 +112,10 @@
             </objects>
             <point key="canvasLocation" x="2134.5" y="-320.5"/>
         </scene>
-        <!--Name and price-->
+        <!--Item-->
         <scene sceneID="jz8-Fr-9n7">
             <objects>
-                <viewController title="Name and price" automaticallyAdjustsScrollViewInsets="NO" id="w53-eN-92O" customClass="FAAddViewControllerOne" sceneMemberID="viewController">
+                <viewController title="Item" automaticallyAdjustsScrollViewInsets="NO" id="w53-eN-92O" customClass="FAAddViewControllerOne" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="H1g-6o-4C1"/>
                         <viewControllerLayoutGuide type="bottom" id="YPA-np-wpv"/>

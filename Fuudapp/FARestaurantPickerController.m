@@ -6,13 +6,12 @@
 //  Copyright © 2016 Fuudapp. All rights reserved.
 //
 
-
 #import "FAColor.h"
 #import "FAConstants.h"
 #import "AFNetworking.h"
-#import "FAAnalyticsManager.h"
 #import "FARestaurantPickerController.h"
 #import "NSMutableDictionary+FARestaurant.h"
+#import "FAAnalyticsManager.h"
 
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -66,6 +65,7 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self.dataTask cancel];
+    NSDate *start = [NSDate date];
     
     if (searchText.length>0) {
         
@@ -87,11 +87,33 @@
             if (!error) {
                 self.restArray = responseObject[@"results"];
                 
+                NSDate *end = [NSDate date];
+                NSMutableDictionary *parameter = [NSMutableDictionary new];
+                [parameter setObject:[NSNumber numberWithBool:YES] forKey:kFAAnalyticsSucessKey];
+                [parameter setObject:[NSNumber numberWithInteger:self.restArray.count] forKey:kFAAnalyticsResultCountKey];
+                [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                
+                [FAAnalyticsManager logSearchWithQuery:searchText
+                                      customAttributes:parameter];
+                
                 if (self.restArray.count==0) {
                     self.restArray = @[[NSString stringWithFormat:@"Add '%@' as new a restaurant",searchText]];
                 }
                 
                 [self.restTableView reloadData];
+            }
+            else{
+                if (error.code != -999) {
+                    NSDate *end = [NSDate date];
+                    NSMutableDictionary *parameter = [NSMutableDictionary new];
+                    [parameter setObject:[NSNumber numberWithBool:NO] forKey:kFAAnalyticsSucessKey];
+                    [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                    [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                    
+                    [FAAnalyticsManager logSearchWithQuery:searchText
+                                          customAttributes:parameter];
+                }
             }
         }];
         

@@ -124,6 +124,9 @@
     self.workingDayTagControl.tagPlaceholder = @"tap here";
     [self.tagControl reloadTagSubviews];
     [self.workingDayTagControl reloadTagSubviews];
+    
+    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddRestaurantKey parameters:nil];
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -185,6 +188,9 @@
                 [self.view endEditing:YES];
                 
                 [self dismissViewControllerAnimated:YES completion:^{
+                    
+                    [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
+                    
                     NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
                     NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
                     [FAManager saveItem:item andRestaurant:rest withImages:self.itemimages];
@@ -425,6 +431,8 @@
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithNewRestaurant:(NSString *)restaurantName{
     
+    [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:YES];
+    
     self.restaurantNameTextField.text = restaurantName;
     [UIView animateWithDuration:0.5 animations:^{
         self.addressSectionHeading.alpha = 1;
@@ -446,8 +454,10 @@
 }
 
 -(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
-    self.restaurantNameTextField.text = [restaurant objectForKey:kFARestaurantNameKey];
     
+    [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
+    
+    self.restaurantNameTextField.text = [restaurant objectForKey:kFARestaurantNameKey];
     [self dismissViewControllerAnimated:YES completion:^{
         NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
         [FAManager saveItem:item andRestaurant:restaurant withImages:self.itemimages];

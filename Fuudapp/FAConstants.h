@@ -52,4 +52,41 @@ FOUNDATION_EXPORT NSString *const kFARestaurantPhoneNumberKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantWorkingHoursKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantIdKey;
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Analytics Events -
+
+FOUNDATION_EXPORT NSString *const kFAAnalyticsAddPhotosKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsAddItemKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsAddRestaurantKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsAddCompletedKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsFailureKey;
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Analytics Parameters Keys -
+
+FOUNDATION_EXPORT NSString *const kFAAnalyticsNetworkTimeKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsScreenTimeKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsImageCountKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsImageSourceKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsUserItemKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsUserRestaurantKey;
+
+FOUNDATION_EXPORT NSString *const kFAAnalyticsReasonKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsSectionKey;
+
+FOUNDATION_EXPORT NSString *const kFAAnalyticsSucessKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsResultCountKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsResultTimeKey;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Analytics Parameters Values-
+
+FOUNDATION_EXPORT NSString *const kFAAnalyticsStorageTaskKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsInitRestaurantKey;
+FOUNDATION_EXPORT NSString *const kFAAnalyticsRestaurantSearchKey;
+
 @end
