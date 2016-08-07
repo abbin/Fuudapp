@@ -31,6 +31,7 @@ FOUNDATION_EXPORT NSString *const kFAStoragePathKey;
 #pragma mark - Item -
 
 FOUNDATION_EXPORT NSString *const kFAItemNameKey;
+FOUNDATION_EXPORT NSString *const kFAItemCappedNameKey;
 FOUNDATION_EXPORT NSString *const kFAItemPriceKey;
 FOUNDATION_EXPORT NSString *const kFAItemCurrencyKey;
 FOUNDATION_EXPORT NSString *const kFAItemDescriptionKey;

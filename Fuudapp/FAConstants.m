@@ -31,6 +31,7 @@ NSString *const kFAStoragePathKey                   = @"gs://fuudappdev.appspot.
 #pragma mark - Item -
 
 NSString *const kFAItemNameKey                      = @"item_name";
+NSString *const kFAItemCappedNameKey                = @"item_capped_name";
 NSString *const kFAItemPriceKey                     = @"item_price";
 NSString *const kFAItemCurrencyKey                  = @"item_currency";
 NSString *const kFAItemDescriptionKey               = @"item_description";

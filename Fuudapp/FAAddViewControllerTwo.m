@@ -8,11 +8,16 @@
 
 #import "FAAddViewControllerTwo.h"
 #import "FAColor.h"
+#import "FAConstants.h"
+
+@import FirebaseDatabase;
 
 @interface FAAddViewControllerTwo ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
 @property (strong, nonatomic) UISearchBar *searchBar;
-@property (strong, nonatomic) NSMutableArray *itemArray;
+@property (strong, nonatomic) NSArray *itemArray;
+@property (strong, nonatomic) FIRDatabaseReference *ref;
+
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 
 @end
@@ -36,6 +41,9 @@
     self.searchBar.delegate = self;
     self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeWords;
     self.navigationItem.titleView = self.searchBar;
+    
+    self.ref = [[[FIRDatabase database] reference]child:@"items"];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -66,9 +74,13 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    id item = [self.itemArray objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-    if (indexPath.row == self.itemArray.count-1) {
-        cell.textLabel.text = [NSString stringWithFormat:@"Add '%@' as a new item?",self.itemArray[indexPath.row]];
+    if ([item isKindOfClass:[NSDictionary class]]) {
+        cell.textLabel.text = [item objectForKey:kFAItemNameKey];
+        cell.detailTextLabel.text = [[item objectForKey:kFAItemRestaurantKey] objectForKey:kFARestaurantNameKey];
+    }else{
+        cell.textLabel.text = [NSString stringWithFormat:@"Add '%@' as a new item",item];
         cell.detailTextLabel.text = @"";
     }
     return cell;
@@ -80,11 +92,18 @@
 #pragma mark - UITableViewDelegate -
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.searchBar resignFirstResponder];
+    id item = [self.itemArray objectAtIndex:indexPath.row];
+
     [self dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(FAAddViewControllerTwo:didFinishWithNewItem:)]) {
-            [self.delegate FAAddViewControllerTwo:self didFinishWithNewItem:[self.itemArray objectAtIndex:indexPath.row]];
+        if ([item isKindOfClass:[NSDictionary class]]) {
+            if ([self.delegate respondsToSelector:@selector(FAAddViewControllerTwo:didFinishWithItem:)]) {
+                [self.delegate FAAddViewControllerTwo:self didFinishWithItem:item];
+            }
+        }else{
+            if ([self.delegate respondsToSelector:@selector(FAAddViewControllerTwo:didFinishWithNewItem:)]) {
+                [self.delegate FAAddViewControllerTwo:self didFinishWithNewItem:[self.itemArray objectAtIndex:indexPath.row]];
+            }
         }
     }];
 }
@@ -95,16 +114,27 @@
 #pragma mark - UISearchBarDelegate -
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    
-//    if (self.itemArray == nil) {
-//        self.itemArray = [NSMutableArray new];
-//        [self.itemArray addObject: searchText];
-//    }else{
-//        [self.itemArray replaceObjectAtIndex:0 withObject:searchText];
-//    }
-//    [self.itemTableView reloadData];
-    
-    
+    [self.ref removeAllObservers];
+    if (searchText.length>0) {
+        NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* nospacestring = [words componentsJoinedByString:@""];
+        
+        [[[[[self.ref queryOrderedByKey] queryLimitedToLast:10] queryStartingAtValue:[nospacestring lowercaseString]] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",[nospacestring lowercaseString]]]
+         observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
+             if (snapshot.value != [NSNull null]) {
+                 self.itemArray = [snapshot.value allValues];
+                 [self.itemTableView reloadData];
+             }
+             else{
+                 self.itemArray = @[searchText];
+                 [self.itemTableView reloadData];
+             }
+         }];
+    }
+    else{
+        self.itemArray = nil;
+        [self.itemTableView reloadData];
+    }
 }
 
 @end

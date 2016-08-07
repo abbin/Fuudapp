@@ -14,6 +14,7 @@
 -(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description rating:(NSNumber*)rating{
     self = [self init];
     if (self) {
+        [self setObject:[name lowercaseString] forKey:kFAItemCappedNameKey];
         [self setObject:name forKey:kFAItemNameKey];
         [self setObject:price forKey:kFAItemPriceKey];
         [self setObject:currency forKey:kFAItemCurrencyKey];

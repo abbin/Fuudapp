@@ -32,7 +32,7 @@
     [Fabric with:@[[Crashlytics class]]];
     [FIRApp configure];
     [GMSServices provideAPIKey:kFAGoogleMapsKey];
-    
+        
     return YES;
 }
 

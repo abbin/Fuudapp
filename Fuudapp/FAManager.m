@@ -243,7 +243,12 @@
             [item setObject:imageArray forKey:kFAItemImagesKey];
             [item setObject:itemKey forKey:kFAItemIdKey];
             
-            NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
+            NSString *itemName = [item objectForKey:kFAItemCappedNameKey];
+            
+            NSArray* words = [itemName componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString* trimmedString = [words componentsJoinedByString:@""];
+            
+            NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@%@",kFAItemPathKey,trimmedString,itemKey]: item,
                                            [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
             
             [ref updateChildValues:childUpdates];

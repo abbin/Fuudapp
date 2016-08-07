@@ -13,6 +13,7 @@
 @protocol FAAddViewControllerTwoDelegate <NSObject>
 
 -(void)FAAddViewControllerTwo:(FAAddViewControllerTwo*)controller didFinishWithNewItem:(NSString*)itemName;
+-(void)FAAddViewControllerTwo:(FAAddViewControllerTwo*)controller didFinishWithItem:(NSString*)itemName;
 
 @end
 
