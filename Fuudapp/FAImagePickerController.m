@@ -12,9 +12,9 @@
 #import "FAImagePickerCollectionViewCell.h"
 #import "FAAddViewControllerOne.h"
 #import "FAColor.h"
-#import <Crashlytics/Crashlytics.h>
+#import "FAAnalyticsManager.h"
 #import "FAConstants.h"
-@import FirebaseAnalytics;
+
 @import Photos;
 
 @interface FAImagePickerController ()<PHPhotoLibraryChangeObserver,UICollectionViewDelegateFlowLayout,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -23,7 +23,7 @@
 @property (nonatomic, strong) PHCachingImageManager *imageManager;
 @property (nonatomic, strong) NSMutableArray *selectedIndex;
 @property (nonatomic, strong) NSMutableArray *selectedImages;
-@property (strong, nonatomic) NSDate *start;
+
 @property CGRect previousPreheatRect;
 
 @end
@@ -36,7 +36,7 @@ static CGSize AssetGridThumbnailSize;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.start = [NSDate date];
+    [FAAnalyticsManager sharedManager].itemMakeStart = [NSDate date];
     
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Next" style:UIBarButtonItemStylePlain
@@ -79,9 +79,9 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    CGFloat scale = [UIScreen mainScreen].scale;
+//    CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cellSize = CGSizeMake(self.view.frame.size.width/3, self.view.frame.size.width/3);
-    AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
+    AssetGridThumbnailSize = CGSizeMake(cellSize.width, cellSize.height);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -93,7 +93,6 @@ static CGSize AssetGridThumbnailSize;
     if ([segue.identifier isEqualToString:@"FAAddViewControllerOneSegue"]) {
         FAAddViewControllerOne *vc = segue.destinationViewController;
         vc.imageArray = self.selectedImages;
-        vc.start = self.start;
     }
 }
 
@@ -147,11 +146,7 @@ static CGSize AssetGridThumbnailSize;
                                               
                                               if (self.selectedImages.count == self.selectedIndex.count) {
                                                   
-                                                  [Answers logCustomEventWithName:kFAAnalyticsImageSourceKey
-                                                                 customAttributes:@{kFAAnalyticsSourceKey:kFAAnalyticsGalleryKey}];
-                                                  
-                                                  [FIRAnalytics logEventWithName:kFAAnalyticsImageSourceKey
-                                                                      parameters:@{kFAAnalyticsSourceKey:kFAAnalyticsGalleryKey}];
+                                                  [FAAnalyticsManager sharedManager].imageSource = kFAAnalyticsGalleryKey;
                                                   
                                                   [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
                                               }
@@ -256,11 +251,7 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
-    [Answers logCustomEventWithName:kFAAnalyticsImageSourceKey
-                   customAttributes:@{kFAAnalyticsSourceKey:kFAAnalyticsCameraKey}];
-    
-    [FIRAnalytics logEventWithName:kFAAnalyticsImageSourceKey
-                        parameters:@{kFAAnalyticsSourceKey:kFAAnalyticsCameraKey}];
+    [FAAnalyticsManager sharedManager].imageSource = kFAAnalyticsCameraKey;
     
     if (self.selectedImages == nil) {
         self.selectedImages = [NSMutableArray new];

@@ -16,5 +16,4 @@
 @property (strong, nonatomic) NSString *itemcurrency;
 @property (strong, nonatomic) NSString *itemdescription;
 @property (strong, nonatomic) NSArray *itemimages;
-@property (strong, nonatomic) NSDate *start;
 @end

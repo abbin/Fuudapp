@@ -12,6 +12,7 @@
 		ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */; };
 		ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FE51D4F429F00854980 /* FALocalityPickerController.m */; };
 		ED482FEC1D4F7C5300854980 /* TLTagsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FEB1D4F7C5300854980 /* TLTagsControl.m */; };
+		ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED49ADBA1D55E1D0004B293A /* FAAnalyticsManager.m */; };
 		ED6570361D4B4E7A002B680E /* FAMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6570351D4B4E7A002B680E /* FAMapViewController.m */; };
 		ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */; };
 		ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ED74239E1D4A48B40030CE45 /* FAConstants.m */; };
@@ -48,6 +49,8 @@
 		ED482FE51D4F429F00854980 /* FALocalityPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALocalityPickerController.m; sourceTree = "<group>"; };
 		ED482FEA1D4F7C5300854980 /* TLTagsControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLTagsControl.h; sourceTree = "<group>"; };
 		ED482FEB1D4F7C5300854980 /* TLTagsControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLTagsControl.m; sourceTree = "<group>"; };
+		ED49ADB91D55E1D0004B293A /* FAAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAnalyticsManager.h; sourceTree = "<group>"; };
+		ED49ADBA1D55E1D0004B293A /* FAAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAnalyticsManager.m; sourceTree = "<group>"; };
 		ED6570341D4B4E7A002B680E /* FAMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAMapViewController.h; sourceTree = "<group>"; };
 		ED6570351D4B4E7A002B680E /* FAMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAMapViewController.m; sourceTree = "<group>"; };
 		ED7423961D4A05160030CE45 /* FARestaurantPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARestaurantPickerController.h; sourceTree = "<group>"; };
@@ -173,6 +176,8 @@
 			children = (
 				ED044A061D53605100CF57DF /* FAManager.h */,
 				ED044A071D53605100CF57DF /* FAManager.m */,
+				ED49ADB91D55E1D0004B293A /* FAAnalyticsManager.h */,
+				ED49ADBA1D55E1D0004B293A /* FAAnalyticsManager.m */,
 				ED74239D1D4A48B40030CE45 /* FAConstants.h */,
 				ED74239E1D4A48B40030CE45 /* FAConstants.m */,
 				EDA5FE321D54D9CE00BD4F57 /* Restaurant */,
@@ -511,6 +516,7 @@
 				EDB89AE71D473E3C00EE4BBB /* UICollectionView+Convenience.m in Sources */,
 				EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */,
 				EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */,
+				ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */,
 				ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */,
 				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
 				ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */,

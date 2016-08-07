@@ -11,8 +11,7 @@
 #import "AFNetworking.h"
 #import "FAConstants.h"
 #import "NSMutableDictionary+FARestaurant.h"
-#import <Crashlytics/Crashlytics.h>
-@import FirebaseAnalytics;
+#import "FAAnalyticsManager.h"
 
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -81,22 +80,13 @@
             if (!error) {
                 self.restArray = responseObject[@"results"];
                 
-                NSDictionary *dict = @{kFAAnalyticsCategoryKey : kFARestaurantNameKey,
-                                       kFAAnalyticsSucessKey : @"YES",
-                                       kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
-                                       kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
+                NSMutableDictionary *para = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                             kFARestaurantNameKey,kFAAnalyticsSectionKey,
+                                             @"YES",kFAAnalyticsSucessKey,
+                                             [NSNumber numberWithDouble:distanceBetweenDates],kFAAnalyticsTimeKey,
+                                             [NSNumber numberWithInteger:self.restArray.count],kFAAnalyticsResultsKey,nil];
                 
-                [Answers logSearchWithQuery:searchText
-                           customAttributes:dict];
-                
-                NSDictionary *dict2 = @{kFIRParameterSearchTerm : searchText,
-                                        kFAAnalyticsCategoryKey : kFARestaurantNameKey,
-                                       kFAAnalyticsSucessKey : @"YES",
-                                       kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
-                                       kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
-                
-                [FIRAnalytics logEventWithName:kFIREventSearch
-                                    parameters:dict2];
+                [FAAnalyticsManager logSearchWithQuery:searchText customAttributes:para];
                 
                 if (self.restArray.count==0) {
                     self.restArray = @[[NSString stringWithFormat:@"Add '%@' as new a restaurant",searchText]];
@@ -105,22 +95,15 @@
             }
             else{
                 if (error.code != -999) {
-                    NSDictionary *dict = @{kFAAnalyticsCategoryKey : kFARestaurantNameKey,
-                                           kFAAnalyticsSucessKey : @"NO",
-                                           kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
-                                           kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
                     
-                    [Answers logSearchWithQuery:searchText
-                               customAttributes:dict];
+                    NSMutableDictionary *para = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                 kFARestaurantNameKey,kFAAnalyticsSectionKey,
+                                                 @"NO",kFAAnalyticsSucessKey,
+                                                 [NSNumber numberWithDouble:distanceBetweenDates],kFAAnalyticsTimeKey,
+                                                 [NSNumber numberWithInteger:self.restArray.count],kFAAnalyticsResultsKey,nil];
                     
-                    NSDictionary *dict2 = @{kFIRParameterSearchTerm : searchText,
-                                            kFAAnalyticsCategoryKey : kFARestaurantNameKey,
-                                            kFAAnalyticsSucessKey : @"NO",
-                                            kFAAnalyticsTimeKey : [NSNumber numberWithDouble:distanceBetweenDates],
-                                            kFAAnalyticsResultsKey: [NSNumber numberWithInteger:self.restArray.count]};
+                    [FAAnalyticsManager logSearchWithQuery:searchText customAttributes:para];
                     
-                    [FIRAnalytics logEventWithName:kFIREventSearch
-                                        parameters:dict2];
                 }
             }
         }];

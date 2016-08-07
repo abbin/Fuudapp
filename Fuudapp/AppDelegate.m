@@ -8,8 +8,10 @@
 
 #import "FAColor.h"
 #import "AppDelegate.h"
+
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+
 @import GoogleMaps;
 @import Firebase;
 
@@ -21,6 +23,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     [[UINavigationBar appearance] setBarTintColor:[FAColor whiteColor]];
     [[UITabBar appearance] setTintColor:[FAColor mainColor]];
     [[UIBarButtonItem appearance] setTintColor:[FAColor blackColor]];

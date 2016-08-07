@@ -7,7 +7,6 @@
 //
 
 #import "TLTagsControl.h"
-#import "FAColor.h"
 
 @interface TLTagsControl () <UITextFieldDelegate, UIGestureRecognizerDelegate>
 
@@ -81,7 +80,6 @@
     tagInputField_.delegate = self;
     tagInputField_.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
     tagInputField_.placeholder = @"";
-    tagInputField_.autocorrectionType = UITextAutocorrectionTypeNo;
     tagInputField_.keyboardType = UIKeyboardTypePhonePad;
     
     if (_mode == TLTagsControlModeEdit) {

@@ -12,6 +12,8 @@
 #import "FAAddOneCollectionViewCell.h"
 #import "FAAddViewControllerThree.h"
 #import <HCSStarRatingView/HCSStarRatingView.h>
+#import "FAAnalyticsManager.h"
+#import "FAConstants.h"
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
@@ -42,6 +44,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [FAAnalyticsManager logEventWithName:kFAAnalyticsItemMakeStartedKey parameters:nil];
+    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Next" style:UIBarButtonItemStylePlain
                              target:self
@@ -68,7 +72,6 @@
     else if ([segue.identifier isEqualToString:@"FAAddViewControllerThreeSegue"]){
         FAAddViewControllerThree *vc = segue.destinationViewController;
         vc.itemName = self.nameTextField.text;
-        vc.start = self.start;
         
         NSString *newStr = [self.priceTextField.text substringFromIndex:1];
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];

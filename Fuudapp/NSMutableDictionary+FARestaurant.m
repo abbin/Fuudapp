@@ -8,9 +8,7 @@
 
 #import "NSMutableDictionary+FARestaurant.h"
 #import "FAConstants.h"
-#import <Crashlytics/Crashlytics.h>
-
-@import FirebaseAnalytics;
+#import "FAAnalyticsManager.h"
 
 @implementation NSMutableDictionary (FARestaurant)
 
@@ -21,52 +19,46 @@
             [self setObject:[restaurant objectForKey:@"name"] forKey:kFARestaurantNameKey];
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:kFARestaurantNameKey];
-            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
             
-            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
+                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
+
         }
         
         @try {
             [self setObject:[restaurant objectForKey:@"formatted_address"] forKey:kFARestaurantAddressKey];
         } @catch (NSException *exception) {
             [self setObject:@"" forKey:kFARestaurantAddressKey];
-            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
             
-            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
+                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
+
         }
         
         @try {
             [self setObject:[NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] doubleValue]] forKey:kFARestaurantLatitudeKey];
         } @catch (NSException *exception) {
-            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
-            
-            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
+                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
         }
         
         @try {
             [self setObject:[NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] doubleValue]] forKey:kFARestaurantLongitudeKey];
         } @catch (NSException *exception) {
-            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
-            
-            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
+                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
         }
         
         @try {
             [self setObject:@[[restaurant objectForKey:@"formatted_phone_number"]] forKey:kFARestaurantPhoneNumberKey];
         } @catch (NSException *exception) {
-            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
-            
-            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
+                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
         }
         
         @try {
@@ -95,11 +87,9 @@
             }
             [self setObject:array forKey:@"opening_hours"];
         } @catch (NSException *exception) {
-            [Answers logCustomEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                           customAttributes:@{kFAAnalyticsReasonKey:exception.reason}];
-            
-            [FIRAnalytics logEventWithName:kFAAnalyticsGoogleRestaurantExceptionKey
-                                parameters:@{kFAAnalyticsReasonKey:exception.reason}];
+            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                      parameters:@{kFAAnalyticsReasonKey:exception.reason,
+                                                   kFAAnalyticsSectionKey: kFAAnalyticsGoogleRestaurantKey}];
         }
         
     }
@@ -109,7 +99,6 @@
 -(instancetype)initRestaurantWithName:(NSString*)name address:(NSString*)address latitude:(NSNumber*)latitude longitude:(NSNumber*)longitude phonumber:(NSMutableArray*)phoneNumber workingDays:(NSArray*)workingDays from:(NSString*)from till:(NSString*)till{
     self = [self init];
     if (self) {
-        [self setObject:[NSNumber numberWithBool:YES] forKey:kFAUserAddedRestaurantKey];
         [self setObject:name forKey:kFARestaurantNameKey];
         [self setObject:address forKey:kFARestaurantAddressKey];
         [self setObject:latitude forKey:kFARestaurantLatitudeKey];

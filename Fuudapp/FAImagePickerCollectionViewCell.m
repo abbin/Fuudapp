@@ -7,7 +7,6 @@
 //
 
 #import "FAImagePickerCollectionViewCell.h"
-#import "FAColor.h"
 
 @implementation FAImagePickerCollectionViewCell
 
