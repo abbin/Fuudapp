@@ -50,6 +50,9 @@ FOUNDATION_EXPORT NSString *const kFAItemDescriptionKey;
 FOUNDATION_EXPORT NSString *const kFAItemRestaurantKey;
 FOUNDATION_EXPORT NSString *const kFAItemRatingKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesURLKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesTimeStampKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesVoteKey;
 FOUNDATION_EXPORT NSString *const kFAItemIdKey;
 
 

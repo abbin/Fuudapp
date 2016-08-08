@@ -10,6 +10,7 @@
 #import "FAColor.h"
 #import "FAConstants.h"
 #import "FAAnalyticsManager.h"
+#import "FAManager.h"
 
 #import <HCSStarRatingView/HCSStarRatingView.h>
 
@@ -54,7 +55,7 @@
     if (self.ratingView.value>0 && self.reviewTextView.text.length>0){
         [self.reviewTextView resignFirstResponder];
         [self dismissViewControllerAnimated:YES completion:^{
-            
+            [FAManager saveReview:self.reviewTextView.text forItem:self.itemObject withImages:self.selectedImages];
         }];
     }
 }

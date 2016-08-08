@@ -11,6 +11,6 @@
 @interface FAReviewViewController : UIViewController
 
 @property (strong, nonatomic) NSArray *selectedImages;
-@property (strong, nonatomic) NSDictionary *itemObject;
+@property (strong, nonatomic) NSMutableDictionary *itemObject;
 
 @end
