@@ -9,17 +9,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class FARestaurantPickerController;
-
-@protocol FARestaurantPickerControllerDelegate <NSObject>
-
--(void)FARestaurantPickerController:(FARestaurantPickerController*)controller didFinishWithRestaurant:(NSMutableDictionary*)restaurant;
--(void)FARestaurantPickerController:(FARestaurantPickerController*)controller didFinishWithNewRestaurant:(NSString*)restaurantName;
-
-@end
-
 @interface FARestaurantPickerController : UIViewController
 
-@property id <FARestaurantPickerControllerDelegate> delegate;
+@property (strong, nonatomic) NSMutableDictionary *itemObject;
+@property (strong, nonatomic) NSArray *selectedImages;
 
 @end

@@ -32,7 +32,7 @@
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
 
-@interface FAAddViewControllerThree ()<UITextFieldDelegate,FARestaurantPickerControllerDelegate,FAMapViewControllerDelegate,FALocalityPickerControllerDelegate,TLTagsControlDelegate,FAWorkingDaysViewControllerDelegate>
+@interface FAAddViewControllerThree ()<UITextFieldDelegate,FAMapViewControllerDelegate,FALocalityPickerControllerDelegate,TLTagsControlDelegate,FAWorkingDaysViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *fromTextField;
@@ -76,21 +76,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.addressSectionHeading.alpha = 0;
-    self.addressContainerView.alpha = 0;
-    self.localitySectionHeader.alpha = 0;
-    self.localityContainerView.alpha = 0;
-    self.coordinatesSectionHeader.alpha = 0;
-    self.coordinatesContainerView.alpha = 0;
-    self.phoneNumberSectionHeading.alpha = 0;
-    self.phoneNumberContainerView.alpha = 0;
-    self.workingDaysSectionHeader.alpha = 0;
-    self.workingDaysContainerView.alpha = 0;
-    self.workingTimeSectionHeader.alpha = 0;
-    self.fromSectionHeader.alpha = 0;
-    self.tillSectionHeader.alpha = 0;
-    self.workingFromContainerView.alpha = 0;
-    self.workingTillContainerView.alpha = 0;
+    self.restaurantNameTextField.text = self.restName;
+    
+    [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:YES];
     
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Submit" style:UIBarButtonItemStylePlain
@@ -124,18 +112,10 @@
     self.workingDayTagControl.tagPlaceholder = @"tap here";
     [self.tagControl reloadTagSubviews];
     [self.workingDayTagControl reloadTagSubviews];
-    
-    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddRestaurantKey parameters:nil];
-    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"FARestaurantPickerControllerSegue"]) {
-        UINavigationController *nav = segue.destinationViewController;
-        FARestaurantPickerController *vc = nav.viewControllers[0];
-        vc.delegate = self;
-    }
-    else if ([segue.identifier isEqualToString:@"FAMapViewControllerSegue"]){
+    if ([segue.identifier isEqualToString:@"FAMapViewControllerSegue"]){
         UINavigationController *nav = segue.destinationViewController;
         FAMapViewController *vc = nav.viewControllers[0];
         vc.delegate = self;
@@ -189,11 +169,8 @@
                 
                 [self dismissViewControllerAnimated:YES completion:^{
                     
-                    [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
-                    
-                    NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
                     NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
-                    [FAManager saveItem:item andRestaurant:rest withImages:self.itemimages];
+                    [FAManager saveItem:self.itemobject andRestaurant:rest withImages:self.selectedImages];
                 }];
             }
             else{
@@ -206,9 +183,8 @@
         else{
             [self.view endEditing:YES];
             [self dismissViewControllerAnimated:YES completion:^{
-                NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
                 NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
-                [FAManager saveItem:item andRestaurant:rest withImages:self.itemimages];
+                [FAManager saveItem:self.itemobject andRestaurant:rest withImages:self.selectedImages];
             }];
         }
     }
@@ -399,8 +375,6 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if (textField.tag == 0) {
-        [self.view endEditing:YES];
-        [self performSegueWithIdentifier:@"FARestaurantPickerControllerSegue" sender:self];
         return NO;
     }
     else if (textField.tag == 1){
@@ -422,46 +396,6 @@
     else{
         return YES;
     }
-}
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - FARestaurantPickerControllerDelegate -
-
--(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithNewRestaurant:(NSString *)restaurantName{
-    
-    [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:YES];
-    
-    self.restaurantNameTextField.text = restaurantName;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.addressSectionHeading.alpha = 1;
-        self.addressContainerView.alpha = 1;
-        self.localitySectionHeader.alpha = 1;
-        self.localityContainerView.alpha = 1;
-        self.coordinatesSectionHeader.alpha = 1;
-        self.coordinatesContainerView.alpha = 1;
-        self.phoneNumberSectionHeading.alpha = 1;
-        self.phoneNumberContainerView.alpha = 1;
-        self.workingDaysSectionHeader.alpha = 1;
-        self.workingDaysContainerView.alpha = 1;
-        self.workingTimeSectionHeader.alpha = 1;
-        self.fromSectionHeader.alpha = 1;
-        self.tillSectionHeader.alpha = 1;
-        self.workingFromContainerView.alpha = 1;
-        self.workingTillContainerView.alpha = 1;
-    }];
-}
-
--(void)FARestaurantPickerController:(FARestaurantPickerController *)controller didFinishWithRestaurant:(NSMutableDictionary *)restaurant{
-    
-    [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
-    
-    self.restaurantNameTextField.text = [restaurant objectForKey:kFARestaurantNameKey];
-    [self dismissViewControllerAnimated:YES completion:^{
-        NSMutableDictionary *item = [[NSMutableDictionary alloc]initItemWithName:self.itemName price:self.itemPrice currency:self.itemcurrency description:self.itemdescription rating:self.itemRating];
-        [FAManager saveItem:item andRestaurant:restaurant withImages:self.itemimages];
-    }];
 }
 
 

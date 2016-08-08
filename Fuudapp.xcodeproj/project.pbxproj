@@ -10,6 +10,7 @@
 		184D8283C4BE93E9388FF949 /* Pods_Fuudapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */; };
 		ED044A081D53605100CF57DF /* FAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED044A071D53605100CF57DF /* FAManager.m */; };
 		ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */; };
+		ED3AA5181D586493004A27B1 /* FAReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED3AA5171D586493004A27B1 /* FAReviewViewController.m */; };
 		ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FE51D4F429F00854980 /* FALocalityPickerController.m */; };
 		ED482FEC1D4F7C5300854980 /* TLTagsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FEB1D4F7C5300854980 /* TLTagsControl.m */; };
 		ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED49ADBA1D55E1D0004B293A /* FAAnalyticsManager.m */; };
@@ -45,6 +46,8 @@
 		ED044A061D53605100CF57DF /* FAManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAManager.h; sourceTree = "<group>"; };
 		ED044A071D53605100CF57DF /* FAManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAManager.m; sourceTree = "<group>"; };
 		ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info(live).plist"; sourceTree = "<group>"; };
+		ED3AA5161D586493004A27B1 /* FAReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAReviewViewController.h; sourceTree = "<group>"; };
+		ED3AA5171D586493004A27B1 /* FAReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAReviewViewController.m; sourceTree = "<group>"; };
 		ED482FE41D4F429F00854980 /* FALocalityPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALocalityPickerController.h; sourceTree = "<group>"; };
 		ED482FE51D4F429F00854980 /* FALocalityPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALocalityPickerController.m; sourceTree = "<group>"; };
 		ED482FEA1D4F7C5300854980 /* TLTagsControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLTagsControl.h; sourceTree = "<group>"; };
@@ -209,6 +212,8 @@
 			children = (
 				ED8D6DF31D46552A00CA8777 /* FirstViewController.h */,
 				ED8D6DF41D46552A00CA8777 /* FirstViewController.m */,
+				ED3AA5161D586493004A27B1 /* FAReviewViewController.h */,
+				ED3AA5171D586493004A27B1 /* FAReviewViewController.m */,
 				EDA5FE351D54DA6000BD4F57 /* Add */,
 			);
 			name = Nearby;
@@ -504,6 +509,7 @@
 				ED482FEC1D4F7C5300854980 /* TLTagsControl.m in Sources */,
 				EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */,
 				ED8D6DF81D46552A00CA8777 /* SecondViewController.m in Sources */,
+				ED3AA5181D586493004A27B1 /* FAReviewViewController.m in Sources */,
 				EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */,
 				EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */,
 				ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */,

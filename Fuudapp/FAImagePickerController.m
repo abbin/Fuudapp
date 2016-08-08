@@ -10,7 +10,7 @@
 #import "FAImagePickerController.h"
 #import "UICollectionView+Convenience.h"
 #import "FAImagePickerCollectionViewCell.h"
-#import "FAAddViewControllerOne.h"
+#import "FAAddViewControllerTwo.h"
 #import "FAColor.h"
 #import "FAConstants.h"
 #import "FAAnalyticsManager.h"
@@ -92,9 +92,9 @@ static CGSize AssetGridThumbnailSize;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"FAAddViewControllerOneSegue"]) {
-        FAAddViewControllerOne *vc = segue.destinationViewController;
-        vc.imageArray = self.selectedImages;
+    if ([segue.identifier isEqualToString:@"FAAddViewControllerTwoSegue"]) {
+        FAAddViewControllerTwo *vc = segue.destinationViewController;
+        vc.selectedImages = self.selectedImages;
     }
 }
 
@@ -148,7 +148,7 @@ static CGSize AssetGridThumbnailSize;
                                               
                                               if (self.selectedImages.count == self.selectedIndex.count) {
                                                   [FAAnalyticsManager sharedManager].imageSource = FAAnalyticsImageSourceGallery;
-                                                  [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
+                                                  [self performSegueWithIdentifier:@"FAAddViewControllerTwoSegue" sender:self];
                                               }
                                           }];
         }
@@ -273,14 +273,14 @@ static CGSize AssetGridThumbnailSize;
                                                   if (self.selectedImages.count == self.selectedIndex.count) {
                                                       [self.selectedImages addObject:chosenImage];
                                                       [FAAnalyticsManager sharedManager].imageSource = FAAnalyticsImageSourceCamera;
-                                                      [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
+                                                      [self performSegueWithIdentifier:@"FAAddViewControllerTwoSegue" sender:self];
                                                   }
                                               }];
             }
         }else{
             [self.selectedImages addObject:chosenImage];
             [FAAnalyticsManager sharedManager].imageSource = FAAnalyticsImageSourceCamera;
-            [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
+            [self performSegueWithIdentifier:@"FAAddViewControllerTwoSegue" sender:self];
         }
     }];
     

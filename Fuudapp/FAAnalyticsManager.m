@@ -50,7 +50,6 @@
     self.networkTimeEnd = nil;
     self.screenTimeStart = nil;
     self.screenTimeEnd = nil;
-    self.imageCount = nil;
     self.userItem = nil;
     self.userRestaurant = nil;
 }

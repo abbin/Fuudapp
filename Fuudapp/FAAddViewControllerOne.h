@@ -10,6 +10,7 @@
 
 @interface FAAddViewControllerOne : UIViewController
 
-@property (nonatomic, strong) NSArray *imageArray;
+@property (nonatomic, strong) NSArray *selectedImages;
+@property (nonatomic, strong) NSString *itemName;
 
 @end

@@ -9,14 +9,19 @@
 #import "FAAddViewControllerTwo.h"
 #import "FAColor.h"
 #import "FAConstants.h"
+#import "FAReviewViewController.h"
+#import "FAAddViewControllerOne.h"
+#import "FAAnalyticsManager.h"
 
 @import FirebaseDatabase;
 
 @interface FAAddViewControllerTwo ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
-@property (strong, nonatomic) UISearchBar *searchBar;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *itemArray;
 @property (strong, nonatomic) FIRDatabaseReference *ref;
+@property (strong, nonatomic) id selectedItem;
 
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 
@@ -26,29 +31,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *next = [[UIBarButtonItem alloc]
-                             initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *back = [[UIBarButtonItem alloc]
+                             initWithTitle:@"Back" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(cancelButtonClicked:)];
-    [next setTintColor:[FAColor blackColor]];
-    self.navigationItem.rightBarButtonItem = next;
+    [back setTintColor:[FAColor blackColor]];
+    self.navigationItem.leftBarButtonItem = back;
     [self.navigationItem setHidesBackButton:YES];
-    
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-100, 44)];
-    [self.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
-    [self.searchBar setTintColor:[FAColor mainColor]];
-    self.searchBar.placeholder = @"type name here";
-    self.searchBar.delegate = self;
-    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeWords;
-    self.navigationItem.titleView = self.searchBar;
     
     self.ref = [[[FIRDatabase database] reference]child:@"items"];
     
+    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddItemKey parameters:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.searchBar becomeFirstResponder];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"FAReviewViewControllerSegue"]) {
+        FAReviewViewController *vc = segue.destinationViewController;
+        vc.selectedImages = self.selectedImages;
+        vc.itemObject = self.selectedItem;
+    }
+    else if ([segue.identifier isEqualToString:@"FAAddViewControllerOneSegue"]){
+        FAAddViewControllerOne *vc = segue.destinationViewController;
+        vc.selectedImages = self.selectedImages;
+        vc.itemName = self.selectedItem;
+    }
 }
 
 
@@ -58,7 +69,7 @@
 
 - (void)cancelButtonClicked:(id)sender {
     [self.searchBar resignFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -92,20 +103,17 @@
 #pragma mark - UITableViewDelegate -
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.searchBar resignFirstResponder];
-    id item = [self.itemArray objectAtIndex:indexPath.row];
-
-    [self dismissViewControllerAnimated:YES completion:^{
-        if ([item isKindOfClass:[NSDictionary class]]) {
-            if ([self.delegate respondsToSelector:@selector(FAAddViewControllerTwo:didFinishWithItem:)]) {
-                [self.delegate FAAddViewControllerTwo:self didFinishWithItem:item];
-            }
-        }else{
-            if ([self.delegate respondsToSelector:@selector(FAAddViewControllerTwo:didFinishWithNewItem:)]) {
-                [self.delegate FAAddViewControllerTwo:self didFinishWithNewItem:[self.itemArray objectAtIndex:indexPath.row]];
-            }
-        }
-    }];
+    self.selectedItem = [self.itemArray objectAtIndex:indexPath.row];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([self.selectedItem isKindOfClass:[NSDictionary class]]) {
+        [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:NO];
+        [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
+        [self performSegueWithIdentifier:@"FAReviewViewControllerSegue" sender:self];
+    }
+    else{
+        [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:YES];
+        [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
+    }
 }
 
 
@@ -115,6 +123,8 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self.ref removeAllObservers];
+    NSDate *start = [NSDate date];
+    
     if (searchText.length>0) {
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
@@ -124,8 +134,30 @@
              if (snapshot.value != [NSNull null]) {
                  self.itemArray = [snapshot.value allValues];
                  [self.itemTableView reloadData];
+                 
+                 NSDate *end = [NSDate date];
+                 NSMutableDictionary *parameter = [NSMutableDictionary new];
+                 [parameter setObject:[NSNumber numberWithBool:YES] forKey:kFAAnalyticsSucessKey];
+                 [parameter setObject:[NSNumber numberWithInteger:self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
+                 [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                 [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                 
+                 [FAAnalyticsManager logSearchWithQuery:searchText
+                                       customAttributes:parameter];
+                 
              }
              else{
+                 
+                 NSDate *end = [NSDate date];
+                 NSMutableDictionary *parameter = [NSMutableDictionary new];
+                 [parameter setObject:[NSNumber numberWithBool:YES] forKey:kFAAnalyticsSucessKey];
+                 [parameter setObject:[NSNumber numberWithInteger:self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
+                 [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                 [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                 
+                 [FAAnalyticsManager logSearchWithQuery:searchText
+                                       customAttributes:parameter];
+                 
                  self.itemArray = @[searchText];
                  [self.itemTableView reloadData];
              }

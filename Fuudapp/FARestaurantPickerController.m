@@ -12,14 +12,17 @@
 #import "FARestaurantPickerController.h"
 #import "NSMutableDictionary+FARestaurant.h"
 #import "FAAnalyticsManager.h"
+#import "FAAddViewControllerThree.h"
+#import "FAManager.h"
 
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *restTableView;
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
 @property (strong, nonatomic) NSArray *restArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
-
+@property (strong, nonatomic) id selectedRest;
 @end
 
 @implementation FARestaurantPickerController
@@ -27,25 +30,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
-                             initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
+                             initWithTitle:@"Back" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(cancelButtonClicked:)];
     [next setTintColor:[FAColor blackColor]];
-    self.navigationItem.rightBarButtonItem = next;
+    self.navigationItem.leftBarButtonItem = next;
     [self.navigationItem setHidesBackButton:YES];
     
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-100, 44)];
-    [self.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
-    [self.searchBar setTintColor:[FAColor mainColor]];
-    self.searchBar.placeholder = @"type restaurant name here";
-    self.searchBar.delegate = self;
-    self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeWords;
-    self.navigationItem.titleView = self.searchBar;
+    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddRestaurantKey parameters:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self.searchBar becomeFirstResponder];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"FAAddViewControllerThreeSegue"]) {
+        FAAddViewControllerThree *vc = segue.destinationViewController;
+        vc.itemobject = self.itemObject;
+        vc.selectedImages = self.selectedImages;
+        vc.restName = self.searchBar.text;
+    }
 }
 
 
@@ -54,8 +60,7 @@
 #pragma mark - Action -
 
 - (void)cancelButtonClicked:(id)sender {
-    [self.searchBar resignFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -171,11 +176,8 @@
     [self.dataTask cancel];
     if ([[self.restArray objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
         [self.searchBar resignFirstResponder];
-        [self dismissViewControllerAnimated:YES completion:^{
-            if ([self.delegate respondsToSelector:@selector(FARestaurantPickerController:didFinishWithNewRestaurant:)]) {
-                [self.delegate FARestaurantPickerController:self didFinishWithNewRestaurant:self.searchBar.text];
-            }
-        }];
+        self.selectedRest = self.searchBar.text;
+        [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
     }
     else{
         NSString *placeID = [[self.restArray objectAtIndex:indexPath.row] objectForKey:@"place_id"];
@@ -189,12 +191,11 @@
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
-                NSMutableDictionary *restObj = [[NSMutableDictionary alloc]initWithRestaurant:[responseObject objectForKey:@"result"]];
+                self.selectedRest = [[NSMutableDictionary alloc]initWithRestaurant:[responseObject objectForKey:@"result"]];
                 [self.searchBar resignFirstResponder];
+                 [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
                 [self dismissViewControllerAnimated:YES completion:^{
-                    if ([self.delegate respondsToSelector:@selector(FARestaurantPickerController:didFinishWithRestaurant:)]) {
-                        [self.delegate FARestaurantPickerController:self didFinishWithRestaurant:restObj];
-                    }
+                    [FAManager saveItem:self.itemObject andRestaurant:self.selectedRest withImages:self.selectedImages];
                 }];
             }
         }];

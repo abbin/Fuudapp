@@ -27,6 +27,7 @@
 +(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images{
     
     [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];
+    [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
     
     FIRDatabaseReference *ref = [[FIRDatabase database] reference];
     NSDateFormatter *df = [[NSDateFormatter alloc] init];

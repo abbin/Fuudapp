@@ -8,17 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class FAAddViewControllerTwo;
-
-@protocol FAAddViewControllerTwoDelegate <NSObject>
-
--(void)FAAddViewControllerTwo:(FAAddViewControllerTwo*)controller didFinishWithNewItem:(NSString*)itemName;
--(void)FAAddViewControllerTwo:(FAAddViewControllerTwo*)controller didFinishWithItem:(NSString*)itemName;
-
-@end
-
 @interface FAAddViewControllerTwo : UIViewController
 
-@property id <FAAddViewControllerTwoDelegate> delegate;
+@property (strong, nonatomic) NSArray *selectedImages;
 
 @end

@@ -32,7 +32,6 @@ typedef NS_ENUM(NSInteger, FAAnalyticsImageSource){
 @property (strong, nonatomic,nullable) NSDate *networkTimeEnd;
 @property (strong, nonatomic,nullable) NSDate *screenTimeStart;
 @property (strong, nonatomic,nullable) NSDate *screenTimeEnd;
-@property (strong, nonatomic,nullable) NSNumber *imageCount;
 @property (strong, nonatomic,nullable) NSNumber *userItem;
 @property (strong, nonatomic,nullable) NSNumber *userRestaurant;
 @property (assign, nonatomic) NSInteger imageSource;

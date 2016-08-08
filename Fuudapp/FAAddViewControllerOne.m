@@ -8,26 +8,14 @@
 
 #import "FAColor.h"
 #import "FAAddViewControllerOne.h"
-#import "FAAddViewControllerTwo.h"
 #import "FAAddOneCollectionViewCell.h"
-#import "FAAddViewControllerThree.h"
 #import <HCSStarRatingView/HCSStarRatingView.h>
 #import "FAConstants.h"
 #import "FAAnalyticsManager.h"
+#import "FARestaurantPickerController.h"
+#import "NSMutableDictionary+FAItem.h"
 
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-
-#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
-#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
-#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
-#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
-
-#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
-#define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
-#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
-#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
-
-@interface FAAddViewControllerOne ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextViewDelegate,UITextFieldDelegate,FAAddViewControllerTwoDelegate>
+@interface FAAddViewControllerOne ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextViewDelegate,UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *priceTextField;
@@ -60,37 +48,27 @@
     
     self.ratingView.tintColor = [FAColor mainColor];
     
-    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddItemKey parameters:nil];
+    self.nameTextField.text = self.itemName;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"FAAddViewControllerTwoSegue"]) {
-        UINavigationController *nav = segue.destinationViewController;
-        FAAddViewControllerTwo *vc = nav.viewControllers[0];
-        vc.delegate = self;
-    }
-    else if ([segue.identifier isEqualToString:@"FAAddViewControllerThreeSegue"]){
-        FAAddViewControllerThree *vc = segue.destinationViewController;
-        vc.itemName = self.nameTextField.text;
+    if ([segue.identifier isEqualToString:@"FARestaurantPickerControllerSegue"]){
+        FARestaurantPickerController *vc = segue.destinationViewController;
         
         NSString *newStr = [self.priceTextField.text substringFromIndex:1];
         NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-        NSNumber *myNumber = [f numberFromString:newStr];
-        
-        vc.itemPrice = myNumber;
-        if ([self.descriptionTextView.text isEqualToString:@"type here"]) {
-            vc.itemdescription = @"";
-        }
-        else{
-            vc.itemdescription = self.descriptionTextView.text;
-        }
-        vc.itemRating = [NSNumber numberWithFloat:self.ratingView.value];
-        vc.itemimages = self.imageArray;
+        NSNumber *price = [f numberFromString:newStr];
         
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setLocale:[NSLocale currentLocale]];
         NSString *localizedMoneyString = [formatter currencyCode];
-        vc.itemcurrency = localizedMoneyString;
+        
+        if ([self.descriptionTextView.text isEqualToString:@"type here"]) {
+            self.descriptionTextView.text = @"";
+        }
+        
+        vc.selectedImages = self.selectedImages;
+        vc.itemObject = [[NSMutableDictionary alloc]initItemWithName:self.nameTextField.text price:price currency:localizedMoneyString description:self.descriptionTextView.text rating:[NSNumber numberWithFloat:self.ratingView.value]];
     }
 }
 
@@ -111,7 +89,7 @@
     else{
         if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1 && self.ratingView.value>0) {
             [self.view endEditing:YES];
-            [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
+            [self performSegueWithIdentifier:@"FARestaurantPickerControllerSegue" sender:self];
         }
         else{
             if (self.ratingView.value == 0) {
@@ -197,12 +175,12 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.imageArray.count;
+    return self.selectedImages.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FAAddOneCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FAAddOneCollectionViewCell" forIndexPath:indexPath];
-    cell.cellImageView.image = self.imageArray[indexPath.row];
+    cell.cellImageView.image = self.selectedImages[indexPath.row];
     return cell;
 }
 
@@ -212,7 +190,7 @@
 #pragma mark - UICollectionViewDelegate -
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UIImage *image = [self.imageArray objectAtIndex:indexPath.row];
+    UIImage *image = [self.selectedImages objectAtIndex:indexPath.row];
     return CGSizeMake(collectionView.frame.size.height*image.size.width/image.size.height, collectionView.frame.size.height);
 }
 
@@ -281,8 +259,6 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     if (textField.tag == 0) {
-        [self.view endEditing:YES];
-        [self performSegueWithIdentifier:@"FAAddViewControllerTwoSegue" sender:self];
         return NO;
     }else{
         return YES;
@@ -334,20 +310,6 @@
         [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         [self.scrollView setScrollEnabled:YES];
     }
-}
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - FAAddViewControllerTwoDelegate -
-
--(void)FAAddViewControllerTwo:(FAAddViewControllerTwo *)controller didFinishWithNewItem:(NSString *)itemName{
-    [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:YES];
-    self.nameTextField.text = itemName;
-}
-
--(void)FAAddViewControllerTwo:(FAAddViewControllerTwo *)controller didFinishWithItem:(NSString *)itemName{
-    
 }
 
 
