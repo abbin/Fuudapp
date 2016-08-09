@@ -50,11 +50,25 @@ FOUNDATION_EXPORT NSString *const kFAItemDescriptionKey;
 FOUNDATION_EXPORT NSString *const kFAItemRestaurantKey;
 FOUNDATION_EXPORT NSString *const kFAItemRatingKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesKey;
+FOUNDATION_EXPORT NSString *const kFAItemIdKey;
+FOUNDATION_EXPORT NSString *const kFAItemReviewsKey;
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Image -
+
 FOUNDATION_EXPORT NSString *const kFAItemImagesURLKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesTimeStampKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesVoteKey;
-FOUNDATION_EXPORT NSString *const kFAItemIdKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesPathKey;
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Review -
+
+FOUNDATION_EXPORT NSString *const kFAReviewTextKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

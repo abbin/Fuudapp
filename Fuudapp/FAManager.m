@@ -24,7 +24,7 @@
     return (__bridge_transfer NSString *)uuidStringRef;
 }
 
-+(void)saveReview:(NSString*)review forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{
++(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{
     
     [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];
     [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
@@ -167,22 +167,60 @@
                         NSArray *imageArray = [NSArray arrayWithObjects:
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},
+                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                 kFAItemImagesPathKey:snapshot.metadata.path},
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},
+                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                 kFAItemImagesPathKey:snapshot2.metadata.path},
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},nil];
+                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                 kFAItemImagesPathKey:snapshot3.metadata.path},nil];
                         
-                        [item setObject:imageArray forKey:kFAItemImagesKey];
+                        
+        
+                        NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_vote" ascending:NO];
+                        NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_timeStamp" ascending:NO];
+                        
+                        NSMutableArray *finalArray = [NSMutableArray new];
+                        NSMutableArray *existingArray = [item objectForKey:kFAItemImagesKey];
+                        
+                        [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
+                        [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
+                        
+                        [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
+                        [existingArray addObjectsFromArray:imageArray];
+                        [existingArray sortUsingDescriptors:@[dateDescriptor]];
+                        [finalArray addObjectsFromArray:existingArray];
+                        
+                        NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
+                        [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
+                        for (NSDictionary *dict in finalArray) {
+                            FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
+                            // Delete the file
+                            [storageRefdel deleteWithCompletion:^(NSError *error){
+                                if (error) {
+                                    NSLog(@"%@",error.localizedDescription);
+                                }
+                            }];
+                        }
+                        [item setObject:result forKey:kFAItemImagesKey];
+                        
+                        NSMutableArray *reviewArray = [item objectForKey:kFAItemReviewsKey];
+                        if (reviewArray == nil) {
+                            reviewArray = [NSMutableArray new];
+                        }
+                        [reviewArray addObject:@{kFAReviewTextKey:review}];
+                        [item setObject:reviewArray forKey:kFAItemReviewsKey];
+                        
+                        NSInteger oldRting = [[item objectForKey:kFAItemRatingKey] integerValue];
+                        NSInteger newRating = (oldRting + rating)/2;
+                        [item setObject:[NSNumber numberWithInteger:newRating] forKey:kFAItemRatingKey];
                         
                         NSString * itemKey = [item objectForKey:kFAItemIdKey];
-                        
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
-                        
                         [ref updateChildValues:childUpdates];
-                        
                         
                         [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                         [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
@@ -202,19 +240,56 @@
                     NSArray *imageArray = [NSArray arrayWithObjects:
                                            @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                              kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},
+                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                             kFAItemImagesPathKey:snapshot.metadata.path},
                                            @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
                                              kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},nil];
+                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                             kFAItemImagesPathKey:snapshot2.metadata.path},nil];
                     
-                    [item setObject:imageArray forKey:kFAItemImagesKey];
+                    
+                    
+                    NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_vote" ascending:NO];
+                    NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_timeStamp" ascending:NO];
+                    
+                    NSMutableArray *finalArray = [NSMutableArray new];
+                    NSMutableArray *existingArray = [item objectForKey:kFAItemImagesKey];
+                    
+                    [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
+                    [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
+                    
+                    [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
+                    [existingArray addObjectsFromArray:imageArray];
+                    [existingArray sortUsingDescriptors:@[dateDescriptor]];
+                    [finalArray addObjectsFromArray:existingArray];
+                    
+                    NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
+                    [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
+                    for (NSDictionary *dict in finalArray) {
+                        FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
+                        // Delete the file
+                        [storageRefdel deleteWithCompletion:^(NSError *error){
+                            if (error) {
+                                NSLog(@"%@",error.localizedDescription);
+                            }
+                        }];
+                    }
+                    [item setObject:result forKey:kFAItemImagesKey];
+                    
+                    NSMutableArray *reviewArray = [item objectForKey:kFAItemReviewsKey];
+                    if (reviewArray == nil) {
+                        reviewArray = [NSMutableArray new];
+                    }
+                    [reviewArray addObject:@{kFAReviewTextKey:review}];
+                    [item setObject:reviewArray forKey:kFAItemReviewsKey];
+                    
+                    NSInteger oldRting = [[item objectForKey:kFAItemRatingKey] integerValue];
+                    NSInteger newRating = (oldRting + rating)/2;
+                    [item setObject:[NSNumber numberWithInteger:newRating] forKey:kFAItemRatingKey];
                     
                     NSString * itemKey = [item objectForKey:kFAItemIdKey];
-                    
                     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
-                    
                     [ref updateChildValues:childUpdates];
-                    
                     
                     [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
@@ -236,16 +311,52 @@
             NSArray *imageArray = [NSArray arrayWithObjects:
                                    @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                      kFAItemImagesTimeStampKey:timeStamp,
-                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},nil];
+                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                     kFAItemImagesPathKey:snapshot.metadata.path},nil];
             
-            [item setObject:imageArray forKey:kFAItemImagesKey];
+            
+            
+            NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_vote" ascending:NO];
+            NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_timeStamp" ascending:NO];
+            
+            NSMutableArray *finalArray = [NSMutableArray new];
+            NSMutableArray *existingArray = [item objectForKey:kFAItemImagesKey];
+            
+            [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
+            [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
+            
+            [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
+            [existingArray addObjectsFromArray:imageArray];
+            [existingArray sortUsingDescriptors:@[dateDescriptor]];
+            [finalArray addObjectsFromArray:existingArray];
+            
+            NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
+            [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
+            for (NSDictionary *dict in finalArray) {
+                FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
+                // Delete the file
+                [storageRefdel deleteWithCompletion:^(NSError *error){
+                    if (error) {
+                        NSLog(@"%@",error.localizedDescription);
+                    }
+                }];
+            }
+            [item setObject:result forKey:kFAItemImagesKey];
+            
+            NSMutableArray *reviewArray = [item objectForKey:kFAItemReviewsKey];
+            if (reviewArray == nil) {
+                reviewArray = [NSMutableArray new];
+            }
+            [reviewArray addObject:@{kFAReviewTextKey:review}];
+            [item setObject:reviewArray forKey:kFAItemReviewsKey];
+            
+            NSInteger oldRting = [[item objectForKey:kFAItemRatingKey] integerValue];
+            NSInteger newRating = (oldRting + rating)/2;
+            [item setObject:[NSNumber numberWithInteger:newRating] forKey:kFAItemRatingKey];
             
             NSString * itemKey = [item objectForKey:kFAItemIdKey];
-            
             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
-            
             [ref updateChildValues:childUpdates];
-            
             
             [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
@@ -401,17 +512,19 @@
                     [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
                         
                         NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-                        
                         NSArray *imageArray = [NSArray arrayWithObjects:
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},
+                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                 kFAItemImagesPathKey:snapshot.metadata.path},
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},
+                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                 kFAItemImagesPathKey:snapshot2.metadata.path},
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},nil];
+                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                 kFAItemImagesPathKey:snapshot3.metadata.path},nil];
                         
                         NSString *itemName = [item objectForKey:kFAItemCappedNameKey];
                         
@@ -440,7 +553,7 @@
                         [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                                   parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
                                                                kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                               kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:1],
+                                                               kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
                                                                kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
                                                                kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                                kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
@@ -487,7 +600,7 @@
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                               parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
                                                            kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:1],
+                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:2],
                                                            kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
                                                            kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                            kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];

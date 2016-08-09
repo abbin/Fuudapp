@@ -38,11 +38,22 @@ NSString *const kFAItemDescriptionKey               = @"item_description";
 NSString *const kFAItemRestaurantKey                = @"item_restaurant";
 NSString *const kFAItemRatingKey                    = @"item_rating";
 NSString *const kFAItemImagesKey                    = @"item_images";
+NSString *const kFAItemIdKey                        = @"item_id";
+NSString *const kFAItemReviewsKey                   = @"item_reviews";
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Image -
+
 NSString *const kFAItemImagesURLKey                 = @"item_image_url";
 NSString *const kFAItemImagesTimeStampKey           = @"item_image_timeStamp";
 NSString *const kFAItemImagesVoteKey                = @"item_image_vote";
-NSString *const kFAItemIdKey                        = @"item_id";
+NSString *const kFAItemImagesPathKey                = @"item_image_path";
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Review -
+
+NSString *const kFAReviewTextKey                    = @"review_text";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
