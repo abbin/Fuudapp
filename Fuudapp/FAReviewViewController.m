@@ -52,11 +52,57 @@
 }
 
 - (void)nextButtonClicked:(id)sender{
-    if (self.ratingView.value>0 && self.reviewTextView.text.length>0){
+    if (self.ratingView.value>0 && ![self.reviewTextView.text isEqualToString:@"type here"] && self.reviewTextView.text.length>0){
         [self.reviewTextView resignFirstResponder];
         [self dismissViewControllerAnimated:YES completion:^{
             [FAManager saveReview:self.reviewTextView.text rating:self.ratingView.value forItem:self.itemObject withImages:self.selectedImages];
         }];
+    }
+    else{
+        if (self.ratingView.value==0) {
+            // Create a basic animation changing the transform.scale value
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+            
+            // Set the initial and the final values
+            [animation setFromValue:[NSValue valueWithCGPoint:
+                                     CGPointMake([self.ratingView center].x - 3.0f, [self.ratingView center].y)]];
+            [animation setToValue:[NSValue valueWithCGPoint:
+                                   CGPointMake([self.ratingView center].x + 3.0f, [self.ratingView center].y)]];
+            [animation setAutoreverses:YES];
+            [animation setRepeatCount:3];
+            // Set duration
+            [animation setDuration:0.05];
+            
+            // Set animation to be consistent on completion
+            [animation setRemovedOnCompletion:YES];
+            [animation setFillMode:kCAFillModeForwards];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            // Add animation to the view's layer
+            [[self.ratingView layer] addAnimation:animation forKey:@"position"];
+
+        }
+        if (self.reviewTextView.text.length==0 || [self.reviewTextView.text isEqualToString:@"type here"]){
+            // Create a basic animation changing the transform.scale value
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+            
+            // Set the initial and the final values
+            [animation setFromValue:[NSValue valueWithCGPoint:
+                                     CGPointMake([self.reviewTextView center].x - 3.0f, [self.reviewTextView center].y)]];
+            [animation setToValue:[NSValue valueWithCGPoint:
+                                   CGPointMake([self.reviewTextView center].x + 3.0f, [self.reviewTextView center].y)]];
+            [animation setAutoreverses:YES];
+            [animation setRepeatCount:3];
+            // Set duration
+            [animation setDuration:0.05];
+            
+            // Set animation to be consistent on completion
+            [animation setRemovedOnCompletion:YES];
+            [animation setFillMode:kCAFillModeForwards];
+            [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            // Add animation to the view's layer
+            [[self.reviewTextView layer] addAnimation:animation forKey:@"position"];
+
+        }
     }
 }
 

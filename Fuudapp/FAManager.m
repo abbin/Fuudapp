@@ -24,6 +24,10 @@
     return (__bridge_transfer NSString *)uuidStringRef;
 }
 
++(void)observeEventWithCompletion:(void (^)(BOOL finished))completion{
+    
+}
+
 +(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{
     
     [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];

@@ -380,6 +380,7 @@
 				F22064D8C4DB55ABAA8CC57F /* [CP] Embed Pods Frameworks */,
 				16C3B0E06033B72E75090DF4 /* [CP] Copy Pods Resources */,
 				ED044A051D532F0C00CF57DF /* ShellScript */,
+				EDF757081D5A20B5000489AC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -483,6 +484,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 1ec1e874f64c2bf34f536ca38f6a25c79ceb31bb 7a94891b0423cc3297b223f3cb930d0167ee3b4068a79cdd32c7bedf75e799a4";
 			showEnvVarsInLog = 0;
+		};
+		EDF757081D5A20B5000489AC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
 		};
 		F22064D8C4DB55ABAA8CC57F /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
