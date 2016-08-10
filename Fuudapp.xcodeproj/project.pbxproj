@@ -37,6 +37,7 @@
 		EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
 		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
+		EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,8 @@
 		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
 		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
 		EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerThree.m; sourceTree = "<group>"; };
+		EDFF9CE11D5B79BF0085B9E1 /* FATabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATabBarController.h; sourceTree = "<group>"; };
+		EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATabBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -362,6 +365,8 @@
 			children = (
 				EDA5FE331D54D9DE00BD4F57 /* Nearby */,
 				EDA5FE341D54D9E900BD4F57 /* Favourite */,
+				EDFF9CE11D5B79BF0085B9E1 /* FATabBarController.h */,
+				EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -524,6 +529,7 @@
 				EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */,
 				ED8D6DF81D46552A00CA8777 /* SecondViewController.m in Sources */,
 				ED3AA5181D586493004A27B1 /* FAReviewViewController.m in Sources */,
+				EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */,
 				EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */,
 				EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */,
 				ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */,

@@ -35,7 +35,6 @@
                              initWithTitle:@"Back" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(cancelButtonClicked:)];
-    [back setTintColor:[FAColor blackColor]];
     self.navigationItem.leftBarButtonItem = back;
     [self.navigationItem setHidesBackButton:YES];
     

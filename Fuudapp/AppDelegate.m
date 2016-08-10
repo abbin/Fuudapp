@@ -25,9 +25,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [[UINavigationBar appearance] setBarTintColor:[FAColor whiteColor]];
+    [[UINavigationBar appearance] setBarTintColor:[FAColor mainColor]];
+    [[UINavigationBar appearance] setTranslucent:YES];
+    [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
+    
     [[UITabBar appearance] setTintColor:[FAColor mainColor]];
-    [[UIBarButtonItem appearance] setTintColor:[FAColor blackColor]];
+    [[UIBarButtonItem appearance] setTintColor:[FAColor whiteColor]];
+    
     
     [Fabric with:@[[Crashlytics class]]];
     [FIRApp configure];

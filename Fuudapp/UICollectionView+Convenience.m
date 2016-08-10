@@ -11,7 +11,12 @@
 @implementation UICollectionView (Convenience)
 
 - (NSArray *)aapl_indexPathsForElementsInRect:(CGRect)rect {
-    NSArray *allLayoutAttributes = [self.collectionViewLayout layoutAttributesForElementsInRect:rect];
+    NSArray *allLayoutAttributes;
+    @try {
+        allLayoutAttributes = [self.collectionViewLayout layoutAttributesForElementsInRect:rect];
+    } @catch (NSException *exception) {
+        allLayoutAttributes = [NSArray new];
+    }
     if (allLayoutAttributes.count == 0) { return nil; }
     NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:allLayoutAttributes.count];
     for (UICollectionViewLayoutAttributes *layoutAttributes in allLayoutAttributes) {

@@ -13,7 +13,7 @@
 @implementation FAColor
 
 +(UIColor *)mainColor{
-    return UIColorFromRGB(0xF44336);
+    return UIColorFromRGB(0xC90017);
 }
 
 @end

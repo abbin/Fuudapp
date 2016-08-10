@@ -44,7 +44,7 @@ static CGSize AssetGridThumbnailSize;
                                initWithBarButtonSystemItem:UIBarButtonSystemItemCamera
                                target:self
                                action:@selector(cameraButtonClicked:)];
-    [next setTintColor:[FAColor mainColor]];
+
     self.navigationItem.rightBarButtonItems = @[next,camera];;
     
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]

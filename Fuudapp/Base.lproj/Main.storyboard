@@ -6,7 +6,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Nearby-->
+        <!--NEARBY-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="FirstViewController" sceneMemberID="viewController">
@@ -40,7 +40,7 @@
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Nearby" id="h3x-4b-fQB"/>
+                    <navigationItem key="navigationItem" title="NEARBY" id="h3x-4b-fQB"/>
                     <connections>
                         <segue destination="pyv-0g-K9F" kind="presentation" identifier="FAImagePickerControllerSegue" id="6i8-ca-V0S"/>
                     </connections>
@@ -1402,7 +1402,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                <tabBarController id="49e-Tb-3d3" customClass="FATabBarController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
@@ -1429,6 +1429,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mIw-qx-tb7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.78823529411764703" green="0.0" blue="0.090196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
