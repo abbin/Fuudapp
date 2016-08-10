@@ -536,16 +536,13 @@
                         NSString* trimmedString = [words componentsJoinedByString:@""];
                         
                         NSString *itemKey = [NSString stringWithFormat:@"%@%@",trimmedString,[[ref child:kFAItemPathKey] childByAutoId].key];
-                        NSString *restKey = [[ref child:kFAItemPathKey] childByAutoId].key;
-                        
-                        [restaurant setObject:restKey forKey:kFARestaurantIdKey];
+                        NSString *restKey = [restaurant objectForKey:kFARestaurantIdKey];
                         
                         [item setObject:restaurant forKey:kFAItemRestaurantKey];
                         [item setObject:imageArray forKey:kFAItemImagesKey];
                         [item setObject:itemKey forKey:kFAItemIdKey];
                         [item setObject:[restaurant objectForKey:kFARestaurantLatitudeKey] forKey:kFARestaurantLatitudeKey];
                         [item setObject:[restaurant objectForKey:kFARestaurantLongitudeKey] forKey:kFARestaurantLongitudeKey];
-                        
                         
                         
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
@@ -568,14 +565,15 @@
                 else{
                     
                     NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-
                     NSArray *imageArray = [NSArray arrayWithObjects:
                                            @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                              kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},
+                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                             kFAItemImagesPathKey:snapshot.metadata.path},
                                            @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
                                              kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},nil];
+                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                             kFAItemImagesPathKey:snapshot2.metadata.path},nil];
                     
                     NSString *itemName = [item objectForKey:kFAItemCappedNameKey];
                     
@@ -583,16 +581,13 @@
                     NSString* trimmedString = [words componentsJoinedByString:@""];
                     
                     NSString *itemKey = [NSString stringWithFormat:@"%@%@",trimmedString,[[ref child:kFAItemPathKey] childByAutoId].key];
-                    NSString *restKey = [[ref child:kFAItemPathKey] childByAutoId].key;
-                    
-                    [restaurant setObject:restKey forKey:kFARestaurantIdKey];
+                    NSString *restKey = [restaurant objectForKey:kFARestaurantIdKey];
                     
                     [item setObject:restaurant forKey:kFAItemRestaurantKey];
                     [item setObject:imageArray forKey:kFAItemImagesKey];
                     [item setObject:itemKey forKey:kFAItemIdKey];
                     [item setObject:[restaurant objectForKey:kFARestaurantLatitudeKey] forKey:kFARestaurantLatitudeKey];
                     [item setObject:[restaurant objectForKey:kFARestaurantLongitudeKey] forKey:kFARestaurantLongitudeKey];
-                    
                     
                     
                     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
@@ -617,11 +612,11 @@
         else{
             
             NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-            
             NSArray *imageArray = [NSArray arrayWithObjects:
                                    @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                      kFAItemImagesTimeStampKey:timeStamp,
-                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]},nil];
+                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                     kFAItemImagesPathKey:snapshot.metadata.path},nil];
             
             NSString *itemName = [item objectForKey:kFAItemCappedNameKey];
             
@@ -629,9 +624,7 @@
             NSString* trimmedString = [words componentsJoinedByString:@""];
             
             NSString *itemKey = [NSString stringWithFormat:@"%@%@",trimmedString,[[ref child:kFAItemPathKey] childByAutoId].key];
-            NSString *restKey = [[ref child:kFAItemPathKey] childByAutoId].key;
-            
-            [restaurant setObject:restKey forKey:kFARestaurantIdKey];
+            NSString *restKey = [restaurant objectForKey:kFARestaurantIdKey];
             
             [item setObject:restaurant forKey:kFAItemRestaurantKey];
             [item setObject:imageArray forKey:kFAItemImagesKey];
@@ -639,7 +632,6 @@
             [item setObject:[restaurant objectForKey:kFARestaurantLatitudeKey] forKey:kFARestaurantLatitudeKey];
             [item setObject:[restaurant objectForKey:kFARestaurantLongitudeKey] forKey:kFARestaurantLongitudeKey];
             
-
             
             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
                                            [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};

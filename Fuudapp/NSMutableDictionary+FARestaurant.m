@@ -58,6 +58,12 @@
         }
         
         @try {
+            [self setObject:[restaurant objectForKey:@"id"] forKey:kFARestaurantIdKey];
+        } @catch (NSException *exception) {
+            
+        }
+        
+        @try {
             NSArray *periods = [[restaurant objectForKey:@"opening_hours"] objectForKey:@"periods"];
             NSMutableArray *array = [NSMutableArray new];
             for (NSDictionary *dict in periods) {
@@ -95,6 +101,8 @@
 -(instancetype)initRestaurantWithName:(NSString*)name address:(NSString*)address latitude:(NSNumber*)latitude longitude:(NSNumber*)longitude phonumber:(NSMutableArray*)phoneNumber workingDays:(NSArray*)workingDays from:(NSString*)from till:(NSString*)till{
     self = [self init];
     if (self) {
+        
+        [self setObject:[self uuid] forKey:kFARestaurantIdKey];
         [self setObject:name forKey:kFARestaurantNameKey];
         [self setObject:address forKey:kFARestaurantAddressKey];
         [self setObject:latitude forKey:kFARestaurantLatitudeKey];
@@ -111,6 +119,13 @@
         }
     }
     return self;
+}
+
+- (NSString *)uuid{
+    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+    CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
+    CFRelease(uuidRef);
+    return (__bridge_transfer NSString *)uuidStringRef;
 }
 
 @end
