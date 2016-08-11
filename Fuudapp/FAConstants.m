@@ -63,6 +63,7 @@ NSString *const kFARestaurantNameKey                = @"restaurant_name";
 NSString *const kFARestaurantAddressKey             = @"restaurant_address";
 NSString *const kFARestaurantLatitudeKey            = @"restaurant_latitude";
 NSString *const kFARestaurantLongitudeKey           = @"restaurant_longitude";
+NSString *const kFARestaurantLGeoHashKey            = @"restaurant_geohash";
 NSString *const kFARestaurantPhoneNumberKey         = @"restaurant_phone_number";
 NSString *const kFARestaurantWorkingHoursKey        = @"restaurant_working_hours";
 NSString *const kFARestaurantIdKey                  = @"restaurant_id";
@@ -102,8 +103,9 @@ NSString *const kFAAnalyticsResultTimeKey           = @"result_time";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Analytics Parameters Values-
 
-NSString *const kFAAnalyticsStorageTaskKey          = @"firebase_storage_task";
+NSString *const kFAAnalyticsStorageDeleteTaskKey    = @"image_delete_task";
+NSString *const kFAAnalyticsStorageTaskKey          = @"image_upload_task";
 NSString *const kFAAnalyticsInitRestaurantKey       = @"init_restaurant";
-NSString *const kFAAnalyticsRestaurantSearchKey       = @"restaurant_search";
+NSString *const kFAAnalyticsRestaurantSearchKey     = @"restaurant_search";
 
 @end

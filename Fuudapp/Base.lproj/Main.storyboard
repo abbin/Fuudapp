@@ -6,7 +6,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--NEARBY-->
+        <!--Nearby-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
                 <viewController id="9pv-A4-QxB" customClass="FirstViewController" sceneMemberID="viewController">
@@ -40,7 +40,7 @@
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="NEARBY" id="h3x-4b-fQB"/>
+                    <navigationItem key="navigationItem" title="Nearby" id="h3x-4b-fQB"/>
                     <connections>
                         <segue destination="pyv-0g-K9F" kind="presentation" identifier="FAImagePickerControllerSegue" id="6i8-ca-V0S"/>
                     </connections>

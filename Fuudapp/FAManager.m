@@ -9,7 +9,8 @@
 #import "FAManager.h"
 #import "FAConstants.h"
 #import "FAAnalyticsManager.h"
-
+#import "NSMutableDictionary+FAItem.h"
+#import "NSMutableDictionary+FARestaurant.h"
 #import <UIKit/UIKit.h>
 
 @import FirebaseDatabase;
@@ -22,6 +23,37 @@
     CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
     CFRelease(uuidRef);
     return (__bridge_transfer NSString *)uuidStringRef;
+}
+
++(NSMutableArray*)addArray:(NSArray*)newArray toOldArray:(NSMutableArray*)oldArray{
+    NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesVoteKey ascending:NO];
+    NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesTimeStampKey ascending:NO];
+    
+    NSMutableArray *finalArray = [NSMutableArray new];
+    NSMutableArray *existingArray = oldArray;
+    
+    [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
+    [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
+    
+    [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
+    [existingArray addObjectsFromArray:newArray];
+    [existingArray sortUsingDescriptors:@[dateDescriptor]];
+    [finalArray addObjectsFromArray:existingArray];
+    
+    NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
+    [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
+    for (NSDictionary *dict in finalArray) {
+        FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
+        // Delete the file
+        [storageRefdel deleteWithCompletion:^(NSError *error){
+            if (error) {
+                [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                          parameters:@{kFAAnalyticsReasonKey:error.localizedDescription,
+                                                       kFAAnalyticsSectionKey:kFAAnalyticsStorageDeleteTaskKey}];
+            }
+        }];
+    }
+    return [result mutableCopy];
 }
 
 +(void)observeEventWithCompletion:(void (^)(BOOL finished))completion{
@@ -182,47 +214,20 @@
                                                  kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
                                                  kFAItemImagesPathKey:snapshot3.metadata.path},nil];
                         
+                        item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
                         
-        
-                        NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_vote" ascending:NO];
-                        NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_timeStamp" ascending:NO];
-                        
-                        NSMutableArray *finalArray = [NSMutableArray new];
-                        NSMutableArray *existingArray = [item objectForKey:kFAItemImagesKey];
-                        
-                        [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
-                        [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
-                        
-                        [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
-                        [existingArray addObjectsFromArray:imageArray];
-                        [existingArray sortUsingDescriptors:@[dateDescriptor]];
-                        [finalArray addObjectsFromArray:existingArray];
-                        
-                        NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
-                        [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
-                        for (NSDictionary *dict in finalArray) {
-                            FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
-                            // Delete the file
-                            [storageRefdel deleteWithCompletion:^(NSError *error){
-                                if (error) {
-                                    NSLog(@"%@",error.localizedDescription);
-                                }
-                            }];
-                        }
-                        [item setObject:result forKey:kFAItemImagesKey];
-                        
-                        NSMutableArray *reviewArray = [item objectForKey:kFAItemReviewsKey];
+                        NSMutableArray *reviewArray = item.reviewArray;
                         if (reviewArray == nil) {
                             reviewArray = [NSMutableArray new];
                         }
                         [reviewArray addObject:@{kFAReviewTextKey:review}];
-                        [item setObject:reviewArray forKey:kFAItemReviewsKey];
+                        item.reviewArray = reviewArray;
                         
-                        NSInteger oldRting = [[item objectForKey:kFAItemRatingKey] integerValue];
+                        NSInteger oldRting = [item.rating integerValue];
                         NSInteger newRating = (oldRting + rating)/2;
-                        [item setObject:[NSNumber numberWithInteger:newRating] forKey:kFAItemRatingKey];
+                        item.rating = [NSNumber numberWithInteger:newRating];
                         
-                        NSString * itemKey = [item objectForKey:kFAItemIdKey];
+                        NSString * itemKey = item.itemId;
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
                         [ref updateChildValues:childUpdates];
                         
@@ -251,47 +256,20 @@
                                              kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
                                              kFAItemImagesPathKey:snapshot2.metadata.path},nil];
                     
+                    item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
                     
-                    
-                    NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_vote" ascending:NO];
-                    NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_timeStamp" ascending:NO];
-                    
-                    NSMutableArray *finalArray = [NSMutableArray new];
-                    NSMutableArray *existingArray = [item objectForKey:kFAItemImagesKey];
-                    
-                    [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
-                    [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
-                    
-                    [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
-                    [existingArray addObjectsFromArray:imageArray];
-                    [existingArray sortUsingDescriptors:@[dateDescriptor]];
-                    [finalArray addObjectsFromArray:existingArray];
-                    
-                    NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
-                    [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
-                    for (NSDictionary *dict in finalArray) {
-                        FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
-                        // Delete the file
-                        [storageRefdel deleteWithCompletion:^(NSError *error){
-                            if (error) {
-                                NSLog(@"%@",error.localizedDescription);
-                            }
-                        }];
-                    }
-                    [item setObject:result forKey:kFAItemImagesKey];
-                    
-                    NSMutableArray *reviewArray = [item objectForKey:kFAItemReviewsKey];
+                    NSMutableArray *reviewArray = item.reviewArray;
                     if (reviewArray == nil) {
                         reviewArray = [NSMutableArray new];
                     }
                     [reviewArray addObject:@{kFAReviewTextKey:review}];
-                    [item setObject:reviewArray forKey:kFAItemReviewsKey];
+                    item.reviewArray = reviewArray;
                     
-                    NSInteger oldRting = [[item objectForKey:kFAItemRatingKey] integerValue];
+                    NSInteger oldRting = [item.rating integerValue];
                     NSInteger newRating = (oldRting + rating)/2;
-                    [item setObject:[NSNumber numberWithInteger:newRating] forKey:kFAItemRatingKey];
+                    item.rating = [NSNumber numberWithInteger:newRating];
                     
-                    NSString * itemKey = [item objectForKey:kFAItemIdKey];
+                    NSString * itemKey = item.itemId;
                     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
                     [ref updateChildValues:childUpdates];
                     
@@ -299,7 +277,7 @@
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                               parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
                                                            kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:2],
+                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
                                                            kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
                                                            kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                            kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
@@ -318,47 +296,20 @@
                                      kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
                                      kFAItemImagesPathKey:snapshot.metadata.path},nil];
             
+            item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
             
-            
-            NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_vote" ascending:NO];
-            NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"item_image_timeStamp" ascending:NO];
-            
-            NSMutableArray *finalArray = [NSMutableArray new];
-            NSMutableArray *existingArray = [item objectForKey:kFAItemImagesKey];
-            
-            [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
-            [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
-            
-            [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
-            [existingArray addObjectsFromArray:imageArray];
-            [existingArray sortUsingDescriptors:@[dateDescriptor]];
-            [finalArray addObjectsFromArray:existingArray];
-            
-            NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
-            [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
-            for (NSDictionary *dict in finalArray) {
-                FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
-                // Delete the file
-                [storageRefdel deleteWithCompletion:^(NSError *error){
-                    if (error) {
-                        NSLog(@"%@",error.localizedDescription);
-                    }
-                }];
-            }
-            [item setObject:result forKey:kFAItemImagesKey];
-            
-            NSMutableArray *reviewArray = [item objectForKey:kFAItemReviewsKey];
+            NSMutableArray *reviewArray = item.reviewArray;
             if (reviewArray == nil) {
                 reviewArray = [NSMutableArray new];
             }
             [reviewArray addObject:@{kFAReviewTextKey:review}];
-            [item setObject:reviewArray forKey:kFAItemReviewsKey];
+            item.reviewArray = reviewArray;
             
-            NSInteger oldRting = [[item objectForKey:kFAItemRatingKey] integerValue];
+            NSInteger oldRting = [item.rating integerValue];
             NSInteger newRating = (oldRting + rating)/2;
-            [item setObject:[NSNumber numberWithInteger:newRating] forKey:kFAItemRatingKey];
+            item.rating = [NSNumber numberWithInteger:newRating];
             
-            NSString * itemKey = [item objectForKey:kFAItemIdKey];
+            NSString * itemKey = item.itemId;
             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
             [ref updateChildValues:childUpdates];
             
@@ -366,7 +317,7 @@
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                       parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
                                                    kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                   kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:1],
+                                                   kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
                                                    kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
                                                    kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                    kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
@@ -516,7 +467,7 @@
                     [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
                         
                         NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-                        NSArray *imageArray = [NSArray arrayWithObjects:
+                        NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
                                                  kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
@@ -530,22 +481,15 @@
                                                  kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
                                                  kFAItemImagesPathKey:snapshot3.metadata.path},nil];
                         
-                        NSString *itemName = [item objectForKey:kFAItemCappedNameKey];
+                        NSString *restKey = restaurant.restId;
                         
-                        NSArray* words = [itemName componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                        NSString* trimmedString = [words componentsJoinedByString:@""];
+                        item.restaurant = restaurant;
+                        item.imageArray = imageArray;
+                        item.latitude = restaurant.latitude;
+                        item.longitude = restaurant.longitude;
+                        item.geoHash = restaurant.geoHash;
                         
-                        NSString *itemKey = [NSString stringWithFormat:@"%@%@",trimmedString,[[ref child:kFAItemPathKey] childByAutoId].key];
-                        NSString *restKey = [restaurant objectForKey:kFARestaurantIdKey];
-                        
-                        [item setObject:restaurant forKey:kFAItemRestaurantKey];
-                        [item setObject:imageArray forKey:kFAItemImagesKey];
-                        [item setObject:itemKey forKey:kFAItemIdKey];
-                        [item setObject:[restaurant objectForKey:kFARestaurantLatitudeKey] forKey:kFARestaurantLatitudeKey];
-                        [item setObject:[restaurant objectForKey:kFARestaurantLongitudeKey] forKey:kFARestaurantLongitudeKey];
-                        
-                        
-                        NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
+                        NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
                                                        [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
                         
                         [ref updateChildValues:childUpdates];
@@ -565,32 +509,25 @@
                 else{
                     
                     NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-                    NSArray *imageArray = [NSArray arrayWithObjects:
-                                           @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                             kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                             kFAItemImagesPathKey:snapshot.metadata.path},
-                                           @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
-                                             kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                             kFAItemImagesPathKey:snapshot2.metadata.path},nil];
+                    NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+                                                    kFAItemImagesTimeStampKey:timeStamp,
+                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                    kFAItemImagesPathKey:snapshot.metadata.path},
+                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
+                                                    kFAItemImagesTimeStampKey:timeStamp,
+                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                    kFAItemImagesPathKey:snapshot2.metadata.path},nil];
                     
-                    NSString *itemName = [item objectForKey:kFAItemCappedNameKey];
+                    NSString *restKey = restaurant.restId;
                     
-                    NSArray* words = [itemName componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                    NSString* trimmedString = [words componentsJoinedByString:@""];
+                    item.restaurant = restaurant;
+                    item.imageArray = imageArray;
+                    item.latitude = restaurant.latitude;
+                    item.longitude = restaurant.longitude;
+                    item.geoHash = restaurant.geoHash;
                     
-                    NSString *itemKey = [NSString stringWithFormat:@"%@%@",trimmedString,[[ref child:kFAItemPathKey] childByAutoId].key];
-                    NSString *restKey = [restaurant objectForKey:kFARestaurantIdKey];
-                    
-                    [item setObject:restaurant forKey:kFAItemRestaurantKey];
-                    [item setObject:imageArray forKey:kFAItemImagesKey];
-                    [item setObject:itemKey forKey:kFAItemIdKey];
-                    [item setObject:[restaurant objectForKey:kFARestaurantLatitudeKey] forKey:kFARestaurantLatitudeKey];
-                    [item setObject:[restaurant objectForKey:kFARestaurantLongitudeKey] forKey:kFARestaurantLongitudeKey];
-                    
-                    
-                    NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
+                    NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
                                                    [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
                     
                     [ref updateChildValues:childUpdates];
@@ -612,28 +549,21 @@
         else{
             
             NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-            NSArray *imageArray = [NSArray arrayWithObjects:
-                                   @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                     kFAItemImagesTimeStampKey:timeStamp,
-                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                     kFAItemImagesPathKey:snapshot.metadata.path},nil];
+            NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+                                          @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+                                            kFAItemImagesTimeStampKey:timeStamp,
+                                            kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                            kFAItemImagesPathKey:snapshot.metadata.path},nil];
             
-            NSString *itemName = [item objectForKey:kFAItemCappedNameKey];
+            NSString *restKey = restaurant.restId;
             
-            NSArray* words = [itemName componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString* trimmedString = [words componentsJoinedByString:@""];
+            item.restaurant = restaurant;
+            item.imageArray = imageArray;
+            item.latitude = restaurant.latitude;
+            item.longitude = restaurant.longitude;
+            item.geoHash = restaurant.geoHash;
             
-            NSString *itemKey = [NSString stringWithFormat:@"%@%@",trimmedString,[[ref child:kFAItemPathKey] childByAutoId].key];
-            NSString *restKey = [restaurant objectForKey:kFARestaurantIdKey];
-            
-            [item setObject:restaurant forKey:kFAItemRestaurantKey];
-            [item setObject:imageArray forKey:kFAItemImagesKey];
-            [item setObject:itemKey forKey:kFAItemIdKey];
-            [item setObject:[restaurant objectForKey:kFARestaurantLatitudeKey] forKey:kFARestaurantLatitudeKey];
-            [item setObject:[restaurant objectForKey:kFARestaurantLongitudeKey] forKey:kFARestaurantLongitudeKey];
-            
-            
-            NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item,
+            NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
                                            [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
             
             [ref updateChildValues:childUpdates];

@@ -78,6 +78,7 @@ FOUNDATION_EXPORT NSString *const kFARestaurantNameKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantAddressKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantLatitudeKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantLongitudeKey;
+FOUNDATION_EXPORT NSString *const kFARestaurantLGeoHashKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantPhoneNumberKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantWorkingHoursKey;
 FOUNDATION_EXPORT NSString *const kFARestaurantIdKey;
@@ -115,6 +116,7 @@ FOUNDATION_EXPORT NSString *const kFAAnalyticsResultTimeKey;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Analytics Parameters Values-
 
+FOUNDATION_EXPORT NSString *const kFAAnalyticsStorageDeleteTaskKey;
 FOUNDATION_EXPORT NSString *const kFAAnalyticsStorageTaskKey;
 FOUNDATION_EXPORT NSString *const kFAAnalyticsInitRestaurantKey;
 FOUNDATION_EXPORT NSString *const kFAAnalyticsRestaurantSearchKey;

@@ -84,7 +84,7 @@
                              initWithTitle:@"Submit" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(submitButtonClicked:)];
-    [next setTintColor:[FAColor mainColor]];
+
     self.navigationItem.rightBarButtonItem = next;
     
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]
