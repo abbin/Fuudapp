@@ -11,24 +11,37 @@
 
 @implementation NSMutableDictionary (FAItem)
 
-@dynamic name,cappedName,price,currency,descriptionText,rating,itemId,imageArray,restaurant,latitude,longitude,geoHash,reviewArray;
+@dynamic nameString,cappedName,price,currency,descriptionText,rating,itemId,imageArray,restaurant,latitude,longitude,geoHash,reviewArray;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setter Methods -
 
--(void)setName:(NSString *)name{
-    [self setObject:name forKey:kFAItemNameKey];
+//-(void)setName:(NSString *)name{
+//    [self setObject:name forKey:kFAItemNameKey];
+//    
+//    NSArray* words = [name componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    NSString* trimmedString = [words componentsJoinedByString:@""];
+//    [self setObject:[trimmedString lowercaseString] forKey:kFAItemCappedNameKey];
+//    
+//    NSString *idK = [NSString stringWithFormat:@"%@%@",trimmedString,[self uuid]];
+//    [self setObject:[idK lowercaseString] forKey:kFAItemIdKey];
+//}
+
+
+
+-(void)setPrice:(NSNumber *)price{
+    [self setObject:price forKey:kFAItemPriceKey];
+}
+
+-(void)setNameString:(NSString *)nameString{
+    [self setObject:nameString forKey:kFAItemNameKey];
     
-    NSArray* words = [name componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray* words = [nameString componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString* trimmedString = [words componentsJoinedByString:@""];
     [self setObject:[trimmedString lowercaseString] forKey:kFAItemCappedNameKey];
     
     NSString *idK = [NSString stringWithFormat:@"%@%@",trimmedString,[self uuid]];
     [self setObject:[idK lowercaseString] forKey:kFAItemIdKey];
-}
-
--(void)setPrice:(NSNumber *)price{
-    [self setObject:price forKey:kFAItemPriceKey];
 }
 
 -(void)setCurrency:(NSString *)currency{
@@ -72,7 +85,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Getter Methods -
 
--(NSString *)name{
+-(NSString *)nameString{
     return [self objectForKey:kFAItemNameKey];
 }
 
@@ -131,7 +144,7 @@
 -(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description rating:(NSNumber*)rating{
     self = [self init];
     if (self) {
-        self.name = name;
+        self.nameString = name;
         self.price = price;
         self.currency = currency;
         self.descriptionText = description;

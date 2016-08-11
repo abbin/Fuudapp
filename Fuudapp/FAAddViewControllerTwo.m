@@ -103,7 +103,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedItem = [self.itemArray objectAtIndex:indexPath.row];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ([self.selectedItem isKindOfClass:[NSDictionary class]]) {
         [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:NO];
         [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
@@ -113,6 +112,7 @@
         [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:YES];
         [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

@@ -27,7 +27,7 @@
                              initWithTitle:@"Done" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(doneButtonClicked:)];
-    [next setTintColor:[FAColor mainColor]];
+
     self.navigationItem.rightBarButtonItem = next;
     
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]

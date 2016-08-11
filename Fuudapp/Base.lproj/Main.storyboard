@@ -504,7 +504,7 @@
             </objects>
             <point key="canvasLocation" x="3138.5" y="-661.5"/>
         </scene>
-        <!--Locality Picker Controller-->
+        <!--Select your city-->
         <scene sceneID="pCi-NE-EVH">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="Xmm-ho-VI1" customClass="FALocalityPickerController" sceneMemberID="viewController">
@@ -517,7 +517,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iYK-rs-idL">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <imageView key="tableFooterView" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="powredByGoogle" id="g4u-3p-q9m">
                                     <rect key="frame" x="0.0" y="72" width="375" height="44"/>
@@ -554,19 +554,30 @@
                                     <outlet property="delegate" destination="Xmm-ho-VI1" id="ntK-zL-mES"/>
                                 </connections>
                             </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="3Gz-mx-PW9">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Xmm-ho-VI1" id="eK2-hc-Fn2"/>
+                                </connections>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="3Gz-mx-PW9" secondAttribute="trailing" id="8Oh-M3-EWV"/>
+                            <constraint firstItem="3Gz-mx-PW9" firstAttribute="leading" secondItem="Ak7-C5-91b" secondAttribute="leading" id="GQz-tN-0eL"/>
                             <constraint firstAttribute="trailing" secondItem="iYK-rs-idL" secondAttribute="trailing" id="LtQ-71-O2s"/>
-                            <constraint firstItem="iYK-rs-idL" firstAttribute="top" secondItem="dXu-GM-W2V" secondAttribute="bottom" id="hYC-Tm-uYQ"/>
+                            <constraint firstItem="iYK-rs-idL" firstAttribute="top" secondItem="3Gz-mx-PW9" secondAttribute="bottom" id="lKz-15-R2G"/>
                             <constraint firstItem="iYK-rs-idL" firstAttribute="leading" secondItem="Ak7-C5-91b" secondAttribute="leading" id="nP3-80-5AN"/>
                             <constraint firstAttribute="bottom" secondItem="iYK-rs-idL" secondAttribute="bottom" id="wea-Ak-xZ6"/>
+                            <constraint firstItem="3Gz-mx-PW9" firstAttribute="top" secondItem="dXu-GM-W2V" secondAttribute="bottom" id="zy2-pd-Ef0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="p5R-49-XVI"/>
+                    <navigationItem key="navigationItem" title="Select your city" id="p5R-49-XVI"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="locTableView" destination="iYK-rs-idL" id="wNf-6Z-VFP"/>
+                        <outlet property="searchBar" destination="3Gz-mx-PW9" id="9mt-QW-0px"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jrY-wz-40W" userLabel="First Responder" sceneMemberID="firstResponder"/>

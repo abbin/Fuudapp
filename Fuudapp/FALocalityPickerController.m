@@ -15,7 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *locTableView;
 
-@property (strong, nonatomic) UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *locArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
 
@@ -25,20 +25,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *next = [[UIBarButtonItem alloc]
+    UIBarButtonItem *cancel = [[UIBarButtonItem alloc]
                              initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(cancelButtonClicked:)];
-    [next setTintColor:[FAColor blackColor]];
-    self.navigationItem.rightBarButtonItem = next;
-    [self.navigationItem setHidesBackButton:YES];
-    
-    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-100, 44)];
-    [self.searchBar setSearchBarStyle:UISearchBarStyleMinimal];
-    [self.searchBar setTintColor:[FAColor mainColor]];
-    self.searchBar.placeholder = @"type locality name here";
-    self.searchBar.delegate = self;
-    self.navigationItem.titleView = self.searchBar;
+
+    self.navigationItem.leftBarButtonItem = cancel;
 }
 
 -(void)viewDidAppear:(BOOL)animated{

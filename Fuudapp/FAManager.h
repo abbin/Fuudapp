@@ -14,4 +14,6 @@
 
 +(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images;
 
++(void)observeEventWithCompletion:(void (^)(BOOL finished))completion;
+
 @end

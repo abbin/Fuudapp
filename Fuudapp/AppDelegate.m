@@ -9,7 +9,7 @@
 #import "FAColor.h"
 #import "AppDelegate.h"
 #import "FAConstants.h"
-
+#import "FAManager.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
@@ -24,17 +24,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    for (NSString* family in [UIFont familyNames])
-    {
-        NSLog(@"%@", family);
-        
-        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-        {
-            NSLog(@"  %@", name);
-        }
-    }
-    
+
     [[UINavigationBar appearance] setBarTintColor:[FAColor mainColor]];
     [[UINavigationBar appearance] setTranslucent:YES];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
@@ -48,6 +38,10 @@
     [Fabric with:@[[Crashlytics class]]];
     [FIRApp configure];
     [GMSServices provideAPIKey:kFAGoogleMapsKey];
+    
+    [FAManager observeEventWithCompletion:^(BOOL finished) {
+        
+    }];
 
     return YES;
 }

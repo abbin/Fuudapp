@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - Crashlytics (3.7.2):
+  - Crashlytics (3.7.3):
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - Firebase (3.3.0):
@@ -78,7 +78,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
+  Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Firebase: 6250071f0e2440a5c4c67b8cb6b868f868237ac3
   FirebaseAnalytics: 0fd6532cb2c3d03cd5cf26ad295ccb091efd3104

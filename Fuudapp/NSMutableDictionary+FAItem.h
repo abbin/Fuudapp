@@ -10,7 +10,7 @@
 
 @interface NSMutableDictionary (FAItem)
 
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *nameString;
 @property (nonatomic, strong) NSString *cappedName;
 @property (nonatomic, strong) NSString *currency;
 @property (nonatomic, strong) NSString *descriptionText;

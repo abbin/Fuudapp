@@ -178,6 +178,7 @@
         [self.searchBar resignFirstResponder];
         self.selectedRest = self.searchBar.text;
         [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else{
         NSString *placeID = [[self.restArray objectAtIndex:indexPath.row] objectForKey:@"place_id"];
@@ -197,6 +198,7 @@
                 [self dismissViewControllerAnimated:YES completion:^{
                     [FAManager saveItem:self.itemObject andRestaurant:self.selectedRest withImages:self.selectedImages];
                 }];
+                [tableView deselectRowAtIndexPath:indexPath animated:YES];
             }
         }];
         [self.dataTask resume];
