@@ -38,10 +38,6 @@
     [Fabric with:@[[Crashlytics class]]];
     [FIRApp configure];
     [GMSServices provideAPIKey:kFAGoogleMapsKey];
-    
-    [FAManager observeEventWithCompletion:^(BOOL finished) {
-        
-    }];
 
     return YES;
 }

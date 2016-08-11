@@ -7,6 +7,7 @@
 //
 
 #import "FirstViewController.h"
+#import "FAManager.h"
 
 @interface FirstViewController ()
 
@@ -21,6 +22,10 @@
                                    target:self
                                    action:@selector(addButtonClicked:)];
     self.navigationItem.rightBarButtonItem = addButton;
+    
+    [FAManager observeEventWithCompletion:^(NSMutableArray* items){
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

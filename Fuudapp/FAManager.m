@@ -25,6 +25,39 @@
     return (__bridge_transfer NSString *)uuidStringRef;
 }
 
++ (NSString*)geoHashFromLatitude:(double)latitude andLongitude:(double)longitude{
+    
+    #define BITS_PER_BASE32_CHAR 5
+    static const char BASE_32_CHARS[] = "0123456789bcdefghjkmnpqrstuvwxyz";
+    
+    double longitudeRange[] = { -180 , 180 };
+    double latitudeRange[] = { -90 , 90 };
+    
+    NSInteger precision = 10;
+    
+    char buffer[precision+1];
+    buffer[precision] = 0;
+    
+    for (NSUInteger i = 0; i < precision; i++) {
+        NSUInteger hashVal = 0;
+        for (NSUInteger j = 0; j < BITS_PER_BASE32_CHAR; j++) {
+            BOOL even = ((i*BITS_PER_BASE32_CHAR)+j) % 2 == 0;
+            double val = (even) ? longitude : latitude;
+            double* range = (even) ? longitudeRange : latitudeRange;
+            double mid = (range[0] + range[1])/2;
+            if (val > mid) {
+                hashVal = (hashVal << 1) + 1;
+                range[0] = mid;
+            } else {
+                hashVal = (hashVal << 1) + 0;
+                range[1] = mid;
+            }
+        }
+        buffer[i] = BASE_32_CHARS[hashVal];
+    }
+    return [NSString stringWithUTF8String:buffer];
+}
+
 +(NSMutableArray*)addArray:(NSArray*)newArray toOldArray:(NSMutableArray*)oldArray{
     NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesVoteKey ascending:NO];
     NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesTimeStampKey ascending:NO];
@@ -56,8 +89,24 @@
     return [result mutableCopy];
 }
 
-+(void)observeEventWithCompletion:(void (^)(BOOL finished))completion{
++(void)observeEventWithCompletion:(void (^)(NSMutableArray* items))completion{
+    double lat = 9.976250;
+    double lng = 76.293778;
     
+    NSString *hash = [self geoHashFromLatitude:lat andLongitude:lng];
+    
+    NSRange stringRange = {0, MIN([hash length], 5)};
+    
+    // adjust the range to include dependent chars
+    stringRange = [hash rangeOfComposedCharacterSequencesForRange:stringRange];
+    
+    // Now you can create the short string
+    NSString *shortString = [hash substringWithRange:stringRange];
+    
+    FIRDatabaseReference *ref = [[[FIRDatabase database] reference] child:kFAItemPathKey];
+    [[[[ref queryOrderedByChild:kFARestaurantLGeoHashKey] queryStartingAtValue:shortString] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",shortString]] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
+         NSLog(@"%@", [snapshot.value allValues]);
+     }];
 }
 
 +(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{
@@ -277,7 +326,7 @@
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                               parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
                                                            kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
+                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:2],
                                                            kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
                                                            kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                            kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
@@ -317,7 +366,7 @@
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                       parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
                                                    kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                   kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
+                                                   kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:1],
                                                    kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
                                                    kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                    kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
