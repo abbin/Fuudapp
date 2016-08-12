@@ -121,4 +121,14 @@ FOUNDATION_EXPORT NSString *const kFAAnalyticsStorageTaskKey;
 FOUNDATION_EXPORT NSString *const kFAAnalyticsInitRestaurantKey;
 FOUNDATION_EXPORT NSString *const kFAAnalyticsRestaurantSearchKey;
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Remote Config Keys -
+
+FOUNDATION_EXPORT NSString *const kFARemoteConfigPrimaryFontKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigSecondaryKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigMainColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigActivityIndicatorColorHexKey;
+
 @end

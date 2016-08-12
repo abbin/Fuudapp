@@ -19,6 +19,8 @@
 #import "NSMutableDictionary+FARestaurant.h"
 #import "FAAnalyticsManager.h"
 
+@import FirebaseRemoteConfig;
+
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
 #define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
@@ -50,6 +52,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *phoneNumberSectionHeading;
 @property (weak, nonatomic) IBOutlet UILabel *workingDaysSectionHeader;
 @property (weak, nonatomic) IBOutlet UILabel *workingTimeSectionHeader;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantSectionHeader;
 
 @property (weak, nonatomic) IBOutlet UIView *addressContainerView;
 @property (weak, nonatomic) IBOutlet UIView *localityContainerView;
@@ -84,7 +87,7 @@
                              initWithTitle:@"Submit" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(submitButtonClicked:)];
-
+    
     self.navigationItem.rightBarButtonItem = next;
     
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]
@@ -112,6 +115,23 @@
     self.workingDayTagControl.tagPlaceholder = @"tap here";
     [self.tagControl reloadTagSubviews];
     [self.workingDayTagControl reloadTagSubviews];
+    
+    self.restaurantSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.addressSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.localitySectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.coordinatesSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.phoneNumberSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.workingDaysSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.workingDaysSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.fromSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.tillSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    
+    self.restaurantNameTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    self.addressTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    self.localityTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    self.coordinatesTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    self.fromTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    self.tillTExtField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -473,7 +493,9 @@
 }
 
 -(void)tagsControl:(TLTagsControl *)tagsControl didDeleteTagAtIndex:(NSInteger)index{
-    [self.workingDaysArray removeObjectAtIndex:index];
+    if (tagsControl.tag == 1) {
+        [self.workingDaysArray removeObjectAtIndex:index];
+    }
 }
 
 

@@ -7,6 +7,9 @@
 //
 
 #import "TLTagsControl.h"
+#import "FAConstants.h"
+
+@import FirebaseRemoteConfig;
 
 @interface TLTagsControl () <UITextFieldDelegate, UIGestureRecognizerDelegate>
 
@@ -78,7 +81,7 @@
     tagInputField_.layer.borderColor = [UIColor lightGrayColor].CGColor;
     tagInputField_.backgroundColor = [UIColor colorWithWhite:0.90 alpha:1];
     tagInputField_.delegate = self;
-    tagInputField_.font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+    tagInputField_.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
     tagInputField_.placeholder = @"";
     tagInputField_.keyboardType = UIKeyboardTypePhonePad;
     
@@ -286,6 +289,9 @@
     
     NSInteger index = [tagSubviews_ indexOfObject:view];
     [_tags removeObjectAtIndex:index];
+    if (_tags.count == 0 && self.tag == 1){
+        self.tagPlaceholder = @"tap here";
+    }
     [self reloadTagSubviews];
     if ([self.tapDelegate respondsToSelector:@selector(tagsControl:didDeleteTagAtIndex:)]) {
         [self.tapDelegate tagsControl:self didDeleteTagAtIndex:index];

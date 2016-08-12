@@ -15,6 +15,7 @@
 #import "FAActivityIndicator.h"
 
 @import FirebaseDatabase;
+@import FirebaseRemoteConfig;
 
 @interface FAAddViewControllerTwo ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
@@ -87,6 +88,10 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     id item = [self.itemArray objectAtIndex:indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    
+    cell.textLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15];
+    cell.detailTextLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    
     if ([item isKindOfClass:[NSDictionary class]]) {
         cell.textLabel.text = [item objectForKey:kFAItemNameKey];
         cell.detailTextLabel.text = [[item objectForKey:kFAItemRestaurantKey] objectForKey:kFARestaurantNameKey];

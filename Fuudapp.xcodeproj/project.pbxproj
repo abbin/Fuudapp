@@ -36,6 +36,7 @@
 		EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */; };
 		EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */; };
 		EDD7ED3A1D5DB97500AED472 /* FAActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */; };
+		EDD7ED3C1D5DE6C300AED472 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
 		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
 		EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */; };
@@ -97,6 +98,7 @@
 		EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddOneCollectionViewCell.m; sourceTree = "<group>"; };
 		EDD7ED381D5DB97500AED472 /* FAActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAActivityIndicator.h; sourceTree = "<group>"; };
 		EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityIndicator.m; sourceTree = "<group>"; };
+		EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerTwo.h; sourceTree = "<group>"; };
 		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
 		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				ED8D6E011D46552A00CA8777 /* Info.plist */,
 				ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */,
 				EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */,
+				EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */,
 				ED8D6DED1D46552A00CA8777 /* Supporting Files */,
 			);
 			path = Fuudapp;
@@ -448,6 +451,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDD7ED3C1D5DE6C300AED472 /* RemoteConfigDefaults.plist in Resources */,
 				ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */,
 				ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */,
 				EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */,

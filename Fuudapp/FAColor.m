@@ -7,17 +7,26 @@
 //
 
 #import "FAColor.h"
+#import "FAConstants.h"
 
-#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+@import FirebaseRemoteConfig;
 
 @implementation FAColor
 
 +(UIColor *)mainColor{
-    return UIColorFromRGB(0xC90017);
+    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigMainColorHexKey].stringValue];
 }
 
 +(UIColor *)activityIndicatorColor{
-    return UIColorFromRGB(0xe3001a);
+    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigActivityIndicatorColorHexKey].stringValue];
+}
+
++ (UIColor *)colorFromHexString:(NSString *)hexString {
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner setScanLocation:0]; // bypass '#' character
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
 }
 
 @end

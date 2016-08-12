@@ -16,6 +16,8 @@
 #import "FAManager.h"
 #import "FAActivityIndicator.h"
 
+@import FirebaseRemoteConfig;
+
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *restTableView;
@@ -37,6 +39,8 @@
     
     self.navigationItem.leftBarButtonItem = next;
     [self.navigationItem setHidesBackButton:YES];
+    
+    self.searchBar.placeholder = @"type restaurant name";
     
     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddRestaurantKey parameters:nil];
 }
@@ -89,10 +93,8 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            
-            [[FAActivityIndicator sharedIndicator] stopAnimating];
-            
             if (!error) {
+                [[FAActivityIndicator sharedIndicator] stopAnimating];
                 self.restArray = responseObject[@"results"];
                 
                 NSDate *end = [NSDate date];
@@ -113,6 +115,7 @@
             }
             else{
                 if (error.code != -999) {
+                    [[FAActivityIndicator sharedIndicator] stopAnimating];
                     NSDate *end = [NSDate date];
                     NSMutableDictionary *parameter = [NSMutableDictionary new];
                     [parameter setObject:[NSNumber numberWithBool:NO] forKey:kFAAnalyticsSucessKey];
@@ -157,6 +160,10 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    
+    cell.textLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15];
+    cell.detailTextLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    
     if ([[self.restArray objectAtIndex:indexPath.row] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = [self.restArray objectAtIndex:indexPath.row];
         cell.textLabel.text = dict[@"name"];

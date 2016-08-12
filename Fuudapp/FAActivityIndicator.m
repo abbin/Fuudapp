@@ -42,6 +42,7 @@ double animationTime;
 
 -(void)startAnimatingWithView:(UIView*)view{
     if (!self.shouldLoopAnimation) {
+        self.stopTrigered = NO;
         self.shouldLoopAnimation = YES;
         [view addSubview:self];
         [self loopAnimation];

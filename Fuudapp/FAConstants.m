@@ -108,4 +108,14 @@ NSString *const kFAAnalyticsStorageTaskKey          = @"image_upload_task";
 NSString *const kFAAnalyticsInitRestaurantKey       = @"init_restaurant";
 NSString *const kFAAnalyticsRestaurantSearchKey     = @"restaurant_search";
 
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark - Remote Config Keys -
+
+NSString *const kFARemoteConfigPrimaryFontKey                   = @"primaryFont";
+NSString *const kFARemoteConfigSecondaryKey                     = @"secondaryFont";
+NSString *const kFARemoteConfigMainColorHexKey                  = @"mainColorHex";
+NSString *const kFARemoteConfigActivityIndicatorColorHexKey     = @"activityIndicatorColorHex";
+
 @end

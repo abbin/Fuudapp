@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>activityIndicatorColorHex</key>
+	<string>C90017</string>
+	<key>mainColorHex</key>
+	<string>C90017</string>
+	<key>primaryFont</key>
+	<string>Avenir-Heavy</string>
+	<key>secondaryFont</key>
+	<string>Avenir-Medium</string>
+</dict>
+</plist>

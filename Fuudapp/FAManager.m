@@ -15,8 +15,24 @@
 
 @import FirebaseDatabase;
 @import FirebaseStorage;
+@import FirebaseRemoteConfig;
 
 @implementation FAManager
+
++ (void)remoteConfig{
+    FIRRemoteConfig *remoteConfig = [FIRRemoteConfig remoteConfig];
+#ifdef DEBUG
+    FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] initWithDeveloperModeEnabled:YES];
+    remoteConfig.configSettings = remoteConfigSettings;
+#else
+#endif
+    [remoteConfig setDefaultsFromPlistFileName:@"RemoteConfigDefaults"];
+    [remoteConfig fetchWithCompletionHandler:^(FIRRemoteConfigFetchStatus status, NSError * _Nullable error) {
+        if (status == FIRRemoteConfigFetchStatusSuccess) {
+            [remoteConfig activateFetched];
+        }
+    }];
+}
 
 + (NSString *)uuid{
     CFUUIDRef uuidRef = CFUUIDCreate(NULL);

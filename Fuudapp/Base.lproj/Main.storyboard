@@ -19,15 +19,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="First View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <rect key="frame" x="151" y="323" width="73" height="21"/>
+                                <rect key="frame" x="121" y="313" width="134" height="41"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by FirstViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5M-7J-77L">
-                                <rect key="frame" x="89" y="352" width="197" height="20"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="30"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -35,8 +29,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="top" secondItem="KQZ-1w-vlD" secondAttribute="bottom" constant="8" symbolic="YES" id="cfb-er-3JN"/>
-                            <constraint firstItem="A5M-7J-77L" firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="e1l-AV-tCB"/>
                             <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
                         </constraints>
                     </view>
@@ -316,10 +308,14 @@
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="descriptionSectionHeading" destination="Nc8-Od-gmc" id="kl3-CK-fP7"/>
                         <outlet property="descriptionTextView" destination="SgJ-A5-ZmG" id="OiR-K1-7YB"/>
+                        <outlet property="imagePreviewSectionHeading" destination="4Gb-TB-1CM" id="nch-qB-VFZ"/>
                         <outlet property="nameContainerView" destination="wXB-bo-T7x" id="9o6-qG-Ot9"/>
+                        <outlet property="nameSectionHeading" destination="kQS-iu-HnK" id="7YL-2b-2AA"/>
                         <outlet property="nameTextField" destination="G7n-ff-hQs" id="y9H-yT-inJ"/>
                         <outlet property="priceContainerView" destination="O2h-c4-bt0" id="EQo-yJ-3hn"/>
+                        <outlet property="priceSectionHeading" destination="nBG-y6-9Jo" id="i64-hf-LGn"/>
                         <outlet property="priceTextField" destination="iPh-KR-3Qm" id="Fxq-yc-tM4"/>
                         <outlet property="ratingView" destination="gi2-c7-OIt" id="nWp-i0-Z3c"/>
                         <outlet property="scrollView" destination="3Mh-ab-KD0" id="uBK-No-hek"/>
@@ -359,16 +355,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hmc-fp-hvo">
-                                                    <rect key="frame" x="15" y="5" width="32" height="20"/>
+                                                    <rect key="frame" x="15" y="4" width="32" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="O9U-5P-dBt">
-                                                    <rect key="frame" x="15" y="25" width="41" height="14"/>
+                                                    <rect key="frame" x="15" y="25" width="37" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="10"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1209,6 +1205,7 @@
                         <outlet property="phoneNumberSectionHeading" destination="7vR-ls-wnh" id="1sd-hL-aIM"/>
                         <outlet property="restaurantContainerView" destination="w5V-VK-MSU" id="JC5-n7-WhF"/>
                         <outlet property="restaurantNameTextField" destination="mqm-UE-kXc" id="8Uu-Ap-iEx"/>
+                        <outlet property="restaurantSectionHeader" destination="16q-JG-t8j" id="c2f-bL-G0L"/>
                         <outlet property="scrollView" destination="f1P-5C-QVw" id="v3O-3b-phw"/>
                         <outlet property="tagControl" destination="2lf-Ts-5x9" id="NNg-FK-M6b"/>
                         <outlet property="tillSectionHeader" destination="Q6c-sA-kkH" id="Xtg-di-mdq"/>
@@ -1524,7 +1521,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="check" width="40" height="40"/>
+        <image name="check" width="50" height="50"/>
         <image name="currentLocation" width="40" height="40"/>
         <image name="pin" width="44" height="44"/>
         <image name="powredByGoogle" width="144" height="18"/>

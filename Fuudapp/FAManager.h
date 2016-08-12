@@ -16,4 +16,6 @@
 
 +(void)observeEventWithCompletion:(void (^)(NSMutableArray* items))completion;
 
++ (void)remoteConfig;
+
 @end

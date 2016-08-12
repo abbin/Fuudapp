@@ -15,6 +15,8 @@
 #import "FARestaurantPickerController.h"
 #import "NSMutableDictionary+FAItem.h"
 
+@import FirebaseRemoteConfig;
+
 @interface FAAddViewControllerOne ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextViewDelegate,UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
@@ -24,6 +26,10 @@
 @property (weak, nonatomic) IBOutlet UIView *nameContainerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet HCSStarRatingView *ratingView;
+@property (weak, nonatomic) IBOutlet UILabel *imagePreviewSectionHeading;
+@property (weak, nonatomic) IBOutlet UILabel *nameSectionHeading;
+@property (weak, nonatomic) IBOutlet UILabel *priceSectionHeading;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionSectionHeading;
 
 @end
 
@@ -36,7 +42,7 @@
                              initWithTitle:@"Next" style:UIBarButtonItemStylePlain
                              target:self
                              action:@selector(nextButtonClicked:)];
-
+    
     self.navigationItem.rightBarButtonItem = next;
     
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]
@@ -49,6 +55,15 @@
     self.ratingView.tintColor = [FAColor mainColor];
     
     self.nameTextField.text = self.itemName;
+    
+    self.imagePreviewSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.nameSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.priceSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.descriptionSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    
+        self.nameTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+            self.priceTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+            self.descriptionTextView.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
