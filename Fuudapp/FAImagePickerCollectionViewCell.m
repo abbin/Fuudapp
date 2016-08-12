@@ -29,12 +29,12 @@
         // Add animation to the view's layer
         [[self.cellImageView layer] addAnimation:animation forKey:@"scale"];
         [[self.selectView layer] addAnimation:animation forKey:@"scale2"];
-        self.selectView.alpha = 0.7;
+        self.selectView.alpha = 1;
     }
     else{
-        self.cellImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.95, 0.95);
-        self.selectView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.95, 0.95);
-        self.selectView.alpha = 0.7;
+        self.cellImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        self.selectView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
+        self.selectView.alpha = 1;
     }
 }
 

@@ -74,27 +74,26 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yJx-1B-i57">
                                             <rect key="frame" x="2" y="2" width="46" height="46"/>
                                         </imageView>
-                                        <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEe-az-Axl">
-                                            <rect key="frame" x="2" y="2" width="46" height="46"/>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        </view>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check" translatesAutoresizingMaskIntoConstraints="NO" id="Dd4-Q1-ker">
+                                            <rect key="frame" x="30" y="30" width="18" height="18"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="SEe-az-Axl" firstAttribute="trailing" secondItem="yJx-1B-i57" secondAttribute="trailing" id="6V2-LV-TS5"/>
-                                    <constraint firstItem="SEe-az-Axl" firstAttribute="leading" secondItem="yJx-1B-i57" secondAttribute="leading" id="EVd-uH-Yg4"/>
                                     <constraint firstItem="yJx-1B-i57" firstAttribute="top" secondItem="SXQ-6Y-u4N" secondAttribute="top" constant="2" id="EuW-NV-lKm"/>
                                     <constraint firstAttribute="bottom" secondItem="yJx-1B-i57" secondAttribute="bottom" constant="2" id="NXe-ff-nio"/>
-                                    <constraint firstItem="SEe-az-Axl" firstAttribute="top" secondItem="yJx-1B-i57" secondAttribute="top" id="TTz-8N-7lR"/>
+                                    <constraint firstItem="Dd4-Q1-ker" firstAttribute="bottom" secondItem="yJx-1B-i57" secondAttribute="bottom" id="Q9j-PI-GEO"/>
+                                    <constraint firstItem="Dd4-Q1-ker" firstAttribute="width" secondItem="yJx-1B-i57" secondAttribute="width" multiplier="0.4" id="Qtl-tC-zms"/>
                                     <constraint firstAttribute="trailing" secondItem="yJx-1B-i57" secondAttribute="trailing" constant="2" id="e6Q-xj-9th"/>
+                                    <constraint firstItem="Dd4-Q1-ker" firstAttribute="height" secondItem="yJx-1B-i57" secondAttribute="height" multiplier="0.4" id="h1f-9y-kgU"/>
+                                    <constraint firstItem="Dd4-Q1-ker" firstAttribute="trailing" secondItem="yJx-1B-i57" secondAttribute="trailing" id="h6q-Bo-var"/>
                                     <constraint firstItem="yJx-1B-i57" firstAttribute="leading" secondItem="SXQ-6Y-u4N" secondAttribute="leading" constant="2" id="lZN-EC-ZL8"/>
-                                    <constraint firstItem="SEe-az-Axl" firstAttribute="bottom" secondItem="yJx-1B-i57" secondAttribute="bottom" id="t5X-hJ-b3L"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="cellImageView" destination="yJx-1B-i57" id="iB4-WX-RrV"/>
-                                    <outlet property="selectView" destination="SEe-az-Axl" id="Fx7-fw-F1a"/>
+                                    <outlet property="selectView" destination="Dd4-Q1-ker" id="aWG-VM-AMR"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -1525,6 +1524,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="check" width="40" height="40"/>
         <image name="currentLocation" width="40" height="40"/>
         <image name="pin" width="44" height="44"/>
         <image name="powredByGoogle" width="144" height="18"/>
