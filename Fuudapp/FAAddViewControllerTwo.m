@@ -12,6 +12,7 @@
 #import "FAReviewViewController.h"
 #import "FAAddViewControllerOne.h"
 #import "FAAnalyticsManager.h"
+#import "FAActivityIndicator.h"
 
 @import FirebaseDatabase;
 
@@ -125,11 +126,15 @@
     NSDate *start = [NSDate date];
     
     if (searchText.length>0) {
+        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
         [[[[[self.ref queryOrderedByKey] queryLimitedToLast:10] queryStartingAtValue:[nospacestring lowercaseString]] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",[nospacestring lowercaseString]]]
          observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
+             
+             [[FAActivityIndicator sharedIndicator] stopAnimating];
+             
              if (snapshot.value != [NSNull null]) {
                  self.itemArray = [snapshot.value allValues];
                  [self.itemTableView reloadData];

@@ -12,4 +12,6 @@
 
 +(UIColor*)mainColor;
 
++(UIColor *)activityIndicatorColor;
+
 @end

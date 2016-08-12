@@ -35,6 +35,7 @@
 		EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE91D475ED900EE4BBB /* FAColor.m */; };
 		EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */; };
 		EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */; };
+		EDD7ED3A1D5DB97500AED472 /* FAActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
 		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
 		EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */; };
@@ -94,6 +95,8 @@
 		EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerOne.m; sourceTree = "<group>"; };
 		EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddOneCollectionViewCell.h; sourceTree = "<group>"; };
 		EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddOneCollectionViewCell.m; sourceTree = "<group>"; };
+		EDD7ED381D5DB97500AED472 /* FAActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAActivityIndicator.h; sourceTree = "<group>"; };
+		EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityIndicator.m; sourceTree = "<group>"; };
 		EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerTwo.h; sourceTree = "<group>"; };
 		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
 		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
@@ -312,6 +315,7 @@
 		EDA5FE3D1D54DB3300BD4F57 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				EDD7ED371D5DB95900AED472 /* Activity Indicator */,
 				EDA5FE411D54DBAD00BD4F57 /* Color */,
 				EDA5FE401D54DB8D00BD4F57 /* Gallery Convenience */,
 				EDA5FE3F1D54DB7200BD4F57 /* Tag */,
@@ -369,6 +373,15 @@
 				EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		EDD7ED371D5DB95900AED472 /* Activity Indicator */ = {
+			isa = PBXGroup;
+			children = (
+				EDD7ED381D5DB97500AED472 /* FAActivityIndicator.h */,
+				EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */,
+			);
+			name = "Activity Indicator";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -540,6 +553,7 @@
 				ED8D6DF51D46552A00CA8777 /* FirstViewController.m in Sources */,
 				ED8D6DEF1D46552A00CA8777 /* main.m in Sources */,
 				EDB89AE71D473E3C00EE4BBB /* UICollectionView+Convenience.m in Sources */,
+				EDD7ED3A1D5DB97500AED472 /* FAActivityIndicator.m in Sources */,
 				EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */,
 				EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */,
 				ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */,

@@ -10,6 +10,7 @@
 #import "FAColor.h"
 #import "AFNetworking.h"
 #import "FAConstants.h"
+#import "FAActivityIndicator.h"
 
 @interface FALocalityPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -57,6 +58,8 @@
     [self.dataTask cancel];
     if (searchText.length>0) {
         
+        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
+        
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
@@ -71,6 +74,9 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            
+            [[FAActivityIndicator sharedIndicator] stopAnimating];
+            
             if (!error) {
                 self.locArray = responseObject[@"predictions"];
                 [self.locTableView reloadData];

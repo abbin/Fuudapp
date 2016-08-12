@@ -16,4 +16,8 @@
     return UIColorFromRGB(0xC90017);
 }
 
++(UIColor *)activityIndicatorColor{
+    return UIColorFromRGB(0xe3001a);
+}
+
 @end

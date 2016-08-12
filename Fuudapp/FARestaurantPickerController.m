@@ -14,6 +14,7 @@
 #import "FAAnalyticsManager.h"
 #import "FAAddViewControllerThree.h"
 #import "FAManager.h"
+#import "FAActivityIndicator.h"
 
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -73,7 +74,7 @@
     NSDate *start = [NSDate date];
     
     if (searchText.length>0) {
-        
+        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
@@ -88,6 +89,8 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            
+            [[FAActivityIndicator sharedIndicator] stopAnimating];
             
             if (!error) {
                 self.restArray = responseObject[@"results"];
@@ -190,11 +193,16 @@
         NSURL *URL = [NSURL URLWithString:urlString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
+        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
+        
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
                 self.selectedRest = [[NSMutableDictionary alloc]initWithRestaurant:[responseObject objectForKey:@"result"]];
                 [self.searchBar resignFirstResponder];
                  [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
+
+                [[FAActivityIndicator sharedIndicator] stopAnimating];
+                
                 [self dismissViewControllerAnimated:YES completion:^{
                     [FAManager saveItem:self.itemObject andRestaurant:self.selectedRest withImages:self.selectedImages];
                 }];
