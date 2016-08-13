@@ -52,6 +52,7 @@ FOUNDATION_EXPORT NSString *const kFAItemRatingKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesKey;
 FOUNDATION_EXPORT NSString *const kFAItemIdKey;
 FOUNDATION_EXPORT NSString *const kFAItemReviewsKey;
+FOUNDATION_EXPORT NSString *const kFAItemImageMetaDataKey;
 
 
 
@@ -62,6 +63,8 @@ FOUNDATION_EXPORT NSString *const kFAItemImagesURLKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesTimeStampKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesVoteKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesPathKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesHeightKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesWidthKey;
 
 
 
@@ -130,5 +133,7 @@ FOUNDATION_EXPORT NSString *const kFARemoteConfigPrimaryFontKey;
 FOUNDATION_EXPORT NSString *const kFARemoteConfigSecondaryKey;
 FOUNDATION_EXPORT NSString *const kFARemoteConfigMainColorHexKey;
 FOUNDATION_EXPORT NSString *const kFARemoteConfigActivityIndicatorColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigActivityIndicatorYAxixKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigActivityIndicatorHeightKey;
 
 @end

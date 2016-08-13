@@ -3,13 +3,14 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Nearby-->
         <scene sceneID="hNz-n2-bh7">
             <objects>
-                <viewController id="9pv-A4-QxB" customClass="FirstViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="9pv-A4-QxB" customClass="FirstViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ia1-K6-d13"/>
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
@@ -18,22 +19,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="First View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KQZ-1w-vlD">
-                                <rect key="frame" x="121" y="313" width="134" height="41"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="30"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="227" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9IT-xl-O9g">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FAFirstViewTableViewCell" rowHeight="227" id="lpN-lH-got" customClass="FAFirstViewTableViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="227"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lpN-lH-got" id="a29-Wx-jOe">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="226"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bze-4T-pKl">
+                                                    <rect key="frame" x="8" y="8" width="359" height="191"/>
+                                                    <color key="backgroundColor" red="0.78823529410000004" green="0.0" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="bze-4T-pKl" secondAttribute="height" multiplier="15:8" id="EjT-W8-0eA"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="bze-4T-pKl" firstAttribute="leading" secondItem="a29-Wx-jOe" secondAttribute="leadingMargin" id="4mk-xT-dcL"/>
+                                                <constraint firstItem="bze-4T-pKl" firstAttribute="top" secondItem="a29-Wx-jOe" secondAttribute="topMargin" id="pLM-yu-VC2"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="bze-4T-pKl" secondAttribute="trailing" id="urd-sE-V5B"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="9pv-A4-QxB" id="RFW-E6-NNz"/>
+                                    <outlet property="delegate" destination="9pv-A4-QxB" id="1WX-xJ-Qa4"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="KQZ-1w-vlD" secondAttribute="centerX" id="6BV-lF-sBN"/>
-                            <constraint firstAttribute="centerY" secondItem="KQZ-1w-vlD" secondAttribute="centerY" id="exm-UA-ej4"/>
+                            <constraint firstItem="9IT-xl-O9g" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="74G-9o-0lG"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="9IT-xl-O9g" secondAttribute="bottom" id="971-bg-Lpz"/>
+                            <constraint firstItem="9IT-xl-O9g" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="Nsd-1w-cOm"/>
+                            <constraint firstAttribute="trailing" secondItem="9IT-xl-O9g" secondAttribute="trailing" id="fUm-wJ-3Nw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Nearby" id="h3x-4b-fQB"/>
                     <connections>
+                        <outlet property="itemTableView" destination="9IT-xl-O9g" id="5f5-MO-dFM"/>
                         <segue destination="pyv-0g-K9F" kind="presentation" identifier="FAImagePickerControllerSegue" id="6i8-ca-V0S"/>
                     </connections>
                 </viewController>

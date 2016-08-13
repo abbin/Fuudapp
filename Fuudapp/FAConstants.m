@@ -40,6 +40,7 @@ NSString *const kFAItemRatingKey                    = @"item_rating";
 NSString *const kFAItemImagesKey                    = @"item_images";
 NSString *const kFAItemIdKey                        = @"item_id";
 NSString *const kFAItemReviewsKey                   = @"item_reviews";
+NSString *const kFAItemImageMetaDataKey             = @"item_image_metadata";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +50,8 @@ NSString *const kFAItemImagesURLKey                 = @"item_image_url";
 NSString *const kFAItemImagesTimeStampKey           = @"item_image_timeStamp";
 NSString *const kFAItemImagesVoteKey                = @"item_image_vote";
 NSString *const kFAItemImagesPathKey                = @"item_image_path";
+NSString *const kFAItemImagesHeightKey              = @"item_image_height";
+NSString *const kFAItemImagesWidthKey               = @"item_image_width";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Review -
@@ -117,5 +120,7 @@ NSString *const kFARemoteConfigPrimaryFontKey                   = @"primaryFont"
 NSString *const kFARemoteConfigSecondaryKey                     = @"secondaryFont";
 NSString *const kFARemoteConfigMainColorHexKey                  = @"mainColorHex";
 NSString *const kFARemoteConfigActivityIndicatorColorHexKey     = @"activityIndicatorColorHex";
+NSString *const kFARemoteConfigActivityIndicatorYAxixKey        = @"activityIndicatorYAxix";
+NSString *const kFARemoteConfigActivityIndicatorHeightKey       = @"activityIndicatorHeight";
 
 @end

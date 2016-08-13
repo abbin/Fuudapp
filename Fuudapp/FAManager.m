@@ -121,7 +121,12 @@
     
     FIRDatabaseReference *ref = [[[FIRDatabase database] reference] child:kFAItemPathKey];
     [[[[ref queryOrderedByChild:kFARestaurantLGeoHashKey] queryStartingAtValue:shortString] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",shortString]] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
-        completion([snapshot.value allValues]);
+        if (snapshot.value != [NSNull null]) {
+            completion([snapshot.value allValues]);
+        }
+        else{
+            completion([NSArray new]);
+        }
      }];
 }
 
@@ -139,12 +144,15 @@
     
     FIRStorageReference *storageRef = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
     
+    UIImage *imageOne = images[0];
     // Create the file metadata
     FIRStorageMetadata *metadata = [[FIRStorageMetadata alloc] init];
     metadata.contentType = @"image/jpeg";
+    metadata.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageOne.size.height],
+                                     kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageOne.size.width]};
     
     // Upload file and metadata to the object 'images/mountains.jpg'
-    FIRStorageUploadTask *uploadTask = [storageRef putData:UIImageJPEGRepresentation(images[0], 0.5) metadata:metadata];
+    FIRStorageUploadTask *uploadTask = [storageRef putData:UIImageJPEGRepresentation(imageOne, 0.5) metadata:metadata];
     
     [uploadTask observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot) {
         // Upload reported progress
@@ -184,7 +192,15 @@
         if (images.count>1) {
             
             FIRStorageReference *storageRef2 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-            FIRStorageUploadTask *uploadTask2 = [storageRef2 putData:UIImageJPEGRepresentation(images[1], 0.5) metadata:metadata];
+            
+            UIImage *imageTwo = images[1];
+            // Create the file metadata
+            FIRStorageMetadata *metadataTwo = [[FIRStorageMetadata alloc] init];
+            metadataTwo.contentType = @"image/jpeg";
+            metadataTwo.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageTwo.size.height],
+                                        kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageTwo.size.width]};
+            
+            FIRStorageUploadTask *uploadTask2 = [storageRef2 putData:UIImageJPEGRepresentation(imageTwo, 0.5) metadata:metadataTwo];
             
             [uploadTask2 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot2) {
                 // Upload reported progress
@@ -225,7 +241,15 @@
                 if (images.count>2) {
                     
                     FIRStorageReference *storageRef3 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-                    FIRStorageUploadTask *uploadTask3 = [storageRef3 putData:UIImageJPEGRepresentation(images[2], 0.5) metadata:metadata];
+                    
+                    UIImage *imageThree = images[2];
+                    // Create the file metadata
+                    FIRStorageMetadata *metadataThree = [[FIRStorageMetadata alloc] init];
+                    metadataThree.contentType = @"image/jpeg";
+                    metadataThree.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageThree.size.height],
+                                                   kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageThree.size.width]};
+                    
+                    FIRStorageUploadTask *uploadTask3 = [storageRef3 putData:UIImageJPEGRepresentation(imageThree, 0.5) metadata:metadataThree];
                     
                     [uploadTask3 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot3) {
                         // Upload reported progress
@@ -265,19 +289,25 @@
                     [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
                         
                         NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-                        NSArray *imageArray = [NSArray arrayWithObjects:
-                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                                 kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot.metadata.path},
-                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
-                                                 kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot2.metadata.path},
-                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],
-                                                 kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot3.metadata.path},nil];
+                        NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+                                                      @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+                                                        kFAItemImagesTimeStampKey:timeStamp,
+                                                        kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                        kFAItemImagesPathKey:snapshot.metadata.path,
+                                                        kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                        kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
+                                                      @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
+                                                        kFAItemImagesTimeStampKey:timeStamp,
+                                                        kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                        kFAItemImagesPathKey:snapshot2.metadata.path,
+                                                        kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                        kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
+                                                      @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],
+                                                        kFAItemImagesTimeStampKey:timeStamp,
+                                                        kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                        kFAItemImagesPathKey:snapshot3.metadata.path,
+                                                        kFAItemImagesHeightKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                        kFAItemImagesWidthKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                         
                         item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
                         
@@ -311,15 +341,19 @@
                 else{
                     
                     NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-                    NSArray *imageArray = [NSArray arrayWithObjects:
-                                           @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                             kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                             kFAItemImagesPathKey:snapshot.metadata.path},
-                                           @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
-                                             kFAItemImagesTimeStampKey:timeStamp,
-                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                             kFAItemImagesPathKey:snapshot2.metadata.path},nil];
+                    NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+                                                    kFAItemImagesTimeStampKey:timeStamp,
+                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                    kFAItemImagesPathKey:snapshot.metadata.path,
+                                                    kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                    kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
+                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
+                                                    kFAItemImagesTimeStampKey:timeStamp,
+                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                                    kFAItemImagesPathKey:snapshot2.metadata.path,
+                                                    kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                    kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                     
                     item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
                     
@@ -355,11 +389,13 @@
         else{
             
             NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-            NSArray *imageArray = [NSArray arrayWithObjects:
-                                   @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                     kFAItemImagesTimeStampKey:timeStamp,
-                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                     kFAItemImagesPathKey:snapshot.metadata.path},nil];
+            NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+                                          @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+                                            kFAItemImagesTimeStampKey:timeStamp,
+                                            kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+                                            kFAItemImagesPathKey:snapshot.metadata.path,
+                                            kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                            kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
             
             item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
             
@@ -406,12 +442,15 @@
     
     FIRStorageReference *storageRef = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
     
+    UIImage *imageOne = images[0];
     // Create the file metadata
     FIRStorageMetadata *metadata = [[FIRStorageMetadata alloc] init];
     metadata.contentType = @"image/jpeg";
+    metadata.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageOne.size.height],
+                                kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageOne.size.width]};
     
     // Upload file and metadata to the object 'images/mountains.jpg'
-    FIRStorageUploadTask *uploadTask = [storageRef putData:UIImageJPEGRepresentation(images[0], 0.5) metadata:metadata];
+    FIRStorageUploadTask *uploadTask = [storageRef putData:UIImageJPEGRepresentation(imageOne, 0.5) metadata:metadata];
     
     [uploadTask observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot) {
         // Upload reported progress
@@ -451,7 +490,15 @@
         if (images.count>1) {
             
             FIRStorageReference *storageRef2 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-            FIRStorageUploadTask *uploadTask2 = [storageRef2 putData:UIImageJPEGRepresentation(images[1], 0.5) metadata:metadata];
+            
+            UIImage *imageTwo = images[1];
+            // Create the file metadata
+            FIRStorageMetadata *metadataTwo = [[FIRStorageMetadata alloc] init];
+            metadataTwo.contentType = @"image/jpeg";
+            metadataTwo.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageTwo.size.height],
+                                        kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageTwo.size.width]};
+            
+            FIRStorageUploadTask *uploadTask2 = [storageRef2 putData:UIImageJPEGRepresentation(imageTwo, 0.5) metadata:metadataTwo];
             
             [uploadTask2 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot2) {
                 // Upload reported progress
@@ -492,7 +539,15 @@
                 if (images.count>2) {
                     
                     FIRStorageReference *storageRef3 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-                    FIRStorageUploadTask *uploadTask3 = [storageRef3 putData:UIImageJPEGRepresentation(images[2], 0.5) metadata:metadata];
+                    
+                    UIImage *imageThree = images[2];
+                    // Create the file metadata
+                    FIRStorageMetadata *metadataThree = [[FIRStorageMetadata alloc] init];
+                    metadataThree.contentType = @"image/jpeg";
+                    metadataThree.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageThree.size.height],
+                                                   kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageThree.size.width]};
+                    
+                    FIRStorageUploadTask *uploadTask3 = [storageRef3 putData:UIImageJPEGRepresentation(imageThree, 0.5) metadata:metadataThree];
                     
                     [uploadTask3 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot3) {
                         // Upload reported progress
@@ -536,15 +591,21 @@
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
                                                  kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot.metadata.path},
+                                                 kFAItemImagesPathKey:snapshot.metadata.path,
+                                                 kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                 kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
                                                  kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot2.metadata.path},
+                                                 kFAItemImagesPathKey:snapshot2.metadata.path,
+                                                 kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                 kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],
                                                  kFAItemImagesTimeStampKey:timeStamp,
                                                  kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot3.metadata.path},nil];
+                                                 kFAItemImagesPathKey:snapshot3.metadata.path,
+                                                 kFAItemImagesHeightKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                 kFAItemImagesWidthKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                         
                         NSString *restKey = restaurant.restId;
                         
@@ -578,11 +639,15 @@
                                                   @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                                     kFAItemImagesTimeStampKey:timeStamp,
                                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                    kFAItemImagesPathKey:snapshot.metadata.path},
+                                                    kFAItemImagesPathKey:snapshot.metadata.path,
+                                                    kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                    kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
                                                   @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
                                                     kFAItemImagesTimeStampKey:timeStamp,
                                                     kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                    kFAItemImagesPathKey:snapshot2.metadata.path},nil];
+                                                    kFAItemImagesPathKey:snapshot2.metadata.path,
+                                                    kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                                    kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                     
                     NSString *restKey = restaurant.restId;
                     
@@ -618,7 +683,9 @@
                                           @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
                                             kFAItemImagesTimeStampKey:timeStamp,
                                             kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                            kFAItemImagesPathKey:snapshot.metadata.path},nil];
+                                            kFAItemImagesPathKey:snapshot.metadata.path,
+                                            kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+                                            kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
             
             NSString *restKey = restaurant.restId;
             

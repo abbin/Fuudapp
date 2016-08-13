@@ -9,6 +9,9 @@
 #import "FAActivityIndicator.h"
 #import "AppDelegate.h"
 #import "FAColor.h"
+#import "FAConstants.h"
+
+@import FirebaseRemoteConfig;
 
 @interface FAActivityIndicator ()
 
@@ -24,8 +27,8 @@
 @implementation FAActivityIndicator
 
 -(instancetype)initWithView:(UIView*)view{
-    self.height = 2;
-    self.height = 64;
+    self.height = [[FIRRemoteConfig remoteConfig][kFARemoteConfigActivityIndicatorHeightKey].numberValue integerValue];
+    self.yAxis = [[FIRRemoteConfig remoteConfig][kFARemoteConfigActivityIndicatorYAxixKey].numberValue integerValue];
     self.animationTime = 0.5;
     self.width = [UIScreen mainScreen].bounds.size.width;
     self = [self initWithFrame:CGRectMake(0, self.yAxis, 0, _height)];

@@ -8,8 +8,12 @@
 
 #import "FirstViewController.h"
 #import "FAManager.h"
+#import "FAFirstViewTableViewCell.h"
 
-@interface FirstViewController ()
+@interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@property (strong, nonatomic) NSArray *itemsArray;
+@property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 
 @end
 
@@ -24,7 +28,8 @@
     self.navigationItem.rightBarButtonItem = addButton;
     
     [FAManager observeEventWithCompletion:^(NSArray *items){
-        
+        self.itemsArray = items;
+        [self.itemTableView reloadData];
     }];
 }
 
@@ -36,5 +41,16 @@
 - (void)addButtonClicked:(id)sender {
     [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
 }
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.itemsArray.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    FAFirstViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FAFirstViewTableViewCell"];
+    return cell;
+}
+
+
 
 @end

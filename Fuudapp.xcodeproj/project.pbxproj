@@ -27,6 +27,7 @@
 		ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */; };
 		ED9D77851D5EF0240058C235 /* FAPopAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D77841D5EF0240058C235 /* FAPopAlert.m */; };
 		ED9D77891D5EFA650058C235 /* FALaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D77881D5EFA650058C235 /* FALaunchScreenViewController.m */; };
+		ED9D778C1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D778B1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m */; };
 		EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */; };
 		EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */; };
 		EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */; };
@@ -83,6 +84,8 @@
 		ED9D77841D5EF0240058C235 /* FAPopAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPopAlert.m; sourceTree = "<group>"; };
 		ED9D77871D5EFA650058C235 /* FALaunchScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALaunchScreenViewController.h; sourceTree = "<group>"; };
 		ED9D77881D5EFA650058C235 /* FALaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALaunchScreenViewController.m; sourceTree = "<group>"; };
+		ED9D778A1D5F8D7B0058C235 /* FAFirstViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAFirstViewTableViewCell.h; sourceTree = "<group>"; };
+		ED9D778B1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAFirstViewTableViewCell.m; sourceTree = "<group>"; };
 		EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FAItem.h"; sourceTree = "<group>"; };
 		EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FAItem.m"; sourceTree = "<group>"; };
 		EDAD34351D506C6F001E5D74 /* FAWorkingDaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWorkingDaysViewController.h; sourceTree = "<group>"; };
@@ -238,6 +241,8 @@
 			children = (
 				ED8D6DF31D46552A00CA8777 /* FirstViewController.h */,
 				ED8D6DF41D46552A00CA8777 /* FirstViewController.m */,
+				ED9D778A1D5F8D7B0058C235 /* FAFirstViewTableViewCell.h */,
+				ED9D778B1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m */,
 				ED3AA5161D586493004A27B1 /* FAReviewViewController.h */,
 				ED3AA5171D586493004A27B1 /* FAReviewViewController.m */,
 				EDA5FE351D54DA6000BD4F57 /* Add */,
@@ -583,6 +588,7 @@
 				ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */,
 				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
 				ED9D77891D5EFA650058C235 /* FALaunchScreenViewController.m in Sources */,
+				ED9D778C1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m in Sources */,
 				ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */,
 				ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */,
 				EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */,

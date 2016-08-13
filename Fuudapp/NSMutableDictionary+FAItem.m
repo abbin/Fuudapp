@@ -16,19 +16,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setter Methods -
 
-//-(void)setName:(NSString *)name{
-//    [self setObject:name forKey:kFAItemNameKey];
-//    
-//    NSArray* words = [name componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//    NSString* trimmedString = [words componentsJoinedByString:@""];
-//    [self setObject:[trimmedString lowercaseString] forKey:kFAItemCappedNameKey];
-//    
-//    NSString *idK = [NSString stringWithFormat:@"%@%@",trimmedString,[self uuid]];
-//    [self setObject:[idK lowercaseString] forKey:kFAItemIdKey];
-//}
-
-
-
 -(void)setPrice:(NSNumber *)price{
     [self setObject:price forKey:kFAItemPriceKey];
 }
