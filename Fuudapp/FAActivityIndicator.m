@@ -14,37 +14,34 @@
 
 @property (assign, nonatomic) BOOL shouldLoopAnimation;
 @property (assign, nonatomic) BOOL stopTrigered;
+@property (assign, nonatomic) double height;
+@property (assign, nonatomic) double width;
+@property (assign, nonatomic) double yAxis;
+@property (assign, nonatomic) double animationTime;
 
 @end
 
 @implementation FAActivityIndicator
 
-double height;
-double width;
-double yAxis;
-double animationTime;
-
-+ (instancetype)sharedIndicator {
-    static FAActivityIndicator *sharedIndicator = nil;
-    static dispatch_once_t onceToken;
-    height = 2;
-    yAxis = 64;
-    animationTime = 0.5;
-    width = [UIScreen mainScreen].bounds.size.width;
-    dispatch_once(&onceToken, ^{
-        sharedIndicator = [[self alloc] initWithFrame:CGRectMake(0, yAxis, 0, height)];
-        sharedIndicator.layer.cornerRadius = height/2;
-        sharedIndicator.layer.masksToBounds = YES;
-        sharedIndicator.backgroundColor = [FAColor activityIndicatorColor];
-    });
-    return sharedIndicator;
+-(instancetype)initWithView:(UIView*)view{
+    self.height = 2;
+    self.height = 64;
+    self.animationTime = 0.5;
+    self.width = [UIScreen mainScreen].bounds.size.width;
+    self = [self initWithFrame:CGRectMake(0, self.yAxis, 0, _height)];
+    if (self) {
+        self.layer.cornerRadius = self.height/2;
+        self.layer.masksToBounds = YES;
+        self.backgroundColor = [FAColor activityIndicatorColor];
+        [view addSubview:self];
+    }
+    return self;
 }
 
--(void)startAnimatingWithView:(UIView*)view{
+-(void)startAnimating{
     if (!self.shouldLoopAnimation) {
         self.stopTrigered = NO;
         self.shouldLoopAnimation = YES;
-        [view addSubview:self];
         [self loopAnimation];
     }
 }
@@ -54,23 +51,22 @@ double animationTime;
 }
 
 -(void)loopAnimation{
-    [UIView animateWithDuration:animationTime delay:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.frame = CGRectMake(0, yAxis, width, height);
+    [UIView animateWithDuration:self.animationTime delay:0.5 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.frame = CGRectMake(0, self.yAxis, self.width, self.height);
     } completion:nil];
     
-    [UIView animateWithDuration:animationTime delay:animationTime + animationTime*0.9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.frame = CGRectMake(width, yAxis, 0, height);
+    [UIView animateWithDuration:self.animationTime delay:self.animationTime + self.animationTime*0.9 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.frame = CGRectMake(self.width, self.yAxis, 0, self.height);
     } completion:^(BOOL finished) {
         if (self.stopTrigered) {
             self.shouldLoopAnimation = NO;
         }
         if (self.shouldLoopAnimation) {
-            self.frame = CGRectMake(0, yAxis, 0, height);
+            self.frame = CGRectMake(0, self.yAxis, 0, self.height);
             [self loopAnimation];
         }
         else{
-            self.frame = CGRectMake(0, yAxis, 0, height);
-            [self removeFromSuperview];
+            self.frame = CGRectMake(0, self.yAxis, 0, self.height);
         }
     }];
 }

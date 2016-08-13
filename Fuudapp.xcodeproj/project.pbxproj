@@ -25,6 +25,8 @@
 		ED8D6DFB1D46552A00CA8777 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DF91D46552A00CA8777 /* Main.storyboard */; };
 		ED8D6DFD1D46552A00CA8777 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */; };
 		ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */; };
+		ED9D77851D5EF0240058C235 /* FAPopAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D77841D5EF0240058C235 /* FAPopAlert.m */; };
+		ED9D77891D5EFA650058C235 /* FALaunchScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D77881D5EFA650058C235 /* FALaunchScreenViewController.m */; };
 		EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */; };
 		EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */; };
 		EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */; };
@@ -77,6 +79,10 @@
 		ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ED8D6DFF1D46552A00CA8777 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED8D6E011D46552A00CA8777 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ED9D77831D5EF0240058C235 /* FAPopAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPopAlert.h; sourceTree = "<group>"; };
+		ED9D77841D5EF0240058C235 /* FAPopAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPopAlert.m; sourceTree = "<group>"; };
+		ED9D77871D5EFA650058C235 /* FALaunchScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALaunchScreenViewController.h; sourceTree = "<group>"; };
+		ED9D77881D5EFA650058C235 /* FALaunchScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALaunchScreenViewController.m; sourceTree = "<group>"; };
 		EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FAItem.h"; sourceTree = "<group>"; };
 		EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FAItem.m"; sourceTree = "<group>"; };
 		EDAD34351D506C6F001E5D74 /* FAWorkingDaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWorkingDaysViewController.h; sourceTree = "<group>"; };
@@ -166,6 +172,8 @@
 				ED8D6DF91D46552A00CA8777 /* Main.storyboard */,
 				ED8D6DFC1D46552A00CA8777 /* Assets.xcassets */,
 				ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */,
+				ED9D77871D5EFA650058C235 /* FALaunchScreenViewController.h */,
+				ED9D77881D5EFA650058C235 /* FALaunchScreenViewController.m */,
 				ED8D6E011D46552A00CA8777 /* Info.plist */,
 				ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */,
 				EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */,
@@ -181,6 +189,15 @@
 				ED8D6DEE1D46552A00CA8777 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		ED9D77861D5EF0290058C235 /* Pop Alert */ = {
+			isa = PBXGroup;
+			children = (
+				ED9D77831D5EF0240058C235 /* FAPopAlert.h */,
+				ED9D77841D5EF0240058C235 /* FAPopAlert.m */,
+			);
+			name = "Pop Alert";
 			sourceTree = "<group>";
 		};
 		EDA5FE301D54D9AB00BD4F57 /* Modal */ = {
@@ -318,6 +335,7 @@
 		EDA5FE3D1D54DB3300BD4F57 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				ED9D77861D5EF0290058C235 /* Pop Alert */,
 				EDD7ED371D5DB95900AED472 /* Activity Indicator */,
 				EDA5FE411D54DBAD00BD4F57 /* Color */,
 				EDA5FE401D54DB8D00BD4F57 /* Gallery Convenience */,
@@ -549,6 +567,7 @@
 				EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */,
 				EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */,
 				EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */,
+				ED9D77851D5EF0240058C235 /* FAPopAlert.m in Sources */,
 				ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */,
 				EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */,
 				EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */,
@@ -563,6 +582,7 @@
 				ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */,
 				ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */,
 				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
+				ED9D77891D5EFA650058C235 /* FALaunchScreenViewController.m in Sources */,
 				ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */,
 				ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */,
 				EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */,

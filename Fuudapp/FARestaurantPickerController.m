@@ -26,12 +26,17 @@
 @property (strong, nonatomic) NSArray *restArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
 @property (strong, nonatomic) id selectedRest;
+@property (strong, nonatomic) FAActivityIndicator *activityIndicator;
+
 @end
 
 @implementation FARestaurantPickerController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.activityIndicator = [[FAActivityIndicator alloc]initWithView:self.view];
+    
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Back" style:UIBarButtonItemStylePlain
                              target:self
@@ -78,7 +83,7 @@
     NSDate *start = [NSDate date];
     
     if (searchText.length>0) {
-        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
+        [self.activityIndicator startAnimating];
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
@@ -94,7 +99,7 @@
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
-                [[FAActivityIndicator sharedIndicator] stopAnimating];
+                [self.activityIndicator  stopAnimating];
                 self.restArray = responseObject[@"results"];
                 
                 NSDate *end = [NSDate date];
@@ -115,7 +120,7 @@
             }
             else{
                 if (error.code != -999) {
-                    [[FAActivityIndicator sharedIndicator] stopAnimating];
+                    [self.activityIndicator  stopAnimating];
                     NSDate *end = [NSDate date];
                     NSMutableDictionary *parameter = [NSMutableDictionary new];
                     [parameter setObject:[NSNumber numberWithBool:NO] forKey:kFAAnalyticsSucessKey];
@@ -200,7 +205,7 @@
         NSURL *URL = [NSURL URLWithString:urlString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
-        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
+        [self.activityIndicator startAnimating];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
@@ -208,7 +213,7 @@
                 [self.searchBar resignFirstResponder];
                  [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
 
-                [[FAActivityIndicator sharedIndicator] stopAnimating];
+                [self.activityIndicator stopAnimating];
                 
                 [self dismissViewControllerAnimated:YES completion:^{
                     [FAManager saveItem:self.itemObject andRestaurant:self.selectedRest withImages:self.selectedImages];

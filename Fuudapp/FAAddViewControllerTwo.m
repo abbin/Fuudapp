@@ -24,6 +24,7 @@
 @property (strong, nonatomic) NSArray *itemArray;
 @property (strong, nonatomic) FIRDatabaseReference *ref;
 @property (strong, nonatomic) id selectedItem;
+@property (strong, nonatomic) FAActivityIndicator *activityIndicator;
 
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 
@@ -33,6 +34,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.activityIndicator = [[FAActivityIndicator alloc]initWithView:self.view];
+    
     UIBarButtonItem *back = [[UIBarButtonItem alloc]
                              initWithTitle:@"Back" style:UIBarButtonItemStylePlain
                              target:self
@@ -131,14 +135,14 @@
     NSDate *start = [NSDate date];
     
     if (searchText.length>0) {
-        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
+        [self.activityIndicator startAnimating];
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
         [[[[[self.ref queryOrderedByKey] queryLimitedToLast:10] queryStartingAtValue:[nospacestring lowercaseString]] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",[nospacestring lowercaseString]]]
          observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
              
-             [[FAActivityIndicator sharedIndicator] stopAnimating];
+             [self.activityIndicator stopAnimating];
              
              if (snapshot.value != [NSNull null]) {
                  self.itemArray = [snapshot.value allValues];

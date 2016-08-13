@@ -10,9 +10,9 @@
 
 @interface FAActivityIndicator : UIView
 
-+ (instancetype)sharedIndicator;
+-(instancetype)initWithView:(UIView*)view;
 
--(void)startAnimatingWithView:(UIView*)view;
+-(void)startAnimating;
 -(void)stopAnimating;
 
 @end

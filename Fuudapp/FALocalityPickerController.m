@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "FAConstants.h"
 #import "FAActivityIndicator.h"
+#import "FAAnalyticsManager.h"
 
 @interface FALocalityPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -19,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *locArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
+@property (strong, nonatomic) FAActivityIndicator *activityIndicator;
 
 @end
 
@@ -26,6 +28,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.activityIndicator = [[FAActivityIndicator alloc]initWithView:self.view];
+    
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]
                              initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
                              target:self
@@ -56,9 +61,11 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self.dataTask cancel];
+    NSDate *start = [NSDate date];
+    
     if (searchText.length>0) {
         
-        [[FAActivityIndicator sharedIndicator] startAnimatingWithView:self.view];
+        [self.activityIndicator startAnimating];
         
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
@@ -74,12 +81,35 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            
-            [[FAActivityIndicator sharedIndicator] stopAnimating];
-            
             if (!error) {
+                [self.activityIndicator stopAnimating];
                 self.locArray = responseObject[@"predictions"];
+                
+                NSDate *end = [NSDate date];
+                NSMutableDictionary *parameter = [NSMutableDictionary new];
+                [parameter setObject:[NSNumber numberWithBool:YES] forKey:kFAAnalyticsSucessKey];
+                [parameter setObject:[NSNumber numberWithInteger:self.locArray.count] forKey:kFAAnalyticsResultCountKey];
+                [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                
+                [FAAnalyticsManager logSearchWithQuery:searchText
+                                      customAttributes:parameter];
+                
                 [self.locTableView reloadData];
+            }
+            else{
+                if (error.code != -999) {
+                    [self.activityIndicator stopAnimating];
+                    NSDate *end = [NSDate date];
+                    NSMutableDictionary *parameter = [NSMutableDictionary new];
+                    [parameter setObject:[NSNumber numberWithBool:NO] forKey:kFAAnalyticsSucessKey];
+                    [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                    [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                    
+                    [FAAnalyticsManager logSearchWithQuery:searchText
+                                          customAttributes:parameter];
+                }
+
             }
         }];
         [self.dataTask resume];
