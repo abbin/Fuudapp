@@ -8,11 +8,8 @@
 
 #import "FirstViewController.h"
 #import "FAManager.h"
-#import "FAPopAlert.h"
 
 @interface FirstViewController ()
-
-@property (nonatomic, strong) FAPopAlert *alet;
 
 @end
 
@@ -25,8 +22,10 @@
                                    target:self
                                    action:@selector(addButtonClicked:)];
     self.navigationItem.rightBarButtonItem = addButton;
-    self.alet = [[FAPopAlert alloc]initWithCustomFrame];
     
+//    [FAManager observeEventWithCompletion:^(NSMutableArray* items){
+//        
+//    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,7 +34,7 @@
 }
 
 - (void)addButtonClicked:(id)sender {
-    [self.alet show];
+    [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
 }
 
 @end
