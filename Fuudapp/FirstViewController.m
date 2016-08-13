@@ -23,9 +23,9 @@
                                    action:@selector(addButtonClicked:)];
     self.navigationItem.rightBarButtonItem = addButton;
     
-//    [FAManager observeEventWithCompletion:^(NSMutableArray* items){
-//        
-//    }];
+    [FAManager observeEventWithCompletion:^(NSArray *items){
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

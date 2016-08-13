@@ -105,7 +105,7 @@
     return [result mutableCopy];
 }
 
-+(void)observeEventWithCompletion:(void (^)(NSMutableArray* items))completion{
++(void)observeEventWithCompletion:(void (^)(NSArray *items))completion{
     double lat = 9.976250;
     double lng = 76.293778;
     
@@ -121,7 +121,7 @@
     
     FIRDatabaseReference *ref = [[[FIRDatabase database] reference] child:kFAItemPathKey];
     [[[[ref queryOrderedByChild:kFARestaurantLGeoHashKey] queryStartingAtValue:shortString] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",shortString]] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
-         NSLog(@"%@", [snapshot.value allValues]);
+        completion([snapshot.value allValues]);
      }];
 }
 
