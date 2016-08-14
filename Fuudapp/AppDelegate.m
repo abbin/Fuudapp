@@ -30,7 +30,8 @@
     [FIRApp configure];
     [GMSServices provideAPIKey:kFAGoogleMapsKey];
     [FAManager remoteConfig];
-
+    [FIRDatabase database].persistenceEnabled = YES;
+    
     [[UINavigationBar appearance] setBarTintColor:[FAColor mainColor]];
     [[UINavigationBar appearance] setTranslucent:YES];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
