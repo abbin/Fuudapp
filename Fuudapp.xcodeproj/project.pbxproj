@@ -11,6 +11,7 @@
 		ED044A081D53605100CF57DF /* FAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED044A071D53605100CF57DF /* FAManager.m */; };
 		ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */; };
 		ED3AA5181D586493004A27B1 /* FAReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED3AA5171D586493004A27B1 /* FAReviewViewController.m */; };
+		ED4733701D63607300280BC0 /* FASignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED47336F1D63607300280BC0 /* FASignInViewController.m */; };
 		ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FE51D4F429F00854980 /* FALocalityPickerController.m */; };
 		ED482FEC1D4F7C5300854980 /* TLTagsControl.m in Sources */ = {isa = PBXBuildFile; fileRef = ED482FEB1D4F7C5300854980 /* TLTagsControl.m */; };
 		ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED49ADBA1D55E1D0004B293A /* FAAnalyticsManager.m */; };
@@ -53,6 +54,8 @@
 		ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info(live).plist"; sourceTree = "<group>"; };
 		ED3AA5161D586493004A27B1 /* FAReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAReviewViewController.h; sourceTree = "<group>"; };
 		ED3AA5171D586493004A27B1 /* FAReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAReviewViewController.m; sourceTree = "<group>"; };
+		ED47336E1D63607300280BC0 /* FASignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASignInViewController.h; sourceTree = "<group>"; };
+		ED47336F1D63607300280BC0 /* FASignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASignInViewController.m; sourceTree = "<group>"; };
 		ED482FE41D4F429F00854980 /* FALocalityPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALocalityPickerController.h; sourceTree = "<group>"; };
 		ED482FE51D4F429F00854980 /* FALocalityPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALocalityPickerController.m; sourceTree = "<group>"; };
 		ED482FEA1D4F7C5300854980 /* TLTagsControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLTagsControl.h; sourceTree = "<group>"; };
@@ -392,6 +395,8 @@
 				EDA5FE341D54D9E900BD4F57 /* Favourite */,
 				EDFF9CE11D5B79BF0085B9E1 /* FATabBarController.h */,
 				EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */,
+				ED47336E1D63607300280BC0 /* FASignInViewController.h */,
+				ED47336F1D63607300280BC0 /* FASignInViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -575,6 +580,7 @@
 				ED044A081D53605100CF57DF /* FAManager.m in Sources */,
 				ED8D6DF51D46552A00CA8777 /* FirstViewController.m in Sources */,
 				ED8D6DEF1D46552A00CA8777 /* main.m in Sources */,
+				ED4733701D63607300280BC0 /* FASignInViewController.m in Sources */,
 				EDB89AE71D473E3C00EE4BBB /* UICollectionView+Convenience.m in Sources */,
 				EDD7ED3A1D5DB97500AED472 /* FAActivityIndicator.m in Sources */,
 				EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */,
