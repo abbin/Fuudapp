@@ -34,7 +34,6 @@
                              target:self
                              action:@selector(nextButtonClicked:)];
 
-    [next setTintColor:[FAColor mainColor]];
     self.navigationItem.rightBarButtonItem = next;
     
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]

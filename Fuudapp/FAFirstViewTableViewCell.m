@@ -23,14 +23,20 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.ratingView.layer.cornerRadius = self.ratingView.frame.size.height/8;
+    self.ratingView.layer.masksToBounds = YES;
+    self.cellImageView.layer.cornerRadius = self.cellImageView.frame.size.height/32;
+    self.cellImageView.layer.masksToBounds = YES;
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.height/2;
     self.userImageView.layer.masksToBounds = YES;
-    self.ratingView.tintColor = [FAColor mainColor];
     
     self.itemNameLavel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15];
     self.restaurantNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:13];
-    self.userNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
     self.distanceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.priceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.addressLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.userNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    [self.ratingView.titleLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -12,6 +12,7 @@
 #import "FAConstants.h"
 #import "NSMutableDictionary+FAItem.h"
 #import "NSMutableDictionary+FARestaurant.h"
+#import <MapKit/MapKit.h>
 
 @import FirebaseRemoteConfig;
 @import FirebaseDatabase;
@@ -70,33 +71,43 @@
     
     FAFirstViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FAFirstViewTableViewCell"];
 
-    
-    cell.userNameLabel.text = @"Abbin Varghese";
     cell.cellImageUrl = imageUrl;
     cell.itemNameLavel.text = itemDict.nameString;
     cell.restaurantNameLabel.text = itemDict.restaurant.name;
+    cell.addressLabel.text = itemDict.restaurant.address;
+    [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.rating] forState:UIControlStateNormal];
+    cell.distanceLabel.text = [self distanceBetweenstatLat:[itemDict.latitude doubleValue] lon:[itemDict.longitude doubleValue]];
+    cell.priceLabel.text = [NSString stringWithFormat:@"%@:%@",itemDict.currency,itemDict.price];
     
     return cell;
 }
 
+-(NSString*)distanceBetweenstatLat:(double)lat lon:(double)lng{
+    CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
+    CLLocation *endLocation = [[CLLocation alloc] initWithLatitude:9.976250 longitude:76.293778];
+    CLLocationDistance distance = [startLocation distanceFromLocation:endLocation];
+    if (distance>1000) {
+        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
+        [formatter setMaximumFractionDigits:0];
+        return [NSString stringWithFormat:@"%@ km",[formatter stringFromNumber:[NSNumber numberWithDouble:distance/1000]]];
+    }
+    else{
+        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
+        [formatter setMaximumFractionDigits:0];
+        return [NSString stringWithFormat:@"%@ meters",[formatter stringFromNumber:[NSNumber numberWithDouble:distance]]];
+    }
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *itemDict = [self.itemsArray objectAtIndex:indexPath.section];
-    NSArray *imageArray = [itemDict objectForKey:kFAItemImagesKey];
-    NSDictionary *imageDict = [imageArray objectAtIndex:0];
-    CGFloat imageHeight = [[imageDict objectForKey:kFAItemImagesHeightKey] intValue];
-    CGFloat imageWidth = [[imageDict objectForKey:kFAItemImagesWidthKey] intValue];
-    CGFloat viewWidth = self.view.frame.size.width;
-    CGFloat hwRation = imageHeight/imageWidth;
-    CGFloat newHeight =  hwRation*viewWidth ;
-    return newHeight+100;
+    return 165;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 10;
+    return 5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 5;
+    return 2.5;
 }
 
 @end
