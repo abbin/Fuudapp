@@ -1565,26 +1565,7 @@
                     <view key="view" contentMode="scaleToFill" id="oHI-3H-I2c">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="threePlates" translatesAutoresizingMaskIntoConstraints="NO" id="tJW-oe-dI3">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.69999999999999996" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fuudapp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKl-2O-zs9">
-                                <rect key="frame" x="20" y="64" width="126" height="41"/>
-                                <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="30"/>
-                                <color key="textColor" red="0.78823529411764703" green="0.0" blue="0.090196078431372548" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="tJW-oe-dI3" secondAttribute="bottom" id="Ksx-Pp-lC1"/>
-                            <constraint firstItem="bKl-2O-zs9" firstAttribute="top" secondItem="oHI-3H-I2c" secondAttribute="top" constant="64" id="OwX-Dh-laq"/>
-                            <constraint firstAttribute="trailing" secondItem="tJW-oe-dI3" secondAttribute="trailing" id="QYR-Lt-A9g"/>
-                            <constraint firstItem="tJW-oe-dI3" firstAttribute="top" secondItem="oHI-3H-I2c" secondAttribute="top" id="hrf-Qv-Rf2"/>
-                            <constraint firstItem="tJW-oe-dI3" firstAttribute="leading" secondItem="oHI-3H-I2c" secondAttribute="leading" id="skx-PD-LG5"/>
-                            <constraint firstItem="bKl-2O-zs9" firstAttribute="leading" secondItem="oHI-3H-I2c" secondAttribute="leading" constant="20" id="xs7-qV-ktE"/>
-                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
@@ -1692,7 +1673,6 @@
         <image name="home" width="25" height="25"/>
         <image name="pin" width="44" height="44"/>
         <image name="powredByGoogle" width="144" height="18"/>
-        <image name="threePlates" width="320" height="569"/>
         <image name="uncheck" width="44" height="44"/>
     </resources>
 </document>
