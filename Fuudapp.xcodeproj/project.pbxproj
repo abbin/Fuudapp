@@ -38,6 +38,7 @@
 		EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AE91D475ED900EE4BBB /* FAColor.m */; };
 		EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */; };
 		EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */; };
+		EDCE81A01D64632D00921F8D /* IMG_0102.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */; };
 		EDD7ED3A1D5DB97500AED472 /* FAActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */; };
 		EDD7ED3C1D5DE6C300AED472 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
@@ -105,6 +106,7 @@
 		EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerOne.m; sourceTree = "<group>"; };
 		EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddOneCollectionViewCell.h; sourceTree = "<group>"; };
 		EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddOneCollectionViewCell.m; sourceTree = "<group>"; };
+		EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = IMG_0102.mp4; sourceTree = "<group>"; };
 		EDD7ED381D5DB97500AED472 /* FAActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAActivityIndicator.h; sourceTree = "<group>"; };
 		EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityIndicator.m; sourceTree = "<group>"; };
 		EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */,
 				EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */,
 				EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */,
+				EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */,
 				ED8D6DED1D46552A00CA8777 /* Supporting Files */,
 			);
 			path = Fuudapp;
@@ -477,6 +480,7 @@
 				EDD7ED3C1D5DE6C300AED472 /* RemoteConfigDefaults.plist in Resources */,
 				ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */,
 				ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */,
+				EDCE81A01D64632D00921F8D /* IMG_0102.mp4 in Resources */,
 				EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */,
 				ED8D6DFD1D46552A00CA8777 /* Assets.xcassets in Resources */,
 				ED8D6DFB1D46552A00CA8777 /* Main.storyboard in Resources */,

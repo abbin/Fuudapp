@@ -1547,7 +1547,7 @@
                     <connections>
                         <segue destination="lqp-lZ-nEA" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
-                        <segue destination="1Uq-pN-Hcu" kind="presentation" identifier="FASignInViewControllerSegue" animates="NO" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="qKO-3W-RFL"/>
+                        <segue destination="1Uq-pN-Hcu" kind="presentation" identifier="FASignInViewControllerSegue" modalPresentationStyle="overCurrentContext" modalTransitionStyle="coverVertical" id="qKO-3W-RFL"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -1565,9 +1565,54 @@
                     <view key="view" contentMode="scaleToFill" id="oHI-3H-I2c">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="3eN-ck-QI8">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNz-QM-m9z">
+                                <rect key="frame" x="0.0" y="298" width="375" height="211"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="LNz-QM-m9z" secondAttribute="height" multiplier="16:9" id="5AG-Q3-HI1"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMn-CB-tQt">
+                                <rect key="frame" x="20" y="633" width="335" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <state key="normal" title="No thanks">
+                                    <color key="titleColor" white="0.0" alpha="0.83569504310344822" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3iK-hK-exX">
+                                <rect key="frame" x="10" y="559" width="355" height="44"/>
+                                <color key="backgroundColor" red="0.23137254900000001" green="0.34901960780000002" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="s7x-uC-8Zg"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3iK-hK-exX" firstAttribute="leading" secondItem="oHI-3H-I2c" secondAttribute="leading" constant="10" id="4f3-HO-9Qf"/>
+                            <constraint firstItem="dMn-CB-tQt" firstAttribute="top" secondItem="3iK-hK-exX" secondAttribute="bottom" constant="30" id="5zf-LD-Oj6"/>
+                            <constraint firstItem="Gcg-WZ-519" firstAttribute="top" secondItem="dMn-CB-tQt" secondAttribute="bottom" constant="10" id="7hA-J6-1PL"/>
+                            <constraint firstAttribute="trailing" secondItem="3eN-ck-QI8" secondAttribute="trailing" id="EWu-jm-7He"/>
+                            <constraint firstItem="3iK-hK-exX" firstAttribute="top" secondItem="LNz-QM-m9z" secondAttribute="bottom" constant="50" id="Fs0-WK-Ywe"/>
+                            <constraint firstAttribute="trailing" secondItem="3iK-hK-exX" secondAttribute="trailing" constant="10" id="MGe-W9-cYW"/>
+                            <constraint firstItem="LNz-QM-m9z" firstAttribute="leading" secondItem="oHI-3H-I2c" secondAttribute="leading" id="WN8-7c-zQL"/>
+                            <constraint firstAttribute="trailing" secondItem="LNz-QM-m9z" secondAttribute="trailing" id="bcg-2z-DWy"/>
+                            <constraint firstAttribute="trailing" secondItem="dMn-CB-tQt" secondAttribute="trailing" constant="20" id="fAa-EB-oLS"/>
+                            <constraint firstItem="3eN-ck-QI8" firstAttribute="leading" secondItem="oHI-3H-I2c" secondAttribute="leading" id="kfR-ow-eEv"/>
+                            <constraint firstItem="dMn-CB-tQt" firstAttribute="leading" secondItem="oHI-3H-I2c" secondAttribute="leading" constant="20" id="lwX-ed-PBl"/>
+                            <constraint firstAttribute="bottom" secondItem="3eN-ck-QI8" secondAttribute="bottom" id="n2V-t8-bxH"/>
+                            <constraint firstItem="3eN-ck-QI8" firstAttribute="top" secondItem="oHI-3H-I2c" secondAttribute="top" id="th3-iU-jqD"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="movieView" destination="LNz-QM-m9z" id="sdp-LQ-2YO"/>
+                        <outlet property="noThanksButton" destination="dMn-CB-tQt" id="DHq-jl-USw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="19K-Er-NQo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1667,6 +1712,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="background" width="288" height="512"/>
         <image name="check" width="50" height="50"/>
         <image name="currentLocation" width="40" height="40"/>
         <image name="heart" width="25" height="25"/>
