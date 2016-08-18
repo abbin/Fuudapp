@@ -12,7 +12,7 @@
 
 -(instancetype)initWithCustomFrame;
 
--(void)show;
+-(void)showWithText:(NSString*)text;
 
 @property (assign, nonatomic) BOOL isShowing;
 

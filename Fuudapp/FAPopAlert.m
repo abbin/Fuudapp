@@ -17,7 +17,7 @@
 @property (assign, nonatomic) int firstY;
 @property (assign, nonatomic) int height;
 @property (assign, nonatomic) int width;
-
+@property (strong, nonatomic) UILabel *vibrantLabel;
 @end
 
 @implementation FAPopAlert
@@ -49,17 +49,17 @@
 
         [[vibrancyEffectView contentView] addSubview:bottonStrip];
         
-        UILabel *vibrantLabel = [[UILabel alloc] init];
-        [vibrantLabel setText:@"Do not schedule an upload task."];
-        [vibrantLabel setTextAlignment:NSTextAlignmentCenter];
-        [vibrantLabel setNumberOfLines:1];
-        [vibrantLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15.0]];
-        [vibrantLabel setFrame:CGRectMake(52, 20, self.frame.size.width-60, self.height-34)];
-        [vibrantLabel setTextColor:[UIColor whiteColor]];
-        [[self contentView] addSubview:vibrantLabel];
+        self.vibrantLabel = [[UILabel alloc] init];
+        [self.vibrantLabel setText:@"Do not schedule an upload task."];
+        [self.vibrantLabel setTextAlignment:NSTextAlignmentCenter];
+        [self.vibrantLabel setNumberOfLines:1];
+        [self.vibrantLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15.0]];
+        [self.vibrantLabel setFrame:CGRectMake(52, 20, self.frame.size.width-60, self.height-34)];
+        [self.vibrantLabel setTextColor:[UIColor whiteColor]];
+        [[self contentView] addSubview:self.vibrantLabel];
         [[self contentView] addSubview:vibrancyEffectView];
         
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(8, 20, vibrantLabel.frame.size.height, vibrantLabel.frame.size.height)];
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(8, 20, self.vibrantLabel.frame.size.height, self.vibrantLabel.frame.size.height)];
         [imageView setBackgroundColor:[UIColor whiteColor]];
         [[self contentView] addSubview:imageView];
         
@@ -127,9 +127,10 @@
     }
 }
 
--(void)show{
+-(void)showWithText:(NSString*)text{
     if (!self.isShowing) {
         self.isShowing = YES;
+        self.vibrantLabel.text = text;
         [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.frame = CGRectMake(0, 0, self.frame.size.width, self.height);
         } completion:^(BOOL finished) {

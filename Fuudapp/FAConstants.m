@@ -77,7 +77,7 @@ NSString *const kFARestaurantIdKey                  = @"restaurant_id";
 #pragma mark - Locality -
 
 NSString *const kFALocalityNameKey                  = @"locality_name";
-NSString *const kFALocalityLatitudeKey              = @"locality_address";
+NSString *const kFALocalityLatitudeKey              = @"locality_longitude";
 NSString *const kFALocalityLongitudeKey             = @"locality_latitude";
 
 

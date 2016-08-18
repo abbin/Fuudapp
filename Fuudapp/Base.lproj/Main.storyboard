@@ -1664,7 +1664,7 @@
                                     <color key="titleColor" white="0.0" alpha="0.84100215517241383" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="obJ-xt-dBV" kind="presentation" identifier="FALocationViewControllerSegue" id="J3P-cN-USc"/>
+                                    <segue destination="obJ-xt-dBV" kind="presentation" identifier="FALocalityPickerControllerSegue" id="J3P-cN-USc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="feU-Yq-fMb">
@@ -1676,6 +1676,9 @@
                                 <state key="normal" title="Detect my location">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="detectMyLocation:" destination="PN1-a6-itZ" eventType="touchUpInside" id="LQm-xo-W6f"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="locationPlace" translatesAutoresizingMaskIntoConstraints="NO" id="FAF-wo-0T6">
                                 <rect key="frame" x="0.0" y="298" width="375" height="211"/>

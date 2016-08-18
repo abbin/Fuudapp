@@ -9,14 +9,22 @@
 #import "FALocationViewController.h"
 #import "FAConstants.h"
 #import "FALocalityPickerController.h"
+#import "FAPopAlert.h"
+#import "NSMutableDictionary+FALocality.h"
 
+@import CoreLocation;
 @import FirebaseRemoteConfig;
 
-@interface FALocationViewController ()<FALocalityPickerControllerDelegate>
+@interface FALocationViewController ()<FALocalityPickerControllerDelegate,CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *detectLocationButton;
 @property (weak, nonatomic) IBOutlet UIButton *manuallButton;
 @property (weak, nonatomic) IBOutlet UILabel *headingLabel;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) FAPopAlert *alert;
+@property (nonatomic, strong) CLGeocoder *geocoder;
+@property (nonatomic, strong) CLPlacemark *placemark;
+@property (assign, nonatomic) BOOL firstUpdate;
 
 @end
 
@@ -24,6 +32,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.alert = [[FAPopAlert alloc]initWithCustomFrame];
+    
+    self.geocoder = [[CLGeocoder alloc] init];
+    
     NSDictionary * linkAttributes = @{NSFontAttributeName:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10],
                                       NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)};
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.manuallButton.titleLabel.text attributes:linkAttributes];
@@ -39,11 +52,32 @@
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"FALocationViewControllerSegue"]) {
+    if ([segue.identifier isEqualToString:@"FALocalityPickerControllerSegue"]) {
         UINavigationController *nv = segue.destinationViewController;
         FALocalityPickerController *vc = nv.viewControllers[0];
         vc.delegate = self;
     }
+}
+
+- (IBAction)detectMyLocation:(id)sender {
+    if (!self.locationManager) {
+        self.locationManager = [[CLLocationManager alloc] init];
+        self.locationManager.delegate = self;
+    }
+    
+    /*
+     Gets user permission to get their location while the app is in the foreground.
+     
+     To monitor the user's location even when the app is in the background:
+     1. Replace [self.locationManager requestWhenInUseAuthorization] with [self.locationManager requestAlwaysAuthorization]
+     2. Change NSLocationWhenInUseUsageDescription to NSLocationAlwaysUsageDescription in InfoPlist.strings
+     */
+    [self.locationManager requestWhenInUseAuthorization];
+    
+    /*
+     Requests a single location after the user is presented with a consent dialog.
+     */
+    [self.locationManager startUpdatingLocation];
 }
 
 -(void)FALocalityPickerController:(FALocalityPickerController *)controller didFinisheWithLocation:(NSMutableDictionary *)location{
@@ -55,6 +89,45 @@
         } completion:^(BOOL finished) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    [self.alert showWithText:error.localizedDescription];
+    [self.locationManager stopUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    if (!self.firstUpdate) {
+        [self.locationManager stopUpdatingLocation];
+        CLLocation *currentLocation = locations[0];
+        self.firstUpdate = YES;
+        
+        [self.geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+            if (error == nil && [placemarks count] > 0) {
+                self.placemark = [placemarks lastObject];
+                NSDictionary *placemarkDict = self.placemark.addressDictionary;
+                NSMutableDictionary *loc = [NSMutableDictionary new];
+                loc.localityName = [placemarkDict objectForKey:@"Name"];
+                loc.lat = [NSNumber numberWithDouble:currentLocation.coordinate.latitude];
+                loc.lng = [NSNumber numberWithDouble:currentLocation.coordinate.longitude];
+                [[NSUserDefaults standardUserDefaults] setObject:loc forKey:kFAUserLocalityKey];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [UIView animateWithDuration:0.3 animations:^{
+                    self.view.alpha = 0;
+                } completion:^(BOOL finished) {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }];
+            } else {
+                [self.alert showWithText:error.localizedDescription];
+            }
+        } ];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusDenied) {
+        [self performSegueWithIdentifier:@"FALocalityPickerControllerSegue" sender:self];
     }
 }
 
