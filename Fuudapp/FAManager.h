@@ -16,6 +16,8 @@
 
 +(void)observeEventWithCompletion:(void (^)(NSArray *items))completion;
 
-+ (void)remoteConfig;
++(void)remoteConfig;
+
++(BOOL)isLocationSet;
 
 @end

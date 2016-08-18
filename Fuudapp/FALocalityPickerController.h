@@ -12,7 +12,7 @@
 
 @protocol FALocalityPickerControllerDelegate <NSObject>
 
--(void)FALocalityPickerController:(FALocalityPickerController*)controller didFinisheWithLocation:(NSString*)location;
+-(void)FALocalityPickerController:(FALocalityPickerController*)controller didFinisheWithLocation:(NSMutableDictionary*)location;
 
 @end
 

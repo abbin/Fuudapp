@@ -7,6 +7,7 @@
 //
 
 #import "FATabBarController.h"
+#import "FAManager.h"
 
 @import FirebaseAuth;
 
@@ -30,6 +31,9 @@
     [super viewDidAppear:animated];
     if ([FIRAuth auth].currentUser == nil) {
         [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
+    }
+    else if (![FAManager isLocationSet]){
+        [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
     }
 }
 

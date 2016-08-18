@@ -423,8 +423,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - FALocalityPickerControllerDelegate -
 
--(void)FALocalityPickerController:(FALocalityPickerController *)controller didFinisheWithLocation:(NSString *)location{
-    self.localityTextField.text = location;
+-(void)FALocalityPickerController:(FALocalityPickerController *)controller didFinisheWithLocation:(NSMutableDictionary *)location{
+    self.localityTextField.text = @"";
 }
 
 

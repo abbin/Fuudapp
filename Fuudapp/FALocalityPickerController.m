@@ -12,6 +12,7 @@
 #import "FAConstants.h"
 #import "FAActivityIndicator.h"
 #import "FAAnalyticsManager.h"
+#import "NSMutableDictionary+FALocality.h"
 
 @interface FALocalityPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -173,11 +174,30 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.searchBar resignFirstResponder];
-    [self dismissViewControllerAnimated:YES completion:^{
-        if ([self.delegate respondsToSelector:@selector(FALocalityPickerController:didFinisheWithLocation:)]) {
-            [self.delegate FALocalityPickerController:self didFinisheWithLocation:[[self.locArray objectAtIndex:indexPath.row] objectForKey:@"description"]];
+    
+    NSString *placeID = [[self.locArray objectAtIndex:indexPath.row] objectForKey:@"place_id"];
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    
+    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?placeid=%@&key=%@",placeID,kFAGoogleServerKey];
+    NSURL *URL = [NSURL URLWithString:urlString];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    [self.activityIndicator startAnimating];
+    
+    self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (!error) {
+            [self.activityIndicator stopAnimating];
+            NSMutableDictionary *locality = [[NSMutableDictionary alloc]initWithLocality:[responseObject objectForKey:@"result"]];
+            [self dismissViewControllerAnimated:YES completion:^{
+                if ([self.delegate respondsToSelector:@selector(FALocalityPickerController:didFinisheWithLocation:)]) {
+                    [self.delegate FALocalityPickerController:self didFinisheWithLocation:locality];
+                }
+            }];
         }
     }];
+    [self.dataTask resume];
 }
 
 @end

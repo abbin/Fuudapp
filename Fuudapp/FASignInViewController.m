@@ -8,16 +8,21 @@
 
 #import "FASignInViewController.h"
 #import "FAConstants.h"
-
+#import "FAManager.h"
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @import FirebaseRemoteConfig;
+@import FirebaseAuth;
 
-@interface FASignInViewController ()
+@interface FASignInViewController ()<FBSDKLoginButtonDelegate>
 
 @property (nonatomic, strong) AVPlayer *avplayer;
 @property (strong, nonatomic) IBOutlet UIView *movieView;
 @property (weak, nonatomic) IBOutlet UIButton *noThanksButton;
+@property (weak, nonatomic) IBOutlet FBSDKLoginButton *facebookButton;
+@property (weak, nonatomic) IBOutlet UILabel *headingLabel;
 
 @end
 
@@ -25,6 +30,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.facebookButton.delegate = self;
+    self.facebookButton.readPermissions = @[@"public_profile", @"email", @"user_friends"];
     
     NSError *sessionError = nil;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient error:&sessionError];
@@ -56,6 +64,9 @@
                                       NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)};
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.noThanksButton.titleLabel.text attributes:linkAttributes];
     [self.noThanksButton.titleLabel setAttributedText:attributedString];
+    
+    [self.headingLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:20]];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -85,14 +96,35 @@
     [self.avplayer play];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error {
+    if (error == nil && [FBSDKAccessToken currentAccessToken].tokenString) {
+        FIRAuthCredential *credential = [FIRFacebookAuthProvider
+                                         credentialWithAccessToken:[FBSDKAccessToken currentAccessToken]
+                                         .tokenString];
+        [[FIRAuth auth] signInWithCredential:credential
+                                  completion:^(FIRUser *user, NSError *error) {
+                                      if (error == nil) {
+                                          if (![FAManager isLocationSet]) {
+                                              [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+                                          }
+                                          else{
+                                              [self dismissViewControllerAnimated:YES completion:nil];
+                                          }
+                                      }
+                                  }];
+    }
 }
-*/
+
+-(void)loginButtonDidLogOut:(FBSDKLoginButton *)loginButton{
+    
+}
+
+- (IBAction)noThanks:(id)sender {
+    [[FIRAuth auth] signInAnonymouslyWithCompletion:^(FIRUser *_Nullable user, NSError *_Nullable error) {
+        if (error == nil) {
+            [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+        }
+     }];
+}
 
 @end

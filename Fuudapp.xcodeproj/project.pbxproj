@@ -19,6 +19,12 @@
 		ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */; };
 		ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ED74239E1D4A48B40030CE45 /* FAConstants.m */; };
 		ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */; };
+		ED898EB31D64A6DB000701DF /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED898EB01D64A6DB000701DF /* FBSDKCoreKit.framework */; };
+		ED898EB41D64A6DB000701DF /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED898EB11D64A6DB000701DF /* FBSDKLoginKit.framework */; };
+		ED898EB51D64A6DB000701DF /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED898EB21D64A6DB000701DF /* FBSDKShareKit.framework */; };
+		ED898EB71D64A7E6000701DF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED898EB61D64A7E6000701DF /* Bolts.framework */; };
+		ED898EC01D65B2C2000701DF /* FALocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED898EBF1D65B2C2000701DF /* FALocationViewController.m */; };
+		ED898EC41D65F983000701DF /* NSMutableDictionary+FALocality.m in Sources */ = {isa = PBXBuildFile; fileRef = ED898EC31D65F983000701DF /* NSMutableDictionary+FALocality.m */; };
 		ED8D6DEF1D46552A00CA8777 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8D6DEE1D46552A00CA8777 /* main.m */; };
 		ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8D6DF11D46552A00CA8777 /* AppDelegate.m */; };
 		ED8D6DF51D46552A00CA8777 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED8D6DF41D46552A00CA8777 /* FirstViewController.m */; };
@@ -71,6 +77,14 @@
 		ED74239E1D4A48B40030CE45 /* FAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAConstants.m; sourceTree = "<group>"; };
 		ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FARestaurant.h"; sourceTree = "<group>"; };
 		ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FARestaurant.m"; sourceTree = "<group>"; };
+		ED898EB01D64A6DB000701DF /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		ED898EB11D64A6DB000701DF /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		ED898EB21D64A6DB000701DF /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		ED898EB61D64A7E6000701DF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		ED898EBE1D65B2C2000701DF /* FALocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALocationViewController.h; sourceTree = "<group>"; };
+		ED898EBF1D65B2C2000701DF /* FALocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALocationViewController.m; sourceTree = "<group>"; };
+		ED898EC21D65F983000701DF /* NSMutableDictionary+FALocality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FALocality.h"; sourceTree = "<group>"; };
+		ED898EC31D65F983000701DF /* NSMutableDictionary+FALocality.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FALocality.m"; sourceTree = "<group>"; };
 		ED8D6DEA1D46552A00CA8777 /* Fuudapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fuudapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED8D6DEE1D46552A00CA8777 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ED8D6DF01D46552A00CA8777 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -123,7 +137,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED898EB71D64A7E6000701DF /* Bolts.framework in Frameworks */,
+				ED898EB51D64A6DB000701DF /* FBSDKShareKit.framework in Frameworks */,
 				184D8283C4BE93E9388FF949 /* Pods_Fuudapp.framework in Frameworks */,
+				ED898EB31D64A6DB000701DF /* FBSDKCoreKit.framework in Frameworks */,
+				ED898EB41D64A6DB000701DF /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +151,10 @@
 		180F28C265828560256D1332 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED898EB61D64A7E6000701DF /* Bolts.framework */,
+				ED898EB01D64A6DB000701DF /* FBSDKCoreKit.framework */,
+				ED898EB11D64A6DB000701DF /* FBSDKLoginKit.framework */,
+				ED898EB21D64A6DB000701DF /* FBSDKShareKit.framework */,
 				24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */,
 			);
 			name = Frameworks;
@@ -145,6 +167,15 @@
 				12B5A52FBD971E5F8521E0D9 /* Pods-Fuudapp.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		ED898EC11D65F928000701DF /* Locality */ = {
+			isa = PBXGroup;
+			children = (
+				ED898EC21D65F983000701DF /* NSMutableDictionary+FALocality.h */,
+				ED898EC31D65F983000701DF /* NSMutableDictionary+FALocality.m */,
+			);
+			name = Locality;
 			sourceTree = "<group>";
 		};
 		ED8D6DE11D46552A00CA8777 = {
@@ -213,6 +244,7 @@
 				ED49ADBA1D55E1D0004B293A /* FAAnalyticsManager.m */,
 				ED74239D1D4A48B40030CE45 /* FAConstants.h */,
 				ED74239E1D4A48B40030CE45 /* FAConstants.m */,
+				ED898EC11D65F928000701DF /* Locality */,
 				EDA5FE321D54D9CE00BD4F57 /* Restaurant */,
 				EDA5FE311D54D9C400BD4F57 /* Item */,
 			);
@@ -400,6 +432,8 @@
 				EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */,
 				ED47336E1D63607300280BC0 /* FASignInViewController.h */,
 				ED47336F1D63607300280BC0 /* FASignInViewController.m */,
+				ED898EBE1D65B2C2000701DF /* FALocationViewController.h */,
+				ED898EBF1D65B2C2000701DF /* FALocationViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -578,6 +612,7 @@
 				EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */,
 				ED9D77851D5EF0240058C235 /* FAPopAlert.m in Sources */,
 				ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */,
+				ED898EC41D65F983000701DF /* NSMutableDictionary+FALocality.m in Sources */,
 				EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */,
 				EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */,
 				EDB89AE61D473E3C00EE4BBB /* NSIndexSet+Convenience.m in Sources */,
@@ -597,6 +632,7 @@
 				ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */,
 				EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */,
 				ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */,
+				ED898EC01D65B2C2000701DF /* FALocationViewController.m in Sources */,
 				ED6570361D4B4E7A002B680E /* FAMapViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -716,6 +752,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Abbin Varghese (365M9G4VL5)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Fuudapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -731,6 +771,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Abbin Varghese (EDXP6Y48QS)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Fuudapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

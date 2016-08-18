@@ -714,4 +714,13 @@
     }];
 }
 
++(BOOL)isLocationSet{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kFAUserLocalityKey]) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
 @end

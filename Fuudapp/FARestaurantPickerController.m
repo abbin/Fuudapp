@@ -210,7 +210,6 @@
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
                 self.selectedRest = [[NSMutableDictionary alloc]initWithRestaurant:[responseObject objectForKey:@"result"]];
-                [self.searchBar resignFirstResponder];
                  [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
 
                 [self.activityIndicator stopAnimating];
