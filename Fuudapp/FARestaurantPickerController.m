@@ -93,8 +93,8 @@
         
         NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults]objectForKey:kFASelectedLocalityKey];
         
-        double lat = [loc.lat doubleValue];
-        double lng = [loc.lng doubleValue];
+        double lat = [loc.localityLatitude doubleValue];
+        double lng = [loc.localityLongitude doubleValue];
         
         NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&rankby=distance&type=restaurant&keyword=%@&key=%@",lat,lng,nospacestring,kFAGoogleServerKey];
         NSURL *URL = [NSURL URLWithString:urlString];

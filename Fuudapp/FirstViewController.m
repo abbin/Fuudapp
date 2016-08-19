@@ -12,6 +12,7 @@
 #import "FAConstants.h"
 #import "NSMutableDictionary+FAItem.h"
 #import "NSMutableDictionary+FARestaurant.h"
+#import "NSMutableDictionary+FALocality.h"
 #import <MapKit/MapKit.h>
 
 @import FirebaseRemoteConfig;
@@ -30,12 +31,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
-                                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                  target:self
-                                  action:@selector(addButtonClicked:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    
+    if ([FAManager isLocationSet]) {
+        [self addbarbuttons];
+        [self startListining];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(startListining)
+                                                     name:@"observeEventWithCompletion"
+                                                   object:nil];
+    }
+}
+
+-(void)startListining{
+    [self addbarbuttons];
     [FAManager observeEventWithCompletion:^(NSArray *items){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemRatingKey ascending:NO];
@@ -45,6 +54,17 @@
             });
         });
     }];
+}
+
+-(void)addbarbuttons{
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
+                                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                  target:self
+                                  action:@selector(addButtonClicked:)];
+    self.navigationItem.rightBarButtonItem = addButton;
+    
+    NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults] objectForKey:kFASelectedLocalityKey];
+    self.navigationItem.title = loc.localityName;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,6 +134,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 2.5;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
 
 @end

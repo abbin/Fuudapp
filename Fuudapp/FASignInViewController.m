@@ -120,13 +120,18 @@
 }
 
 - (IBAction)noThanks:(id)sender {
-    self.noThanksButton.enabled = NO;
-    [[FIRAuth auth] signInAnonymouslyWithCompletion:^(FIRUser *_Nullable user, NSError *_Nullable error) {
-        self.noThanksButton.enabled = YES;
-        if (error == nil) {
-            [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
-        }
-     }];
+    if ([FIRAuth auth].currentUser == nil) {
+        self.noThanksButton.enabled = NO;
+        [[FIRAuth auth] signInAnonymouslyWithCompletion:^(FIRUser *_Nullable user, NSError *_Nullable error) {
+            self.noThanksButton.enabled = YES;
+            if (error == nil) {
+                [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+            }
+        }];
+    }
+    else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end

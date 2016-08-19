@@ -11,8 +11,8 @@
 @interface NSMutableDictionary (FALocality)
 
 @property (strong, nonatomic) NSString *localityName;
-@property (strong, nonatomic) NSNumber *lat;
-@property (strong, nonatomic) NSNumber *lng;
+@property (strong, nonatomic) NSNumber *localityLatitude;
+@property (strong, nonatomic) NSNumber *localityLongitude;
 
 -(instancetype)initWithLocality:(NSDictionary*)locality;
 

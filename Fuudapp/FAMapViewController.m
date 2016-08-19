@@ -49,8 +49,8 @@
     }else{
         NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults]objectForKey:kFASelectedLocalityKey];
         
-        double lat = [loc.lat doubleValue];
-        double lng = [loc.lng doubleValue];
+        double lat = [loc.localityLatitude doubleValue];
+        double lng = [loc.localityLongitude doubleValue];
         
         self.currLoc = [[CLLocation alloc]initWithLatitude:lat longitude:lng];
         

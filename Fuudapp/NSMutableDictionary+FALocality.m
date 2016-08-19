@@ -11,7 +11,7 @@
 
 @implementation NSMutableDictionary (FALocality)
 
-@dynamic localityName,lat,lng;
+@dynamic localityName,localityLatitude,localityLongitude;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setter Methods -
@@ -20,12 +20,12 @@
     [self setObject:localityName forKey:kFALocalityNameKey];
 }
 
--(void)setLat:(NSNumber *)lat{
-    [self setObject:lat forKey:kFALocalityLatitudeKey];
+-(void)setLocalityLatitude:(NSNumber *)localityLatitude{
+    [self setObject:localityLatitude forKey:kFALocalityLatitudeKey];
 }
 
--(void)setLng:(NSNumber *)lng{
-    [self setObject:lng forKey:kFALocalityLongitudeKey];
+-(void)setLocalityLongitude:(NSNumber *)localityLongitude{
+    [self setObject:localityLongitude forKey:kFALocalityLongitudeKey];
 }
 
 
@@ -37,13 +37,12 @@
     return [self objectForKey:kFALocalityNameKey];
 }
 
--(NSNumber *)lat{
-    return [self objectForKey:kFALocalityLatitudeKey];
+-(NSNumber *)localityLongitude{
+    return [self objectForKey:kFALocalityLongitudeKey];
 }
 
-
--(NSNumber *)lng{
-    return [self objectForKey:kFALocalityLongitudeKey];
+-(NSNumber *)localityLatitude{
+    return [self objectForKey:kFALocalityLatitudeKey];
 }
 
 
@@ -60,12 +59,12 @@
             self.localityName = @"";
         }
         @try {
-            self.lat = [NSNumber numberWithDouble:[[[[locality objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] doubleValue]];
+            self.localityLatitude = [NSNumber numberWithDouble:[[[[locality objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] doubleValue]];
         } @catch (NSException *exception) {
         }
         
         @try {
-            self.lng = [NSNumber numberWithDouble:[[[[locality objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] doubleValue]];
+            self.localityLongitude = [NSNumber numberWithDouble:[[[[locality objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] doubleValue]];
         } @catch (NSException *exception) {
         }
         

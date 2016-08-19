@@ -58,23 +58,6 @@
     
     [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:[UIFont systemFontSize]]];
     
-    if ([FAManager isFirstLaunch]) {
-        if ([FIRAuth auth].currentUser == nil) {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            UINavigationController *rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"FASignInViewController"];
-            self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-            self.window.rootViewController = rootViewController;
-            [self.window makeKeyAndVisible];
-        }
-        else if (![FAManager isLocationSet]){
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            FALocationViewController *rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"FALocationViewController"];
-            self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-            self.window.rootViewController = rootViewController;
-            [self.window makeKeyAndVisible];
-        }
-    }
-    
     return YES;
 }
 

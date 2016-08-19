@@ -86,18 +86,13 @@
 -(void)FALocalityPickerController:(FALocalityPickerController *)controller didFinisheWithLocation:(NSMutableDictionary *)location{
     if (location) {
         [[NSUserDefaults standardUserDefaults] setObject:location forKey:kFASelectedLocalityKey];
-        if ([FAManager isFirstLaunch]) {
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@""];
-            [self switchRootView];
-        }
-        else{
-            [UIView animateWithDuration:0.3 animations:^{
-                self.view.alpha = 0;
-            } completion:^(BOOL finished) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }];
-        }
         [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"observeEventWithCompletion"
+         object:self];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -117,22 +112,18 @@
                 self.placemark = [placemarks lastObject];
                 NSDictionary *placemarkDict = self.placemark.addressDictionary;
                 NSMutableDictionary *loc = [NSMutableDictionary new];
-                loc.localityName = [placemarkDict objectForKey:@"Name"];
-                loc.lat = [NSNumber numberWithDouble:currentLocation.coordinate.latitude];
-                loc.lng = [NSNumber numberWithDouble:currentLocation.coordinate.longitude];
+                loc.localityName = [placemarkDict objectForKey:@"City"];
+                loc.localityLatitude = [NSNumber numberWithDouble:currentLocation.coordinate.latitude];
+                loc.localityLongitude = [NSNumber numberWithDouble:currentLocation.coordinate.longitude];
                 [[NSUserDefaults standardUserDefaults] setObject:loc forKey:kFASelectedLocalityKey];
-                if ([FAManager isFirstLaunch]) {
-                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@""];
-                    [self switchRootView];
-                }
-                else{
-                    [UIView animateWithDuration:0.3 animations:^{
-                        self.view.alpha = 0;
-                    } completion:^(BOOL finished) {
-                        [self dismissViewControllerAnimated:YES completion:nil];
-                    }];
-                }
                 [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName:@"observeEventWithCompletion"
+                 object:self];
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
             } else {
                 [self.alert showWithText:@"Failed to get location"];
             }
@@ -144,13 +135,6 @@
     if (status == kCLAuthorizationStatusDenied) {
         [self performSegueWithIdentifier:@"FALocalityPickerControllerSegue" sender:self];
     }
-}
-
--(void)switchRootView{
-    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    FATabBarController *rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"FATabBarController"];
-    delegate.window.rootViewController = rootViewController;
 }
 
 

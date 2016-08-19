@@ -124,6 +124,7 @@
 		EDD7ED381D5DB97500AED472 /* FAActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAActivityIndicator.h; sourceTree = "<group>"; };
 		EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityIndicator.m; sourceTree = "<group>"; };
 		EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
+		EDE6E3CF1D67427C00695E99 /* HomeLoc.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HomeLoc.gpx; sourceTree = "<group>"; };
 		EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerTwo.h; sourceTree = "<group>"; };
 		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
 		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 			children = (
 				ED8D6DF01D46552A00CA8777 /* AppDelegate.h */,
 				ED8D6DF11D46552A00CA8777 /* AppDelegate.m */,
+				EDE6E3CF1D67427C00695E99 /* HomeLoc.gpx */,
 				EDA5FE3D1D54DB3300BD4F57 /* UI */,
 				EDA5FE361D54DABC00BD4F57 /* Picker */,
 				EDA5FE301D54D9AB00BD4F57 /* Modal */,
