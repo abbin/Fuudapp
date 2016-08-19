@@ -47,6 +47,7 @@
 		EDCE81A01D64632D00921F8D /* IMG_0102.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */; };
 		EDD7ED3A1D5DB97500AED472 /* FAActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */; };
 		EDD7ED3C1D5DE6C300AED472 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */; };
+		EDE6E3D21D675E7D00695E99 /* FAItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
 		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
 		EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */; };
@@ -125,6 +126,8 @@
 		EDD7ED391D5DB97500AED472 /* FAActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityIndicator.m; sourceTree = "<group>"; };
 		EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		EDE6E3CF1D67427C00695E99 /* HomeLoc.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HomeLoc.gpx; sourceTree = "<group>"; };
+		EDE6E3D01D675E7D00695E99 /* FAItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAItemDetailViewController.h; sourceTree = "<group>"; };
+		EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAItemDetailViewController.m; sourceTree = "<group>"; };
 		EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerTwo.h; sourceTree = "<group>"; };
 		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
 		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
@@ -436,6 +439,8 @@
 				ED47336F1D63607300280BC0 /* FASignInViewController.m */,
 				ED898EBE1D65B2C2000701DF /* FALocationViewController.h */,
 				ED898EBF1D65B2C2000701DF /* FALocationViewController.m */,
+				EDE6E3D01D675E7D00695E99 /* FAItemDetailViewController.h */,
+				EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -636,6 +641,7 @@
 				ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */,
 				ED898EC01D65B2C2000701DF /* FALocationViewController.m in Sources */,
 				ED6570361D4B4E7A002B680E /* FAMapViewController.m in Sources */,
+				EDE6E3D21D675E7D00695E99 /* FAItemDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
