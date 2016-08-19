@@ -12,41 +12,41 @@
 
 @implementation NSMutableDictionary (FARestaurant)
 
-@dynamic name,address,latitude,longitude,geoHash,phoneNumbers,workingHours,restId;
+@dynamic restaurantName,restaurantAddress,restaurantlatitude,restaurantLongitude,restaurantGeohash,restaurantPhoneNumbers,restaurantWorkingHours,restaurantID;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setter Methods -
 
--(void)setName:(NSString *)name{
-    [self setObject:name forKey:kFARestaurantNameKey];
+-(void)setRestaurantName:(NSString *)restaurantName{
+    [self setObject:restaurantName forKey:kFARestaurantNameKey];
 }
 
--(void)setAddress:(NSString *)address{
-    [self setObject:address forKey:kFARestaurantAddressKey];
+-(void)setRestaurantAddress:(NSString *)restaurantAddress{
+    [self setObject:restaurantAddress forKey:kFARestaurantAddressKey];
 }
 
--(void)setLatitude:(NSNumber *)latitude{
-    [self setObject:latitude forKey:kFARestaurantLatitudeKey];
+-(void)setRestaurantlatitude:(NSNumber *)restaurantlatitude{
+    [self setObject:restaurantlatitude forKey:kFARestaurantLatitudeKey];
 }
 
--(void)setLongitude:(NSNumber *)longitude{
-    [self setObject:longitude forKey:kFARestaurantLongitudeKey];
+-(void)setRestaurantLongitude:(NSNumber *)restaurantLongitude{
+    [self setObject:restaurantLongitude forKey:kFARestaurantLongitudeKey];
 }
 
--(void)setGeoHash:(NSString *)geoHash{
-    [self setObject:geoHash forKey:kFARestaurantLGeoHashKey];
+-(void)setRestaurantGeohash:(NSString *)restaurantGeohash{
+    [self setObject:restaurantGeohash forKey:kFARestaurantLGeoHashKey];
 }
 
--(void)setPhoneNumbers:(NSMutableArray *)phoneNumbers{
-    [self setObject:phoneNumbers forKey:kFARestaurantPhoneNumberKey];
+-(void)setRestaurantPhoneNumbers:(NSMutableArray *)restaurantPhoneNumbers{
+    [self setObject:restaurantPhoneNumbers forKey:kFARestaurantPhoneNumberKey];
 }
 
--(void)setWorkingHours:(NSMutableArray *)workingHours{
-    [self setObject:workingHours forKey:kFARestaurantWorkingHoursKey];
+-(void)setRestaurantWorkingHours:(NSMutableArray *)restaurantWorkingHours{
+    [self setObject:restaurantWorkingHours forKey:kFARestaurantWorkingHoursKey];
 }
 
--(void)setRestId:(NSString *)restId{
-    [self setObject:restId forKey:kFARestaurantIdKey];
+-(void)setRestaurantID:(NSString *)restaurantID{
+    [self setObject:restaurantID forKey:kFARestaurantIdKey];
 }
 
 
@@ -54,35 +54,35 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Getter Methods -
 
--(NSString *)name{
+-(NSString *)restaurantName{
     return [self objectForKey:kFARestaurantNameKey];
 }
 
--(NSString *)address{
+-(NSString *)restaurantAddress{
     return [self objectForKey:kFARestaurantAddressKey];
 }
 
--(NSNumber *)latitude{
+-(NSNumber *)restaurantlatitude{
     return [self objectForKey:kFARestaurantLatitudeKey];
 }
 
--(NSNumber *)longitude{
+-(NSNumber *)restaurantLongitude{
     return [self objectForKey:kFARestaurantLongitudeKey];
 }
 
--(NSString *)geoHash{
+-(NSString *)restaurantGeohash{
     return [self objectForKey:kFARestaurantLGeoHashKey];
 }
 
--(NSMutableArray *)phoneNumbers{
+-(NSMutableArray *)restaurantPhoneNumbers{
     return [self objectForKey:kFARestaurantPhoneNumberKey];
 }
 
--(NSMutableArray *)workingHours{
+-(NSMutableArray *)restaurantWorkingHours{
     return [self objectForKey:kFARestaurantWorkingHoursKey];
 }
 
--(NSString *)restId{
+-(NSString *)restaurantID{
     return [self objectForKey:kFARestaurantIdKey];
 }
 
@@ -91,31 +91,31 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Init Methods -
 
--(instancetype)initWithRestaurant:(NSDictionary*)restaurant{
+-(instancetype)initRestaurantWithDictionary:(NSDictionary*)dictionary{
     self = [self init];
     if (self) {
         @try {
-            self.name = [restaurant objectForKey:@"name"];
+            self.restaurantName = [dictionary objectForKey:@"name"];
         } @catch (NSException *exception) {
-            self.name = @"";
+            self.restaurantName = @"";
             [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
                                       parameters:@{kFAAnalyticsReasonKey:exception.reason,
                                                    kFAAnalyticsSectionKey:kFAAnalyticsInitRestaurantKey}];
         }
         
         @try {
-            self.address = [restaurant objectForKey:@"formatted_address"];
+            self.restaurantAddress = [dictionary objectForKey:@"formatted_address"];
         } @catch (NSException *exception) {
-            self.address = @"";
+            self.restaurantAddress = @"";
             [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
                                       parameters:@{kFAAnalyticsReasonKey:exception.reason,
                                                    kFAAnalyticsSectionKey:kFAAnalyticsInitRestaurantKey}];
         }
         
         @try {
-            self.latitude = [NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] doubleValue]];
-            self.longitude = [NSNumber numberWithDouble:[[[[restaurant objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] doubleValue]];
-            self.geoHash = [self geoHashFromLatitude:[self.latitude doubleValue] andLongitude:[self.longitude doubleValue]];
+            self.restaurantlatitude = [NSNumber numberWithDouble:[[[[dictionary objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lat"] doubleValue]];
+            self.restaurantLongitude = [NSNumber numberWithDouble:[[[[dictionary objectForKey:@"geometry"] objectForKey:@"location"] objectForKey:@"lng"] doubleValue]];
+            self.restaurantGeohash = [self geoHashFromLatitude:[self.restaurantlatitude doubleValue] andLongitude:[self.restaurantLongitude doubleValue]];
         } @catch (NSException *exception) {
             [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
                                       parameters:@{kFAAnalyticsReasonKey:exception.reason,
@@ -123,7 +123,7 @@
         }
         
         @try {
-            self.phoneNumbers = [NSMutableArray arrayWithObject:[restaurant objectForKey:@"formatted_phone_number"]];
+            self.restaurantPhoneNumbers = [NSMutableArray arrayWithObject:[dictionary objectForKey:@"formatted_phone_number"]];
         } @catch (NSException *exception) {
             [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
                                       parameters:@{kFAAnalyticsReasonKey:exception.reason,
@@ -131,7 +131,7 @@
         }
 
         @try {
-            NSArray *periods = [[restaurant objectForKey:@"opening_hours"] objectForKey:@"periods"];
+            NSArray *periods = [[dictionary objectForKey:@"opening_hours"] objectForKey:@"periods"];
             NSMutableArray *array = [NSMutableArray new];
             for (NSDictionary *dict in periods) {
                 
@@ -154,14 +154,14 @@
                 NSMutableDictionary *mainDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:close,@"close",open,@"open", nil];
                 [array addObject:mainDict];
             }
-            self.workingHours = array;
+            self.restaurantWorkingHours = array;
         } @catch (NSException *exception) {
             [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
                                       parameters:@{kFAAnalyticsReasonKey:exception.reason,
                                                    kFAAnalyticsSectionKey:kFAAnalyticsInitRestaurantKey}];
         }
         
-        self.restId = [restaurant objectForKey:@"id"];
+        self.restaurantID = [dictionary objectForKey:@"id"];
         
     }
     return self;
@@ -170,21 +170,21 @@
 -(instancetype)initRestaurantWithName:(NSString*)name address:(NSString*)address latitude:(NSNumber*)latitude longitude:(NSNumber*)longitude phonumber:(NSMutableArray*)phoneNumber workingDays:(NSMutableArray*)workingDays from:(NSString*)from till:(NSString*)till{
     self = [self init];
     if (self) {
-        self.restId = [self uuid];
-        self.name = name;
-        self.address = address;
-        self.latitude = latitude;
-        self.longitude = longitude;
-        self.geoHash = [self geoHashFromLatitude:[self.latitude doubleValue] andLongitude:[self.longitude doubleValue]];
+        self.restaurantID = [self uuid];
+        self.restaurantName = name;
+        self.restaurantAddress = address;
+        self.restaurantlatitude = latitude;
+        self.restaurantLongitude = longitude;
+        self.restaurantGeohash = [self geoHashFromLatitude:[self.restaurantlatitude doubleValue] andLongitude:[self.restaurantLongitude doubleValue]];
         if (phoneNumber.count>0) {
-            self.phoneNumbers = phoneNumber;
+            self.restaurantPhoneNumbers = phoneNumber;
         }
         if (workingDays.count>0) {
             for (NSMutableDictionary *dict in workingDays) {
                 [[dict objectForKey:@"close"] setObject:till forKey:@"time"];
                 [[dict objectForKey:@"open"] setObject:from forKey:@"time"];
             }
-            self.workingHours = workingDays;
+            self.restaurantWorkingHours = workingDays;
         }
     }
     return self;

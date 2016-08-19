@@ -16,6 +16,7 @@
 
 @import FirebaseRemoteConfig;
 @import FirebaseDatabase;
+@import FirebaseAuth;
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -52,7 +53,12 @@
 }
 
 - (void)addButtonClicked:(id)sender {
-    [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
+    if (![FIRAuth auth].currentUser.isAnonymous) {
+        [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
+    }
+    else{
+        [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
+    }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -72,12 +78,12 @@
     FAFirstViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FAFirstViewTableViewCell"];
 
     cell.cellImageUrl = imageUrl;
-    cell.itemNameLavel.text = itemDict.nameString;
-    cell.restaurantNameLabel.text = itemDict.restaurant.name;
-    cell.addressLabel.text = itemDict.restaurant.address;
-    [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.rating] forState:UIControlStateNormal];
-    cell.distanceLabel.text = [self distanceBetweenstatLat:[itemDict.latitude doubleValue] lon:[itemDict.longitude doubleValue]];
-    cell.priceLabel.text = [NSString stringWithFormat:@"%@:%@",itemDict.currency,itemDict.price];
+    cell.itemNameLavel.text = itemDict.itemName;
+    cell.restaurantNameLabel.text = itemDict.itemRestaurant.restaurantName;
+    cell.addressLabel.text = itemDict.itemRestaurant.restaurantAddress;
+    [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.itemRating] forState:UIControlStateNormal];
+    cell.distanceLabel.text = [self distanceBetweenstatLat:[itemDict.itemLatitude doubleValue] lon:[itemDict.itemLongitude doubleValue]];
+    cell.priceLabel.text = [NSString stringWithFormat:@"%@:%@",itemDict.itemCurrencySymbol,itemDict.itemPrice];
     
     return cell;
 }

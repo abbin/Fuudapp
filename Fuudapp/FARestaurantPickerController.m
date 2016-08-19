@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "FARestaurantPickerController.h"
 #import "NSMutableDictionary+FARestaurant.h"
+#import "NSMutableDictionary+FALocality.h"
 #import "FAAnalyticsManager.h"
 #import "FAAddViewControllerThree.h"
 #import "FAManager.h"
@@ -90,8 +91,10 @@
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
         
-        double lat = 9.976271;
-        double lng = 76.293925;
+        NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults]objectForKey:kFASelectedLocalityKey];
+        
+        double lat = [loc.lat doubleValue];
+        double lng = [loc.lng doubleValue];
         
         NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&rankby=distance&type=restaurant&keyword=%@&key=%@",lat,lng,nospacestring,kFAGoogleServerKey];
         NSURL *URL = [NSURL URLWithString:urlString];
@@ -209,7 +212,7 @@
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
-                self.selectedRest = [[NSMutableDictionary alloc]initWithRestaurant:[responseObject objectForKey:@"result"]];
+                self.selectedRest = [[NSMutableDictionary alloc]initRestaurantWithDictionary:[responseObject objectForKey:@"result"]];
                  [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
 
                 [self.activityIndicator stopAnimating];

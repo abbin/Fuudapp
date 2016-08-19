@@ -11,6 +11,9 @@
 #import "FALocalityPickerController.h"
 #import "FAPopAlert.h"
 #import "NSMutableDictionary+FALocality.h"
+#import "FAManager.h"
+#import "AppDelegate.h"
+#import "FATabBarController.h"
 
 @import CoreLocation;
 @import FirebaseRemoteConfig;
@@ -82,18 +85,24 @@
 
 -(void)FALocalityPickerController:(FALocalityPickerController *)controller didFinisheWithLocation:(NSMutableDictionary *)location{
     if (location) {
-        [[NSUserDefaults standardUserDefaults] setObject:location forKey:kFAUserLocalityKey];
+        [[NSUserDefaults standardUserDefaults] setObject:location forKey:kFASelectedLocalityKey];
+        if ([FAManager isFirstLaunch]) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@""];
+            [self switchRootView];
+        }
+        else{
+            [UIView animateWithDuration:0.3 animations:^{
+                self.view.alpha = 0;
+            } completion:^(BOOL finished) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }];
+        }
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [UIView animateWithDuration:0.3 animations:^{
-            self.view.alpha = 0;
-        } completion:^(BOOL finished) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }];
     }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    [self.alert showWithText:error.localizedDescription];
+    [self.alert showWithText:@"Failed to get location"];
     [self.locationManager stopUpdatingLocation];
 }
 
@@ -111,15 +120,21 @@
                 loc.localityName = [placemarkDict objectForKey:@"Name"];
                 loc.lat = [NSNumber numberWithDouble:currentLocation.coordinate.latitude];
                 loc.lng = [NSNumber numberWithDouble:currentLocation.coordinate.longitude];
-                [[NSUserDefaults standardUserDefaults] setObject:loc forKey:kFAUserLocalityKey];
+                [[NSUserDefaults standardUserDefaults] setObject:loc forKey:kFASelectedLocalityKey];
+                if ([FAManager isFirstLaunch]) {
+                    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@""];
+                    [self switchRootView];
+                }
+                else{
+                    [UIView animateWithDuration:0.3 animations:^{
+                        self.view.alpha = 0;
+                    } completion:^(BOOL finished) {
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }];
+                }
                 [[NSUserDefaults standardUserDefaults] synchronize];
-                [UIView animateWithDuration:0.3 animations:^{
-                    self.view.alpha = 0;
-                } completion:^(BOOL finished) {
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }];
             } else {
-                [self.alert showWithText:error.localizedDescription];
+                [self.alert showWithText:@"Failed to get location"];
             }
         } ];
     }
@@ -129,6 +144,13 @@
     if (status == kCLAuthorizationStatusDenied) {
         [self performSegueWithIdentifier:@"FALocalityPickerControllerSegue" sender:self];
     }
+}
+
+-(void)switchRootView{
+    AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    FATabBarController *rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"FATabBarController"];
+    delegate.window.rootViewController = rootViewController;
 }
 
 

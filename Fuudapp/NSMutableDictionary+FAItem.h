@@ -10,23 +10,24 @@
 
 @interface NSMutableDictionary (FAItem)
 
-@property (nonatomic, strong) NSString *nameString;
-@property (nonatomic, strong) NSString *cappedName;
-@property (nonatomic, strong) NSString *currency;
-@property (nonatomic, strong) NSString *descriptionText;
+@property (nonatomic, strong) NSString *itemName;
+@property (nonatomic, strong) NSString *itemCappedName;
+@property (nonatomic, strong) NSString *itemCurrency;
+@property (nonatomic, strong) NSString *itemCurrencySymbol;
+@property (nonatomic, strong) NSString *itemDescription;
 @property (nonatomic, strong) NSString *itemId;
-@property (nonatomic, strong) NSString *geoHash;
+@property (nonatomic, strong) NSString *itemGeoHash;
+@property (nonatomic, strong) NSString *itemUserID;
+@property (nonatomic, strong) NSString *itemUserPhotoURL;
+@property (nonatomic, strong) NSString *itemUserName;
+@property (nonatomic, strong) NSNumber *itemLatitude;
+@property (nonatomic, strong) NSNumber *itemLongitude;
+@property (nonatomic, strong) NSNumber *itemPrice;
+@property (nonatomic, strong) NSNumber *itemRating;
 
-@property (nonatomic, strong) NSNumber *latitude;
-@property (nonatomic, strong) NSNumber *longitude;
-@property (nonatomic, strong) NSNumber *price;
-@property (nonatomic, strong) NSNumber *rating;
-
-@property (nonatomic, strong) NSMutableArray *imageArray;
-@property (nonatomic, strong) NSMutableArray *reviewArray;
-@property (nonatomic, strong) NSMutableDictionary *restaurant;
-
-
+@property (nonatomic, strong) NSMutableArray *itemImageArray;
+@property (nonatomic, strong) NSMutableArray *itemReviewArray;
+@property (nonatomic, strong) NSMutableDictionary *itemRestaurant;
 
 -(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description rating:(NSNumber*)rating;
 

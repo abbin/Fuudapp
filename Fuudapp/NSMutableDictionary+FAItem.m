@@ -9,90 +9,112 @@
 #import "NSMutableDictionary+FAItem.h"
 #import "FAConstants.h"
 
+@import FirebaseAuth;
+
 @implementation NSMutableDictionary (FAItem)
 
-@dynamic nameString,cappedName,price,currency,descriptionText,rating,itemId,imageArray,restaurant,latitude,longitude,geoHash,reviewArray;
+@dynamic itemName,itemCappedName,itemPrice,itemCurrency,itemDescription,itemRating,itemId,itemImageArray,itemRestaurant,itemLatitude,itemLongitude,itemGeoHash,itemReviewArray,itemCurrencySymbol, itemUserID,itemUserName,itemUserPhotoURL;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setter Methods -
 
--(void)setPrice:(NSNumber *)price{
-    [self setObject:price forKey:kFAItemPriceKey];
+-(void)setItemPrice:(NSNumber *)itemPrice{
+    [self setObject:itemPrice forKey:kFAItemPriceKey];
 }
 
--(void)setNameString:(NSString *)nameString{
-    [self setObject:nameString forKey:kFAItemNameKey];
-    
-    NSArray* words = [nameString componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString* trimmedString = [words componentsJoinedByString:@""];
-    [self setObject:[trimmedString lowercaseString] forKey:kFAItemCappedNameKey];
-    
-    NSString *idK = [NSString stringWithFormat:@"%@%@",trimmedString,[self uuid]];
-    [self setObject:[idK lowercaseString] forKey:kFAItemIdKey];
+-(void)setItemCappedName:(NSString *)itemCappedName{
+    [self setObject:itemCappedName forKey:kFAItemCappedNameKey];
 }
 
--(void)setCurrency:(NSString *)currency{
-    [self setObject:currency forKey:kFAItemCurrencyKey];
+-(void)setItemId:(NSString *)itemId{
+    [self setObject:itemId forKey:kFAItemIdKey];
 }
 
--(void)setDescriptionText:(NSString *)descriptionText{
-    [self setObject:descriptionText forKey:kFAItemDescriptionKey];
+-(void)setItemName:(NSString *)itemName{
+    [self setObject:itemName forKey:kFAItemNameKey];
 }
 
--(void)setRating:(NSNumber *)rating{
-    [self setObject:rating forKey:kFAItemRatingKey];
+-(void)setItemCurrency:(NSString *)itemCurrency{
+    [self setObject:itemCurrency forKey:kFAItemCurrencyKey];
 }
 
--(void)setImageArray:(NSMutableArray *)imageArray{
-    [self setObject:imageArray forKey:kFAItemImagesKey];
+-(void)setItemCurrencySymbol:(NSString *)itemCurrencySymbol{
+    [self setObject:itemCurrencySymbol forKey:kFAItemCurrencySymbolKey];
 }
 
--(void)setRestaurant:(NSMutableDictionary *)restaurant{
-    [self setObject:restaurant forKey:kFAItemRestaurantKey];
+-(void)setItemDescription:(NSString *)itemDescription{
+    [self setObject:itemDescription forKey:kFAItemDescriptionKey];
 }
 
--(void)setLatitude:(NSNumber *)latitude{
-    [self setObject:latitude forKey:kFARestaurantLatitudeKey];
+-(void)setItemRating:(NSNumber *)itemRating{
+    [self setObject:itemRating forKey:kFAItemRatingKey];
 }
 
--(void)setLongitude:(NSNumber *)longitude{
-    [self setObject:longitude forKey:kFARestaurantLongitudeKey];
+-(void)setItemImageArray:(NSMutableArray *)itemImageArray{
+    [self setObject:itemImageArray forKey:kFAItemImagesKey];
 }
 
--(void)setGeoHash:(NSString *)geoHash{
-    [self setObject:geoHash forKey:kFARestaurantLGeoHashKey];
+-(void)setItemRestaurant:(NSMutableDictionary *)itemRestaurant{
+    [self setObject:itemRestaurant forKey:kFAItemRestaurantKey];
 }
 
--(void)setReviewArray:(NSMutableArray *)reviewArray{
-    [self setObject:reviewArray forKey:kFAItemReviewsKey];
+-(void)setItemLatitude:(NSNumber *)itemLatitude{
+    [self setObject:itemLatitude forKey:kFARestaurantLatitudeKey];
 }
 
+-(void)setItemLongitude:(NSNumber *)itemLongitude{
+    [self setObject:itemLongitude forKey:kFARestaurantLongitudeKey];
+}
+
+-(void)setItemGeoHash:(NSString *)itemGeoHash{
+    [self setObject:itemGeoHash forKey:kFARestaurantLGeoHashKey];
+}
+
+-(void)setItemReviewArray:(NSMutableArray *)itemReviewArray{
+    [self setObject:itemReviewArray forKey:kFAItemReviewsKey];
+}
+
+-(void)setItemUserID:(NSString *)itemUserID{
+    [self setObject:itemUserID forKey:kFAItemUserIDKey];
+}
+
+-(void)setItemUserName:(NSString *)itemUserName{
+    [self setObject:itemUserName forKey:kFAItemUserNameKey];
+}
+
+-(void)setItemUserPhotoURL:(NSString *)itemUserPhotoURL{
+    [self setObject:itemUserPhotoURL forKey:kFAItemUserPhotoURLKey];
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Getter Methods -
 
--(NSString *)nameString{
+-(NSString *)itemName{
     return [self objectForKey:kFAItemNameKey];
 }
 
--(NSString *)cappedName{
+-(NSString *)itemCappedName{
     return [self objectForKey:kFAItemCappedNameKey];
 }
 
--(NSNumber *)price{
+-(NSNumber *)itemPrice{
     return [self objectForKey:kFAItemPriceKey];
 }
 
--(NSString *)currency{
+-(NSString *)itemCurrency{
     return [self objectForKey:kFAItemCurrencyKey];
 }
 
--(NSString *)descriptionText{
+-(NSString *)itemCurrencySymbol{
+    return [self objectForKey:kFAItemCurrencySymbolKey];
+}
+
+-(NSString *)itemDescription{
     return [self objectForKey:kFAItemDescriptionKey];
 }
 
--(NSNumber *)rating{
+-(NSNumber *)itemRating{
     return [self objectForKey:kFAItemRatingKey];
 }
 
@@ -100,28 +122,40 @@
     return [self objectForKey:kFAItemIdKey];
 }
 
--(NSMutableArray *)imageArray{
+-(NSMutableArray *)itemImageArray{
     return [self objectForKey:kFAItemImagesKey];
 }
 
--(NSMutableDictionary *)restaurant{
+-(NSMutableDictionary *)itemRestaurant{
     return [self objectForKey:kFAItemRestaurantKey];
 }
 
--(NSNumber *)latitude{
+-(NSNumber *)itemLatitude{
     return [self objectForKey:kFARestaurantLatitudeKey];
 }
 
--(NSNumber *)longitude{
+-(NSNumber *)itemLongitude{
     return [self objectForKey:kFARestaurantLongitudeKey];
 }
 
--(NSString *)geoHash{
+-(NSString *)itemGeoHash{
     return [self objectForKey:kFARestaurantLGeoHashKey];
 }
 
--(NSMutableArray *)reviewArray{
+-(NSMutableArray *)itemReviewArray{
     return [self objectForKey:kFAItemReviewsKey];
+}
+
+-(NSString *)itemUserName{
+    return [self objectForKey:kFAItemUserNameKey];
+}
+
+-(NSString *)itemUserID{
+    return [self objectForKey:kFAItemUserIDKey];
+}
+
+-(NSString *)itemUserPhotoURL{
+    return [self objectForKey:kFAItemUserPhotoURLKey];
 }
 
 
@@ -131,11 +165,23 @@
 -(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description rating:(NSNumber*)rating{
     self = [self init];
     if (self) {
-        self.nameString = name;
-        self.price = price;
-        self.currency = currency;
-        self.descriptionText = description;
-        self.rating = rating;
+        self.itemName = name;
+        self.itemPrice = price;
+        self.itemCurrency = currency;
+        self.itemDescription = description;
+        self.itemRating = rating;
+        self.itemCurrencySymbol = [[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol];
+        id<FIRUserInfo> profile = [FIRAuth auth].currentUser.providerData[0];
+        self.itemUserName = profile.displayName;
+        self.itemUserPhotoURL = [NSString stringWithFormat:@"%@",profile.photoURL];
+        self.itemUserID = [FIRAuth auth].currentUser.uid;
+        
+        NSArray* words = [name componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* trimmedString = [words componentsJoinedByString:@""];
+        NSString *idK = [NSString stringWithFormat:@"%@%@",trimmedString,[self uuid]];
+        
+        self.itemId = idK;
+        self.itemCappedName = [trimmedString lowercaseString];
     }
     return self;
 }

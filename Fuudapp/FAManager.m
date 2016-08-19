@@ -11,6 +11,7 @@
 #import "FAAnalyticsManager.h"
 #import "NSMutableDictionary+FAItem.h"
 #import "NSMutableDictionary+FARestaurant.h"
+#import "NSMutableDictionary+FALocality.h"
 #import <UIKit/UIKit.h>
 
 @import FirebaseDatabase;
@@ -106,8 +107,10 @@
 }
 
 +(void)observeEventWithCompletion:(void (^)(NSArray *items))completion{
-    double lat = 9.976250;
-    double lng = 76.293778;
+    NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults]objectForKey:kFASelectedLocalityKey];
+    
+    double lat = [loc.lat doubleValue];
+    double lng = [loc.lng doubleValue];
     
     NSString *hash = [self geoHashFromLatitude:lat andLongitude:lng];
     
@@ -309,18 +312,18 @@
                                                         kFAItemImagesHeightKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
                                                         kFAItemImagesWidthKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                         
-                        item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
+                        item.itemImageArray = [self addArray:imageArray toOldArray:item.itemImageArray];
                         
-                        NSMutableArray *reviewArray = item.reviewArray;
+                        NSMutableArray *reviewArray = item.itemReviewArray;
                         if (reviewArray == nil) {
                             reviewArray = [NSMutableArray new];
                         }
                         [reviewArray addObject:@{kFAReviewTextKey:review}];
-                        item.reviewArray = reviewArray;
+                        item.itemReviewArray = reviewArray;
                         
-                        NSInteger oldRting = [item.rating integerValue];
+                        NSInteger oldRting = [item.itemRating integerValue];
                         NSInteger newRating = (oldRting + rating)/2;
-                        item.rating = [NSNumber numberWithInteger:newRating];
+                        item.itemRating = [NSNumber numberWithInteger:newRating];
                         
                         NSString * itemKey = item.itemId;
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
@@ -355,18 +358,18 @@
                                                     kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
                                                     kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                     
-                    item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
+                    item.itemImageArray = [self addArray:imageArray toOldArray:item.itemImageArray];
                     
-                    NSMutableArray *reviewArray = item.reviewArray;
+                    NSMutableArray *reviewArray = item.itemReviewArray;
                     if (reviewArray == nil) {
                         reviewArray = [NSMutableArray new];
                     }
                     [reviewArray addObject:@{kFAReviewTextKey:review}];
-                    item.reviewArray = reviewArray;
+                    item.itemReviewArray = reviewArray;
                     
-                    NSInteger oldRting = [item.rating integerValue];
+                    NSInteger oldRting = [item.itemRating integerValue];
                     NSInteger newRating = (oldRting + rating)/2;
-                    item.rating = [NSNumber numberWithInteger:newRating];
+                    item.itemRating = [NSNumber numberWithInteger:newRating];
                     
                     NSString * itemKey = item.itemId;
                     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
@@ -397,18 +400,18 @@
                                             kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
                                             kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
             
-            item.imageArray = [self addArray:imageArray toOldArray:item.imageArray];
+            item.itemImageArray = [self addArray:imageArray toOldArray:item.itemImageArray];
             
-            NSMutableArray *reviewArray = item.reviewArray;
+            NSMutableArray *reviewArray = item.itemReviewArray;
             if (reviewArray == nil) {
                 reviewArray = [NSMutableArray new];
             }
             [reviewArray addObject:@{kFAReviewTextKey:review}];
-            item.reviewArray = reviewArray;
+            item.itemReviewArray = reviewArray;
             
-            NSInteger oldRting = [item.rating integerValue];
+            NSInteger oldRting = [item.itemRating integerValue];
             NSInteger newRating = (oldRting + rating)/2;
-            item.rating = [NSNumber numberWithInteger:newRating];
+            item.itemRating = [NSNumber numberWithInteger:newRating];
             
             NSString * itemKey = item.itemId;
             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
@@ -607,13 +610,13 @@
                                                  kFAItemImagesHeightKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
                                                  kFAItemImagesWidthKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                         
-                        NSString *restKey = restaurant.restId;
+                        NSString *restKey = restaurant.restaurantID;
                         
-                        item.restaurant = restaurant;
-                        item.imageArray = imageArray;
-                        item.latitude = restaurant.latitude;
-                        item.longitude = restaurant.longitude;
-                        item.geoHash = restaurant.geoHash;
+                        item.itemRestaurant = restaurant;
+                        item.itemImageArray = imageArray;
+                        item.itemLatitude = restaurant.restaurantlatitude;
+                        item.itemLongitude = restaurant.restaurantLongitude;
+                        item.itemGeoHash = restaurant.restaurantGeohash;
                         
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
                                                        [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
@@ -649,13 +652,13 @@
                                                     kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
                                                     kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
                     
-                    NSString *restKey = restaurant.restId;
+                    NSString *restKey = restaurant.restaurantID;
                     
-                    item.restaurant = restaurant;
-                    item.imageArray = imageArray;
-                    item.latitude = restaurant.latitude;
-                    item.longitude = restaurant.longitude;
-                    item.geoHash = restaurant.geoHash;
+                    item.itemRestaurant = restaurant;
+                    item.itemImageArray = imageArray;
+                    item.itemLatitude = restaurant.restaurantlatitude;
+                    item.itemLongitude = restaurant.restaurantLongitude;
+                    item.itemGeoHash = restaurant.restaurantGeohash;
                     
                     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
                                                    [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
@@ -687,13 +690,13 @@
                                             kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
                                             kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
             
-            NSString *restKey = restaurant.restId;
+            NSString *restKey = restaurant.restaurantID;
             
-            item.restaurant = restaurant;
-            item.imageArray = imageArray;
-            item.latitude = restaurant.latitude;
-            item.longitude = restaurant.longitude;
-            item.geoHash = restaurant.geoHash;
+            item.itemRestaurant = restaurant;
+            item.itemImageArray = imageArray;
+            item.itemLatitude = restaurant.restaurantlatitude;
+            item.itemLongitude = restaurant.restaurantLongitude;
+            item.itemGeoHash = restaurant.restaurantGeohash;
             
             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
                                            [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
@@ -715,7 +718,7 @@
 }
 
 +(BOOL)isLocationSet{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:kFAUserLocalityKey]) {
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:kFASelectedLocalityKey]) {
         return YES;
     }
     else{

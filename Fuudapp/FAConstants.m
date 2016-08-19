@@ -34,6 +34,7 @@ NSString *const kFAItemNameKey                      = @"item_name";
 NSString *const kFAItemCappedNameKey                = @"item_capped_name";
 NSString *const kFAItemPriceKey                     = @"item_price";
 NSString *const kFAItemCurrencyKey                  = @"item_currency";
+NSString *const kFAItemCurrencySymbolKey            = @"item_currency_symbol";
 NSString *const kFAItemDescriptionKey               = @"item_description";
 NSString *const kFAItemRestaurantKey                = @"item_restaurant";
 NSString *const kFAItemRatingKey                    = @"item_rating";
@@ -41,7 +42,9 @@ NSString *const kFAItemImagesKey                    = @"item_images";
 NSString *const kFAItemIdKey                        = @"item_id";
 NSString *const kFAItemReviewsKey                   = @"item_reviews";
 NSString *const kFAItemImageMetaDataKey             = @"item_image_metadata";
-
+NSString *const kFAItemUserIDKey                    = @"item_user_id";
+NSString *const kFAItemUserPhotoURLKey              = @"item_user_photourl";
+NSString *const kFAItemUserNameKey                  = @"item_name";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Image -
@@ -84,9 +87,9 @@ NSString *const kFALocalityLongitudeKey             = @"locality_latitude";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - User -
+#pragma mark - APP -
 
-NSString *const kFAUserLocalityKey                  = @"user_locality";
+NSString *const kFASelectedLocalityKey                  = @"user_locality";
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

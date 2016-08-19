@@ -8,6 +8,8 @@
 
 #import "FAMapViewController.h"
 #import "FAColor.h"
+#import "FAConstants.h"
+#import "NSMutableDictionary+FALocality.h"
 
 @interface FAMapViewController ()<CLLocationManagerDelegate>
 
@@ -37,7 +39,25 @@
     
     self.navigationItem.leftBarButtonItem = cancel;
     
-    [self requestLocationServicesAuthorization];
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        if (!self.locationManager) {
+            self.locationManager = [[CLLocationManager alloc] init];
+            self.locationManager.delegate = self;
+        }
+        
+        [self.locationManager startUpdatingLocation];
+    }else{
+        NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults]objectForKey:kFASelectedLocalityKey];
+        
+        double lat = [loc.lat doubleValue];
+        double lng = [loc.lng doubleValue];
+        
+        self.currLoc = [[CLLocation alloc]initWithLatitude:lat longitude:lng];
+        
+        [self.mapView setCamera:[GMSCameraPosition cameraWithLatitude:lat
+                                                            longitude:lng
+                                                                 zoom:15]];
+    }
 }
 
 
@@ -79,22 +99,5 @@
                                                              zoom:15]];
     [self.locationManager stopUpdatingLocation];
 }
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - Utility Methods -
-
-- (void)requestLocationServicesAuthorization {
-    if (!self.locationManager) {
-        self.locationManager = [[CLLocationManager alloc] init];
-        self.locationManager.delegate = self;
-    }
-    
-    [self.locationManager requestWhenInUseAuthorization];
-    
-    [self.locationManager startUpdatingLocation];
-}
-
 
 @end

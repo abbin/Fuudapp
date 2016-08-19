@@ -86,9 +86,9 @@
                                                         <constraint firstAttribute="height" constant="1" id="fBM-cb-z59"/>
                                                     </constraints>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BG5-s5-9tF">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BG5-s5-9tF">
                                                     <rect key="frame" x="8" y="125" width="31" height="31"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="BG5-s5-9tF" secondAttribute="height" multiplier="1:1" id="Fxi-Iw-V4S"/>
                                                     </constraints>
@@ -161,6 +161,7 @@
                     <connections>
                         <outlet property="itemTableView" destination="9IT-xl-O9g" id="5f5-MO-dFM"/>
                         <segue destination="pyv-0g-K9F" kind="presentation" identifier="FAImagePickerControllerSegue" id="6i8-ca-V0S"/>
+                        <segue destination="1Uq-pN-Hcu" kind="presentation" identifier="FASignInViewControllerSegue" id="0SX-fA-f3h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
@@ -455,7 +456,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="3138.5" y="60.5"/>
+            <point key="canvasLocation" x="3131.5" y="451.5"/>
         </scene>
         <!--Select an item-->
         <scene sceneID="Fg2-cd-0M3">
@@ -1535,7 +1536,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" customClass="FATabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="FATabBarController" id="49e-Tb-3d3" customClass="FATabBarController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
@@ -1553,7 +1554,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="242.5" y="0.5"/>
+            <point key="canvasLocation" x="-68.5" y="140.5"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="5US-GA-j11">
@@ -1642,7 +1643,7 @@
         <!--Location View Controller-->
         <scene sceneID="YDf-QZ-dsr">
             <objects>
-                <viewController id="PN1-a6-itZ" customClass="FALocationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FALocationViewController" id="PN1-a6-itZ" customClass="FALocationViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ktb-NU-OxO"/>
                         <viewControllerLayoutGuide type="bottom" id="Qkz-fh-bcA"/>
@@ -1820,7 +1821,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Ywd-5C-MXf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="rpn-5M-BW8" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="FASignInViewController" automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="rpn-5M-BW8" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="n8I-m2-Q0a">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1848,7 +1849,8 @@
         <image name="uncheck" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="J3P-cN-USc"/>
         <segue reference="jK8-T2-pdj"/>
+        <segue reference="0Ck-eG-iuQ"/>
+        <segue reference="J3P-cN-USc"/>
     </inferredMetricsTieBreakers>
 </document>

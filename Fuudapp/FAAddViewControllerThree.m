@@ -17,6 +17,7 @@
 #import "FAManager.h"
 #import "NSMutableDictionary+FAItem.h"
 #import "NSMutableDictionary+FARestaurant.h"
+#import "NSMutableDictionary+FALocality.h"
 #import "FAAnalyticsManager.h"
 
 @import FirebaseRemoteConfig;
@@ -424,7 +425,7 @@
 #pragma mark - FALocalityPickerControllerDelegate -
 
 -(void)FALocalityPickerController:(FALocalityPickerController *)controller didFinisheWithLocation:(NSMutableDictionary *)location{
-    self.localityTextField.text = @"";
+    self.localityTextField.text = location.localityName;
 }
 
 

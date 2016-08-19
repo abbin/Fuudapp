@@ -46,6 +46,7 @@ FOUNDATION_EXPORT NSString *const kFAItemNameKey;
 FOUNDATION_EXPORT NSString *const kFAItemCappedNameKey;
 FOUNDATION_EXPORT NSString *const kFAItemPriceKey;
 FOUNDATION_EXPORT NSString *const kFAItemCurrencyKey;
+FOUNDATION_EXPORT NSString *const kFAItemCurrencySymbolKey;
 FOUNDATION_EXPORT NSString *const kFAItemDescriptionKey;
 FOUNDATION_EXPORT NSString *const kFAItemRestaurantKey;
 FOUNDATION_EXPORT NSString *const kFAItemRatingKey;
@@ -53,6 +54,9 @@ FOUNDATION_EXPORT NSString *const kFAItemImagesKey;
 FOUNDATION_EXPORT NSString *const kFAItemIdKey;
 FOUNDATION_EXPORT NSString *const kFAItemReviewsKey;
 FOUNDATION_EXPORT NSString *const kFAItemImageMetaDataKey;
+FOUNDATION_EXPORT NSString *const kFAItemUserIDKey;
+FOUNDATION_EXPORT NSString *const kFAItemUserPhotoURLKey;
+FOUNDATION_EXPORT NSString *const kFAItemUserNameKey;
 
 
 
@@ -98,9 +102,9 @@ FOUNDATION_EXPORT NSString *const kFALocalityLongitudeKey;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#pragma mark - User -
+#pragma mark - App -
 
-FOUNDATION_EXPORT NSString *const kFAUserLocalityKey;
+FOUNDATION_EXPORT NSString *const kFASelectedLocalityKey;
 
 
 
