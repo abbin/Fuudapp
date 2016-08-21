@@ -14,6 +14,7 @@
 #import "NSMutableDictionary+FARestaurant.h"
 #import "NSMutableDictionary+FALocality.h"
 #import <MapKit/MapKit.h>
+#import "FAItemDetailViewController.h"
 
 @import FirebaseRemoteConfig;
 @import FirebaseDatabase;
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) NSArray *itemsArray;
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 @property (strong, nonatomic)FIRDatabaseReference *ref;
+@property (strong, nonatomic)NSIndexPath *selectedIndex;
 
 @end
 
@@ -40,6 +42,13 @@
                                                  selector:@selector(startListining)
                                                      name:@"observeEventWithCompletion"
                                                    object:nil];
+    }
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"FAItemDetailViewControllerSegue"]) {
+        FAItemDetailViewController *vc = segue.destinationViewController;
+        vc.itemObject = [self.itemsArray objectAtIndex:self.selectedIndex.section];
     }
 }
 
@@ -137,6 +146,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    self.selectedIndex = indexPath;
     [self performSegueWithIdentifier:@"FAItemDetailViewControllerSegue" sender:self];
 }
 

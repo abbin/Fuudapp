@@ -10,4 +10,6 @@
 
 @interface FAItemDetailViewController : UIViewController
 
+@property (nonatomic, strong) NSMutableDictionary *itemObject;
+
 @end
