@@ -113,6 +113,8 @@
     [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.itemRating] forState:UIControlStateNormal];
     cell.distanceLabel.text = [self distanceBetweenstatLat:[itemDict.itemLatitude doubleValue] lon:[itemDict.itemLongitude doubleValue]];
     cell.priceLabel.text = [NSString stringWithFormat:@"%@:%@",itemDict.itemCurrencySymbol,itemDict.itemPrice];
+    cell.userNameLabel.text = itemDict.itemUserName;
+    cell.cellUserImageUrl = itemDict.itemUserPhotoURL;
     
     return cell;
 }

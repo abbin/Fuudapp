@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemRestaurant;
 @property (weak, nonatomic) IBOutlet UILabel *itemLocationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *ratingButton;
+@property (weak, nonatomic) IBOutlet UIView *statusGradiantView;
 
 @end
 
@@ -42,6 +43,11 @@
     self.itemNameLabel.text = self.itemObject.itemName;
     self.itemRestaurant.text = self.itemObject.itemRestaurant.restaurantName;
     self.itemLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.statusGradiantView.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], (id)[[UIColor clearColor] CGColor], nil];
+    [self.statusGradiantView.layer insertSublayer:gradient atIndex:0];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,6 +72,11 @@
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return collectionView.frame.size;
+}
+
+- (IBAction)back:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 /*

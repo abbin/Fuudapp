@@ -12,6 +12,7 @@
 @interface FAFirstViewTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) NSString *cellImageUrl;
+@property (strong, nonatomic) NSString *cellUserImageUrl;
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLavel;
 @property (weak, nonatomic) IBOutlet UILabel *restaurantNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *ratingView;

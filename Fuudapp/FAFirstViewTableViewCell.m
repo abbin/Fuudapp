@@ -57,4 +57,15 @@
                               failure:nil];
 }
 
+-(void)setCellUserImageUrl:(NSString *)cellUserImageUrl{
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:cellUserImageUrl]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [self.userImageView setImageWithURLRequest:imageRequest
+                              placeholderImage:[UIImage imageNamed:@"placeholder"]
+                                       success:nil
+                                       failure:nil];
+}
+
 @end
