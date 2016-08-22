@@ -9,10 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <Crashlytics/Crashlytics.h>
 
-typedef NS_ENUM(NSInteger, FAAnalyticsImageSource){
-    FAAnalyticsImageSourceGallery,
-    FAAnalyticsImageSourceCamera,
-};
+FOUNDATION_EXPORT NSString * __nonnull const FAAnalyticsImageSourceGallery;
+FOUNDATION_EXPORT NSString * __nonnull const FAAnalyticsImageSourceCamera;
 
 @import FirebaseAnalytics;
 
@@ -32,8 +30,8 @@ typedef NS_ENUM(NSInteger, FAAnalyticsImageSource){
 @property (strong, nonatomic,nullable) NSDate *networkTimeEnd;
 @property (strong, nonatomic,nullable) NSDate *screenTimeStart;
 @property (strong, nonatomic,nullable) NSDate *screenTimeEnd;
-@property (strong, nonatomic,nullable) NSNumber *userItem;
-@property (strong, nonatomic,nullable) NSNumber *userRestaurant;
-@property (assign, nonatomic) NSInteger imageSource;
+@property (strong, nonatomic,nullable) NSString *userItem;
+@property (strong, nonatomic,nullable) NSString *userRestaurant;
+@property (strong, nonatomic,nullable) NSString *imageSource;
 
 @end

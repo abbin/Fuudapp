@@ -82,7 +82,7 @@
     
     self.restaurantNameTextField.text = self.restName;
     
-    [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:YES];
+    [FAAnalyticsManager sharedManager].userRestaurant = @"YES";
     
     UIBarButtonItem *next = [[UIBarButtonItem alloc]
                              initWithTitle:@"Submit" style:UIBarButtonItemStylePlain

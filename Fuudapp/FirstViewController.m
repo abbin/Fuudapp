@@ -15,6 +15,7 @@
 #import "NSMutableDictionary+FALocality.h"
 #import <MapKit/MapKit.h>
 #import "FAItemDetailViewController.h"
+#import "FAColor.h"
 
 @import FirebaseRemoteConfig;
 @import FirebaseDatabase;
@@ -26,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 @property (strong, nonatomic)FIRDatabaseReference *ref;
 @property (strong, nonatomic)NSIndexPath *selectedIndex;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
 
 @end
 
@@ -34,7 +36,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     if ([FAManager isLocationSet]) {
-        [self addbarbuttons];
+        [self addbarItems];
         [self startListining];
     }
     else{
@@ -43,6 +45,8 @@
                                                      name:@"observeEventWithCompletion"
                                                    object:nil];
     }
+    
+    self.view.backgroundColor = [FAColor mainColor];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -53,7 +57,7 @@
 }
 
 -(void)startListining{
-    [self addbarbuttons];
+    [self addbarItems];
     [FAManager observeEventWithCompletion:^(NSArray *items){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemRatingKey ascending:NO];
@@ -65,15 +69,9 @@
     }];
 }
 
--(void)addbarbuttons{
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc]
-                                  initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                  target:self
-                                  action:@selector(addButtonClicked:)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    
+-(void)addbarItems{
     NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults] objectForKey:kFASelectedLocalityKey];
-    self.navigationItem.title = loc.localityName;
+    self.navBar.title = loc.localityName;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,7 +79,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)addButtonClicked:(id)sender {
+- (IBAction)add:(id)sender {
     if (![FIRAuth auth].currentUser.isAnonymous) {
         [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
     }

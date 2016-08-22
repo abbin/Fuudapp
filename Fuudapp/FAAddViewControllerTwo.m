@@ -114,12 +114,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedItem = [self.itemArray objectAtIndex:indexPath.row];
     if ([self.selectedItem isKindOfClass:[NSDictionary class]]) {
-        [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:NO];
-        [FAAnalyticsManager sharedManager].userRestaurant = [NSNumber numberWithBool:NO];
+        [FAAnalyticsManager sharedManager].userItem = @"NO";
+        [FAAnalyticsManager sharedManager].userRestaurant = @"NO";
         [self performSegueWithIdentifier:@"FAReviewViewControllerSegue" sender:self];
     }
     else{
-        [FAAnalyticsManager sharedManager].userItem = [NSNumber numberWithBool:YES];
+        [FAAnalyticsManager sharedManager].userItem = @"YES";
         [self performSegueWithIdentifier:@"FAAddViewControllerOneSegue" sender:self];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -150,9 +150,9 @@
                  
                  NSDate *end = [NSDate date];
                  NSMutableDictionary *parameter = [NSMutableDictionary new];
-                 [parameter setObject:[NSNumber numberWithBool:YES] forKey:kFAAnalyticsSucessKey];
-                 [parameter setObject:[NSNumber numberWithInteger:self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
-                 [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                 [parameter setObject:@"YES" forKey:kFAAnalyticsSucessKey];
+                 [parameter setObject:[NSString stringWithFormat:@"%lu",(unsigned long)self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
+                 [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
                  [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
                  
                  [FAAnalyticsManager logSearchWithQuery:searchText
@@ -163,9 +163,9 @@
                  
                  NSDate *end = [NSDate date];
                  NSMutableDictionary *parameter = [NSMutableDictionary new];
-                 [parameter setObject:[NSNumber numberWithBool:YES] forKey:kFAAnalyticsSucessKey];
-                 [parameter setObject:[NSNumber numberWithInteger:self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
-                 [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                 [parameter setObject:@"YES" forKey:kFAAnalyticsSucessKey];
+                 [parameter setObject:[NSString stringWithFormat:@"%lu",(unsigned long)self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
+                 [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
                  [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
                  
                  [FAAnalyticsManager logSearchWithQuery:searchText

@@ -88,9 +88,9 @@
                 
                 NSDate *end = [NSDate date];
                 NSMutableDictionary *parameter = [NSMutableDictionary new];
-                [parameter setObject:[NSNumber numberWithBool:YES] forKey:kFAAnalyticsSucessKey];
-                [parameter setObject:[NSNumber numberWithInteger:self.locArray.count] forKey:kFAAnalyticsResultCountKey];
-                [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                [parameter setObject:@"YES" forKey:kFAAnalyticsSucessKey];
+                [parameter setObject:[NSString stringWithFormat:@"%lu",(unsigned long)self.locArray.count] forKey:kFAAnalyticsResultCountKey];
+                [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
                 [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
                 
                 [FAAnalyticsManager logSearchWithQuery:searchText
@@ -103,8 +103,8 @@
                     [self.activityIndicator stopAnimating];
                     NSDate *end = [NSDate date];
                     NSMutableDictionary *parameter = [NSMutableDictionary new];
-                    [parameter setObject:[NSNumber numberWithBool:NO] forKey:kFAAnalyticsSucessKey];
-                    [parameter setObject:[NSNumber numberWithDouble:[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                    [parameter setObject:@"NO" forKey:kFAAnalyticsSucessKey];
+                    [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
                     [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
                     
                     [FAAnalyticsManager logSearchWithQuery:searchText

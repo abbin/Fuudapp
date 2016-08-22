@@ -8,6 +8,9 @@
 
 #import "FAAnalyticsManager.h"
 
+NSString *const FAAnalyticsImageSourceGallery                   = @"gallery";
+NSString *const FAAnalyticsImageSourceCamera                    = @"camera";
+
 @implementation FAAnalyticsManager
 
 + (void)logEventWithName:(nonnull NSString *)name

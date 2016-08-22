@@ -52,7 +52,7 @@
                                               timeoutInterval:60];
     
     [self.cellImageView setImageWithURLRequest:imageRequest
-                     placeholderImage:[UIImage imageNamed:@"placeholder"]
+                     placeholderImage:[UIImage imageNamed:@"background"]
                               success:nil
                               failure:nil];
 }
@@ -63,7 +63,7 @@
                                               timeoutInterval:60];
     
     [self.userImageView setImageWithURLRequest:imageRequest
-                              placeholderImage:[UIImage imageNamed:@"placeholder"]
+                              placeholderImage:[UIImage imageNamed:@"background"]
                                        success:nil
                                        failure:nil];
 }

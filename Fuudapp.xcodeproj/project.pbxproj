@@ -581,14 +581,14 @@
 		};
 		ED044A051D532F0C00CF57DF /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 1ec1e874f64c2bf34f536ca38f6a25c79ceb31bb 7a94891b0423cc3297b223f3cb930d0167ee3b4068a79cdd32c7bedf75e799a4";
 			showEnvVarsInLog = 0;

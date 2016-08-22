@@ -331,12 +331,13 @@
                         
                         [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                         [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                                  parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                               kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                               kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
-                                                               kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                                  parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                               kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                               kFAAnalyticsImageCountKey: @"3",
+                                                               kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
                                                                kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                                kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+                        [[FAAnalyticsManager sharedManager]resetManager];
                         
                         NSLog(@"All Uploads Finished");
                     }];
@@ -377,12 +378,13 @@
                     
                     [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                              parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                           kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:2],
-                                                           kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                              parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                           kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                           kFAAnalyticsImageCountKey: @"2",
+                                                           kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
                                                            kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                            kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+                    [[FAAnalyticsManager sharedManager]resetManager];
                     
                     NSLog(@"All Uploads Finished");
                 }
@@ -419,12 +421,13 @@
             
             [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                      parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                   kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                   kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:1],
-                                                   kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                      parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                   kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                   kFAAnalyticsImageCountKey: @"1",
+                                                   kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
                                                    kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                    kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+            [[FAAnalyticsManager sharedManager]resetManager];
             
             NSLog(@"All Uploads Finished");
         }
@@ -625,12 +628,13 @@
                         
                         [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                         [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                                  parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                               kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                               kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:3],
-                                                               kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                                  parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                               kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                               kFAAnalyticsImageCountKey: @"3",
+                                                               kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
                                                                kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                                kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+                        [[FAAnalyticsManager sharedManager]resetManager];
                         
                         NSLog(@"All Uploads Finished");
                     }];
@@ -667,12 +671,13 @@
                     
                     [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                              parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                           kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                           kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:2],
-                                                           kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                              parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                           kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                           kFAAnalyticsImageCountKey: @"2",
+                                                           kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
                                                            kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                            kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+                    [[FAAnalyticsManager sharedManager]resetManager];
                     
                     NSLog(@"All Uploads Finished");
                 }
@@ -705,12 +710,13 @@
             
             [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                      parameters:@{kFAAnalyticsNetworkTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                   kFAAnalyticsScreenTimeKey: [NSNumber numberWithDouble:[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                   kFAAnalyticsImageCountKey: [NSNumber numberWithInteger:1],
-                                                   kFAAnalyticsImageSourceKey: [NSNumber numberWithInteger:[FAAnalyticsManager sharedManager].imageSource],
+                                      parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+                                                   kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+                                                   kFAAnalyticsImageCountKey: @"1",
+                                                   kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
                                                    kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
                                                    kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+            [[FAAnalyticsManager sharedManager]resetManager];
             
             NSLog(@"All Uploads Finished");
         }

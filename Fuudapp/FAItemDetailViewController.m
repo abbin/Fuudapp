@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *itemLocationLabel;
 @property (weak, nonatomic) IBOutlet UIButton *ratingButton;
 @property (weak, nonatomic) IBOutlet UIView *statusGradiantView;
+@property (weak, nonatomic) IBOutlet UILabel *openLebal;
 
 @end
 
@@ -30,7 +31,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
     self.itemNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:20.0];
     self.itemRestaurant.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
     self.itemLocationLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
@@ -38,6 +38,7 @@
     [self.ratingButton setBackgroundColor:[FAColor mainColor]];
     self.ratingButton.layer.cornerRadius = 5;
     self.ratingButton.layer.masksToBounds = YES;
+    self.openLebal.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
     
     [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
     self.itemNameLabel.text = self.itemObject.itemName;
@@ -53,10 +54,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -76,7 +73,6 @@
 
 - (IBAction)back:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
 /*
