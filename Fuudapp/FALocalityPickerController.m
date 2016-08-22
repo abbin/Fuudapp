@@ -10,7 +10,6 @@
 #import "FAColor.h"
 #import "AFNetworking.h"
 #import "FAConstants.h"
-#import "FAActivityIndicator.h"
 #import "FAAnalyticsManager.h"
 #import "NSMutableDictionary+FALocality.h"
 
@@ -21,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *locArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
-@property (strong, nonatomic) FAActivityIndicator *activityIndicator;
 
 @end
 
@@ -29,8 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.activityIndicator = [[FAActivityIndicator alloc]initWithView:self.view];
     
     UIBarButtonItem *cancel = [[UIBarButtonItem alloc]
                              initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
@@ -66,8 +62,6 @@
     
     if (searchText.length>0) {
         
-        [self.activityIndicator startAnimating];
-        
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         
@@ -83,7 +77,6 @@
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
-                [self.activityIndicator stopAnimating];
                 self.locArray = responseObject[@"predictions"];
                 
                 NSDate *end = [NSDate date];
@@ -100,7 +93,6 @@
             }
             else{
                 if (error.code != -999) {
-                    [self.activityIndicator stopAnimating];
                     NSDate *end = [NSDate date];
                     NSMutableDictionary *parameter = [NSMutableDictionary new];
                     [parameter setObject:@"NO" forKey:kFAAnalyticsSucessKey];
@@ -184,11 +176,8 @@
     NSURL *URL = [NSURL URLWithString:urlString];
     NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
-    [self.activityIndicator startAnimating];
-    
     self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         if (!error) {
-            [self.activityIndicator stopAnimating];
             NSMutableDictionary *locality = [[NSMutableDictionary alloc]initWithLocality:[responseObject objectForKey:@"result"]];
             [self dismissViewControllerAnimated:YES completion:^{
                 if ([self.delegate respondsToSelector:@selector(FALocalityPickerController:didFinisheWithLocation:)]) {
