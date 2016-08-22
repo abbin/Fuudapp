@@ -44,7 +44,7 @@ NSString *const kFAItemReviewsKey                   = @"item_reviews";
 NSString *const kFAItemImageMetaDataKey             = @"item_image_metadata";
 NSString *const kFAItemUserIDKey                    = @"item_user_id";
 NSString *const kFAItemUserPhotoURLKey              = @"item_user_photourl";
-NSString *const kFAItemUserNameKey                  = @"item_name";
+NSString *const kFAItemUserNameKey                  = @"item_user_name";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Image -

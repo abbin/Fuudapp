@@ -11,5 +11,6 @@
 @interface FADetailedImageCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSString *imageURL;
+@property (weak, nonatomic) IBOutlet UIImageView *cellImageView;
 
 @end

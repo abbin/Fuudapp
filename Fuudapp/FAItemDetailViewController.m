@@ -12,10 +12,11 @@
 #import "NSMutableDictionary+FARestaurant.h"
 #import "FAColor.h"
 #import "FADetailedImageCollectionViewCell.h"
+#import "NSMutableDictionary+FAImage.m"
 
 @import FirebaseRemoteConfig;
 
-@interface FAItemDetailViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface FAItemDetailViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *itemRestaurant;
@@ -59,8 +60,12 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FADetailedImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FADetailedImageCollectionViewCell" forIndexPath:indexPath];
     NSMutableDictionary *imageDict = [self.itemObject.itemImageArray objectAtIndex:indexPath.row];
-    cell.imageURL = @"";
+    cell.imageURL = imageDict.imageUrl;
     return cell;
+}
+
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return collectionView.frame.size;
 }
 
 /*

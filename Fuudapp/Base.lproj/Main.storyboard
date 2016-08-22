@@ -218,6 +218,9 @@
                                                             <constraint firstAttribute="trailing" secondItem="OMQ-yX-JRb" secondAttribute="trailing" id="Vrs-RF-dph"/>
                                                             <constraint firstItem="OMQ-yX-JRb" firstAttribute="top" secondItem="48w-An-jbk" secondAttribute="top" id="lQc-I6-nGW"/>
                                                         </constraints>
+                                                        <connections>
+                                                            <outlet property="cellImageView" destination="OMQ-yX-JRb" id="Ryd-qv-6au"/>
+                                                        </connections>
                                                     </collectionViewCell>
                                                 </cells>
                                                 <connections>

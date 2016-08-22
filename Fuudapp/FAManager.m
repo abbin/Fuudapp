@@ -114,7 +114,7 @@
     
     NSString *hash = [self geoHashFromLatitude:lat andLongitude:lng];
     
-    NSRange stringRange = {0, MIN([hash length], 5)};
+    NSRange stringRange = {0, MIN([hash length], 4)};
     
     // adjust the range to include dependent chars
     stringRange = [hash rangeOfComposedCharacterSequencesForRange:stringRange];

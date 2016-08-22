@@ -7,7 +7,19 @@
 //
 
 #import "FADetailedImageCollectionViewCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @implementation FADetailedImageCollectionViewCell
+
+-(void)setImageURL:(NSString *)imageURL{
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURL]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [self.cellImageView setImageWithURLRequest:imageRequest
+                              placeholderImage:[UIImage imageNamed:@"placeholder"]
+                                       success:nil
+                                       failure:nil];
+}
 
 @end
