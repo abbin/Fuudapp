@@ -827,7 +827,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2643.5" y="-685.5"/>
+            <point key="canvasLocation" x="2643.5" y="-689.5"/>
         </scene>
         <!--Select your city-->
         <scene sceneID="pCi-NE-EVH">

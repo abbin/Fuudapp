@@ -180,7 +180,7 @@
         NSString* trimmedString = [words componentsJoinedByString:@""];
         NSString *idK = [NSString stringWithFormat:@"%@%@",trimmedString,[self uuid]];
         
-        self.itemId = idK;
+        self.itemId = [idK lowercaseString];
         self.itemCappedName = [trimmedString lowercaseString];
     }
     return self;

@@ -10,6 +10,7 @@
 		184D8283C4BE93E9388FF949 /* Pods_Fuudapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24ED9BC39079580CA51993C6 /* Pods_Fuudapp.framework */; };
 		ED044A081D53605100CF57DF /* FAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = ED044A071D53605100CF57DF /* FAManager.m */; };
 		ED1E7E091D6AE5C20026EE6D /* NSMutableDictionary+FAImage.m in Sources */ = {isa = PBXBuildFile; fileRef = ED1E7E081D6AE5C20026EE6D /* NSMutableDictionary+FAImage.m */; };
+		ED247B1B1D6C4BB50092285A /* FAUploadProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED247B1A1D6C4BB50092285A /* FAUploadProgressController.m */; };
 		ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */ = {isa = PBXBuildFile; fileRef = ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */; };
 		ED3AA5181D586493004A27B1 /* FAReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED3AA5171D586493004A27B1 /* FAReviewViewController.m */; };
 		ED4733701D63607300280BC0 /* FASignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED47336F1D63607300280BC0 /* FASignInViewController.m */; };
@@ -62,6 +63,8 @@
 		ED044A071D53605100CF57DF /* FAManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAManager.m; sourceTree = "<group>"; };
 		ED1E7E071D6AE5C20026EE6D /* NSMutableDictionary+FAImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FAImage.h"; sourceTree = "<group>"; };
 		ED1E7E081D6AE5C20026EE6D /* NSMutableDictionary+FAImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FAImage.m"; sourceTree = "<group>"; };
+		ED247B191D6C4BB50092285A /* FAUploadProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUploadProgressController.h; sourceTree = "<group>"; };
+		ED247B1A1D6C4BB50092285A /* FAUploadProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAUploadProgressController.m; sourceTree = "<group>"; };
 		ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info(live).plist"; sourceTree = "<group>"; };
 		ED3AA5161D586493004A27B1 /* FAReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAReviewViewController.h; sourceTree = "<group>"; };
 		ED3AA5171D586493004A27B1 /* FAReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAReviewViewController.m; sourceTree = "<group>"; };
@@ -183,6 +186,15 @@
 				ED1E7E081D6AE5C20026EE6D /* NSMutableDictionary+FAImage.m */,
 			);
 			name = Image;
+			sourceTree = "<group>";
+		};
+		ED247B181D6C4B900092285A /* UploadProgress */ = {
+			isa = PBXGroup;
+			children = (
+				ED247B191D6C4BB50092285A /* FAUploadProgressController.h */,
+				ED247B1A1D6C4BB50092285A /* FAUploadProgressController.m */,
+			);
+			name = UploadProgress;
 			sourceTree = "<group>";
 		};
 		ED898EC11D65F928000701DF /* Locality */ = {
@@ -391,6 +403,7 @@
 		EDA5FE3D1D54DB3300BD4F57 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				ED247B181D6C4B900092285A /* UploadProgress */,
 				ED9D77861D5EF0290058C235 /* Pop Alert */,
 				EDA5FE411D54DBAD00BD4F57 /* Color */,
 				EDA5FE401D54DB8D00BD4F57 /* Gallery Convenience */,
@@ -639,6 +652,7 @@
 				ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */,
 				ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */,
 				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
+				ED247B1B1D6C4BB50092285A /* FAUploadProgressController.m in Sources */,
 				ED9D778C1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m in Sources */,
 				ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */,
 				ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */,
