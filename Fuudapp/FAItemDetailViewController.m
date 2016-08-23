@@ -45,10 +45,61 @@
     self.itemRestaurant.text = self.itemObject.itemRestaurant.restaurantName;
     self.itemLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
     
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"EEEE"];
+    NSString *dayName = [dateFormatter stringFromDate:[NSDate date]];
+    
+    NSString *predicateString = [NSString stringWithFormat:@"close.dayName like '%@'",dayName];
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:predicateString];
+    NSArray *result = [self.itemObject.itemRestaurant.restaurantWorkingHours filteredArrayUsingPredicate:pred];
+    
+    if (result.count>0) {
+        NSMutableDictionary *todayDict = [result firstObject];
+        
+        NSString *closeString = [[todayDict objectForKey:@"close"] objectForKey:@"time"];
+        NSString *openString = [[todayDict objectForKey:@"open"] objectForKey:@"time"];
+        
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"HHmm"];
+        
+        NSDate *openDate = [outputFormatter dateFromString:openString];
+        NSDate *closeDate = [outputFormatter dateFromString:closeString];
+        
+        [outputFormatter setDateFormat:@"h:mm a"];
+        
+        NSString *openingHour = [outputFormatter stringFromDate:openDate];
+        NSString *closingHour = [outputFormatter stringFromDate:closeDate];
+        
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *comps = [calendar components:(NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond)
+                                              fromDate:[NSDate date]];
+        NSInteger nowSeconds = ([comps hour] * 60 * 60) + ([comps minute] * 60) + [comps second];
+        
+        NSInteger closeSecond = [self dictTimeToSeconds:[closeString integerValue]];
+        NSInteger openSecond = [self dictTimeToSeconds:[openString integerValue]];
+        
+        if (openSecond < nowSeconds && closeSecond > nowSeconds) {
+            self.openLebal.text = [NSString stringWithFormat:@"Open Now from:%@ till:%@",openingHour,closingHour];
+        } else {
+            self.openLebal.text = [NSString stringWithFormat:@"Closed Now. Open from:%@ till:%@",openingHour,closingHour];
+        }
+    }
+    else{
+        self.openLebal.text = [NSString stringWithFormat:@"Closed Today"];
+    }
+    
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.statusGradiantView.bounds;
     gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], (id)[[UIColor clearColor] CGColor], nil];
     [self.statusGradiantView.layer insertSublayer:gradient atIndex:0];
+}
+
+- (NSInteger)dictTimeToSeconds:(NSInteger)dictTime{
+    NSInteger hours = dictTime / 100;
+    NSInteger minutes = dictTime % 100;
+    return (hours * 60 * 60) + (minutes * 60);
 }
 
 - (void)didReceiveMemoryWarning {
