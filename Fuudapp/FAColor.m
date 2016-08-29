@@ -17,8 +17,31 @@
     return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigMainColorHexKey].stringValue];
 }
 
-+(UIColor *)activityIndicatorColor{
-    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigActivityIndicatorColorHexKey].stringValue];
++(UIColor *)openGreen{
+    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigOpenGreenColorHexKey].stringValue];
+}
+
++(UIColor *)closedRed{
+    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigClosedRedColorHexKey].stringValue];
+}
+
++(UIColor *)colorWithRating:(id)rating{
+    NSInteger rate = [rating integerValue];
+    if (rate>4) {
+        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingFiveColorHexKey].stringValue];
+    }
+    else if (rate>3){
+        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingFourColorHexKey].stringValue];
+    }
+    else if (rate>2){
+        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingThreeColorHexKey].stringValue];
+    }
+    else if (rate>1){
+        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingTwoColorHexKey].stringValue];
+    }
+    else{
+        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingOneColorHexKey].stringValue];
+    }
 }
 
 + (UIColor *)colorFromHexString:(NSString *)hexString {

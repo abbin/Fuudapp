@@ -38,6 +38,7 @@
 		ED9D778C1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D778B1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m */; };
 		EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */; };
 		EDA886521D6993E600D3F022 /* FADetailedImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA886511D6993E600D3F022 /* FADetailedImageCollectionViewCell.m */; };
+		EDAB2C051D6EED78006EDB8B /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDAB2C041D6EED78006EDB8B /* RemoteConfigDefaults.plist */; };
 		EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */; };
 		EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */; };
 		EDB89ADD1D472C7D00EE4BBB /* FAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89ADC1D472C7D00EE4BBB /* FAImagePickerController.m */; };
@@ -48,7 +49,6 @@
 		EDB89AED1D478DF300EE4BBB /* FAAddViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEC1D478DF300EE4BBB /* FAAddViewControllerOne.m */; };
 		EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */; };
 		EDCE81A01D64632D00921F8D /* IMG_0102.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */; };
-		EDD7ED3C1D5DE6C300AED472 /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */; };
 		EDE6E3D21D675E7D00695E99 /* FAItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
 		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
@@ -112,6 +112,7 @@
 		EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FAItem.m"; sourceTree = "<group>"; };
 		EDA886501D6993E600D3F022 /* FADetailedImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADetailedImageCollectionViewCell.h; sourceTree = "<group>"; };
 		EDA886511D6993E600D3F022 /* FADetailedImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailedImageCollectionViewCell.m; sourceTree = "<group>"; };
+		EDAB2C041D6EED78006EDB8B /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		EDAD34351D506C6F001E5D74 /* FAWorkingDaysViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWorkingDaysViewController.h; sourceTree = "<group>"; };
 		EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAWorkingDaysViewController.m; sourceTree = "<group>"; };
 		EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -130,7 +131,6 @@
 		EDB89AEE1D47984A00EE4BBB /* FAAddOneCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddOneCollectionViewCell.h; sourceTree = "<group>"; };
 		EDB89AEF1D47984A00EE4BBB /* FAAddOneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddOneCollectionViewCell.m; sourceTree = "<group>"; };
 		EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = IMG_0102.mp4; sourceTree = "<group>"; };
-		EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
 		EDE6E3CF1D67427C00695E99 /* HomeLoc.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HomeLoc.gpx; sourceTree = "<group>"; };
 		EDE6E3D01D675E7D00695E99 /* FAItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAItemDetailViewController.h; sourceTree = "<group>"; };
 		EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAItemDetailViewController.m; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 				ED8D6E011D46552A00CA8777 /* Info.plist */,
 				ED27D7E51D49EA13006CC721 /* GoogleService-Info(live).plist */,
 				EDAD34381D50FE7D001E5D74 /* GoogleService-Info.plist */,
-				EDD7ED3B1D5DE6C300AED472 /* RemoteConfigDefaults.plist */,
+				EDAB2C041D6EED78006EDB8B /* RemoteConfigDefaults.plist */,
 				EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */,
 				ED8D6DED1D46552A00CA8777 /* Supporting Files */,
 			);
@@ -536,8 +536,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDD7ED3C1D5DE6C300AED472 /* RemoteConfigDefaults.plist in Resources */,
 				ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */,
+				EDAB2C051D6EED78006EDB8B /* RemoteConfigDefaults.plist in Resources */,
 				ED27D7E61D49EA13006CC721 /* GoogleService-Info(live).plist in Resources */,
 				EDCE81A01D64632D00921F8D /* IMG_0102.mp4 in Resources */,
 				EDAD34391D50FE7D001E5D74 /* GoogleService-Info.plist in Resources */,

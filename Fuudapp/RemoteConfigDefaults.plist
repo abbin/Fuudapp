@@ -2,12 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>activityIndicatorHeight</key>
-	<string>64</string>
-	<key>activityIndicatorYAxix</key>
-	<string>0</string>
-	<key>activityIndicatorColorHex</key>
+	<key>ratingOneColorHex</key>
+	<string>c9c900</string>
+	<key>ratingTwoColorHex</key>
+	<string>c99700</string>
+	<key>ratingThreeColorHex</key>
+	<string>c96500</string>
+	<key>ratingFourColorHex</key>
+	<string>c93200</string>
+	<key>ratingFiveColorHex</key>
 	<string>C90017</string>
+	<key>closedRedColorHex</key>
+	<string>F44336</string>
+	<key>openGreenColorHex</key>
+	<string>4CAF50</string>
 	<key>mainColorHex</key>
 	<string>C90017</string>
 	<key>primaryFont</key>

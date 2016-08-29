@@ -90,7 +90,7 @@ NSString *const kFALocalityLatitudeKey              = @"locality_latitude";
 #pragma mark - APP -
 
 NSString *const kFASelectedLocalityKey              = @"user_locality";
-
+NSInteger const kFAGeoHashPrecisionKey              = 22;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Analytics Events -
@@ -135,11 +135,18 @@ NSString *const kFAAnalyticsRestaurantSearchKey     = @"restaurant_search";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Remote Config Keys -
 
+#pragma mark - Fonts -
 NSString *const kFARemoteConfigPrimaryFontKey                   = @"primaryFont";
 NSString *const kFARemoteConfigSecondaryKey                     = @"secondaryFont";
+
+#pragma mark - Colors -
 NSString *const kFARemoteConfigMainColorHexKey                  = @"mainColorHex";
-NSString *const kFARemoteConfigActivityIndicatorColorHexKey     = @"activityIndicatorColorHex";
-NSString *const kFARemoteConfigActivityIndicatorYAxixKey        = @"activityIndicatorYAxix";
-NSString *const kFARemoteConfigActivityIndicatorHeightKey       = @"activityIndicatorHeight";
+NSString *const kFARemoteConfigOpenGreenColorHexKey             = @"openGreenColorHex";
+NSString *const kFARemoteConfigClosedRedColorHexKey             = @"closedRedColorHex";
+NSString *const kFARemoteConfigRatingOneColorHexKey             = @"ratingOneColorHex";
+NSString *const kFARemoteConfigRatingTwoColorHexKey             = @"ratingTwoColorHex";
+NSString *const kFARemoteConfigRatingThreeColorHexKey           = @"ratingThreeColorHex";
+NSString *const kFARemoteConfigRatingFourColorHexKey            = @"ratingFourColorHex";
+NSString *const kFARemoteConfigRatingFiveColorHexKey            = @"ratingFiveColorHex";
 
 @end

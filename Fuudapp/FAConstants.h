@@ -105,6 +105,7 @@ FOUNDATION_EXPORT NSString *const kFALocalityLongitudeKey;
 #pragma mark - App -
 
 FOUNDATION_EXPORT NSString *const kFASelectedLocalityKey;
+FOUNDATION_EXPORT NSInteger const kFAGeoHashPrecisionKey;
 
 
 
@@ -149,11 +150,18 @@ FOUNDATION_EXPORT NSString *const kFAAnalyticsRestaurantSearchKey;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Remote Config Keys -
 
+#pragma mark - Fonts -
 FOUNDATION_EXPORT NSString *const kFARemoteConfigPrimaryFontKey;
 FOUNDATION_EXPORT NSString *const kFARemoteConfigSecondaryKey;
+
+#pragma mark - Colors -
 FOUNDATION_EXPORT NSString *const kFARemoteConfigMainColorHexKey;
-FOUNDATION_EXPORT NSString *const kFARemoteConfigActivityIndicatorColorHexKey;
-FOUNDATION_EXPORT NSString *const kFARemoteConfigActivityIndicatorYAxixKey;
-FOUNDATION_EXPORT NSString *const kFARemoteConfigActivityIndicatorHeightKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigOpenGreenColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigClosedRedColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigRatingOneColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigRatingTwoColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigRatingThreeColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigRatingFourColorHexKey;
+FOUNDATION_EXPORT NSString *const kFARemoteConfigRatingFiveColorHexKey;
 
 @end

@@ -12,6 +12,10 @@
 
 +(UIColor*)mainColor;
 
-+(UIColor *)activityIndicatorColor;
++(UIColor*)openGreen;
+
++(UIColor*)closedRed;
+
++(UIColor *)colorWithRating:(id)rating;
 
 @end

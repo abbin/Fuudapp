@@ -163,9 +163,12 @@
     [outputFormatter setDateFormat:@"h:mm a"];
     self.tillTExtField.text = [outputFormatter stringFromDate:sender.date];
     
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [outputFormatter setTimeZone:timeZone];
     [outputFormatter setDateFormat:@"HHmm"];
+    NSString *dateString = [outputFormatter stringFromDate:sender.date];
     
-    self.tillTime = [outputFormatter stringFromDate:sender.date];
+    self.tillTime = dateString;
 }
 
 - (void)fromDatePickerDidSelectDate:(UIDatePicker*)sender {
@@ -173,9 +176,12 @@
     [outputFormatter setDateFormat:@"h:mm a"];
     self.fromTextField.text = [outputFormatter stringFromDate:sender.date];
     
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [outputFormatter setTimeZone:timeZone];
     [outputFormatter setDateFormat:@"HHmm"];
+    NSString *dateString = [outputFormatter stringFromDate:sender.date];
     
-    self.fromTime = [outputFormatter stringFromDate:sender.date];
+    self.fromTime = dateString;
 }
 
 - (void)backButtonClicked:(id)sender {

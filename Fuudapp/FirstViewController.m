@@ -113,6 +113,7 @@
     cell.priceLabel.text = [NSString stringWithFormat:@"%@:%@",itemDict.itemCurrencySymbol,itemDict.itemPrice];
     cell.userNameLabel.text = itemDict.itemUserName;
     cell.cellUserImageUrl = itemDict.itemUserPhotoURL;
+    cell.ratingView.backgroundColor = [FAColor colorWithRating:itemDict.itemRating];
     
     return cell;
 }

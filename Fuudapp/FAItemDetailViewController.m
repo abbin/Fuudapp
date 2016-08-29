@@ -13,6 +13,7 @@
 #import "FAColor.h"
 #import "FADetailedImageCollectionViewCell.h"
 #import "NSMutableDictionary+FAImage.m"
+#import "FAColor.h"
 
 @import FirebaseRemoteConfig;
 
@@ -39,7 +40,7 @@
     self.ratingButton.layer.cornerRadius = 5;
     self.ratingButton.layer.masksToBounds = YES;
     self.openLebal.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
-    
+    self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
     [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
     self.itemNameLabel.text = self.itemObject.itemName;
     self.itemRestaurant.text = self.itemObject.itemRestaurant.restaurantName;
@@ -51,43 +52,87 @@
     NSString *dayName = [dateFormatter stringFromDate:[NSDate date]];
     
     NSString *predicateString = [NSString stringWithFormat:@"close.dayName like '%@'",dayName];
-    
     NSPredicate *pred = [NSPredicate predicateWithFormat:predicateString];
     NSArray *result = [self.itemObject.itemRestaurant.restaurantWorkingHours filteredArrayUsingPredicate:pred];
+    NSMutableDictionary *todayDict = [result firstObject];
     
-    if (result.count>0) {
-        NSMutableDictionary *todayDict = [result firstObject];
-        
-        NSString *closeString = [[todayDict objectForKey:@"close"] objectForKey:@"time"];
-        NSString *openString = [[todayDict objectForKey:@"open"] objectForKey:@"time"];
-        
-        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
-        [outputFormatter setDateFormat:@"HHmm"];
-        
-        NSDate *openDate = [outputFormatter dateFromString:openString];
-        NSDate *closeDate = [outputFormatter dateFromString:closeString];
-        
-        [outputFormatter setDateFormat:@"h:mm a"];
-        
-        NSString *openingHour = [outputFormatter stringFromDate:openDate];
-        NSString *closingHour = [outputFormatter stringFromDate:closeDate];
-        
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *comps = [calendar components:(NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond)
-                                              fromDate:[NSDate date]];
-        NSInteger nowSeconds = ([comps hour] * 60 * 60) + ([comps minute] * 60) + [comps second];
-        
-        NSInteger closeSecond = [self dictTimeToSeconds:[closeString integerValue]];
-        NSInteger openSecond = [self dictTimeToSeconds:[openString integerValue]];
-        
-        if (openSecond < nowSeconds && closeSecond > nowSeconds) {
-            self.openLebal.text = [NSString stringWithFormat:@"Open Now from:%@ till:%@",openingHour,closingHour];
-        } else {
-            self.openLebal.text = [NSString stringWithFormat:@"Closed Now. Open from:%@ till:%@",openingHour,closingHour];
+    NSString *closeString = [[todayDict objectForKey:@"close"] objectForKey:@"time"];
+    NSString *openString = [[todayDict objectForKey:@"open"] objectForKey:@"time"];
+    
+    [dateFormatter setDateFormat:@"HHmm"];
+    NSString *nowString = [dateFormatter stringFromDate:[NSDate date]];
+    
+    NSDate *openDate = [dateFormatter dateFromString:openString];
+    NSDate *closeDate = [dateFormatter dateFromString:closeString];
+    
+    [dateFormatter setDateFormat:@"h:mm a"];
+    
+    NSString *openingHour = [dateFormatter stringFromDate:openDate];
+    NSString *closingHour = [dateFormatter stringFromDate:closeDate];
+    
+    NSInteger nowSecond = [self dictTimeToSeconds:nowString];
+    NSInteger closeSecond = [self dictTimeToSeconds:closeString];
+    NSInteger openSecond = [self dictTimeToSeconds:openString];
+    
+    if (openSecond-closeSecond<0){
+        if (nowSecond>openSecond && nowSecond<closeSecond) {
+            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
+            [atString addAttribute:NSFontAttributeName
+                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                             range:NSMakeRange(0, 8)];
+            [atString addAttribute:NSForegroundColorAttributeName
+                             value:[FAColor openGreen]
+                             range:NSMakeRange(0, 8)];
+            
+            self.openLebal.attributedText = atString;
+        }
+        else{
+            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Closed Now  Open from:%@ till:%@",openingHour,closingHour]];
+            [atString addAttribute:NSFontAttributeName
+                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                             range:NSMakeRange(0, 10)];
+            [atString addAttribute:NSForegroundColorAttributeName
+                             value:[FAColor closedRed]
+                             range:NSMakeRange(0, 10)];
+            
+            self.openLebal.attributedText = atString;
         }
     }
     else{
-        self.openLebal.text = [NSString stringWithFormat:@"Closed Today"];
+        NSInteger midnightSecond = 23*60*60 + 59*60 + 59;
+        if (nowSecond>openSecond && nowSecond < midnightSecond) {
+            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
+            [atString addAttribute:NSFontAttributeName
+                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                             range:NSMakeRange(0, 8)];
+            [atString addAttribute:NSForegroundColorAttributeName
+                             value:[FAColor openGreen]
+                             range:NSMakeRange(0, 8)];
+            
+            self.openLebal.attributedText = atString;
+        }
+        else if (nowSecond >= 0 && nowSecond <closeSecond){
+            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
+            [atString addAttribute:NSFontAttributeName
+                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                             range:NSMakeRange(0, 8)];
+            [atString addAttribute:NSForegroundColorAttributeName
+                             value:[FAColor openGreen]
+                             range:NSMakeRange(0, 8)];
+            
+            self.openLebal.attributedText = atString;
+        }
+        else{
+            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Closed Now  Open from:%@ till:%@",openingHour,closingHour]];
+            [atString addAttribute:NSFontAttributeName
+                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                             range:NSMakeRange(0, 10)];
+            [atString addAttribute:NSForegroundColorAttributeName
+                             value:[FAColor closedRed]
+                             range:NSMakeRange(0, 10)];
+            
+            self.openLebal.attributedText = atString;
+        }
     }
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -96,9 +141,10 @@
     [self.statusGradiantView.layer insertSublayer:gradient atIndex:0];
 }
 
-- (NSInteger)dictTimeToSeconds:(NSInteger)dictTime{
-    NSInteger hours = dictTime / 100;
-    NSInteger minutes = dictTime % 100;
+- (NSInteger)dictTimeToSeconds:(id)dictTime{
+    NSInteger time = [dictTime integerValue];
+    NSInteger hours = time / 100;
+    NSInteger minutes = time % 100;
     return (hours * 60 * 60) + (minutes * 60);
 }
 

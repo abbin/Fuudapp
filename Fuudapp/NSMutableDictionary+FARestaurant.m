@@ -199,7 +199,7 @@
     double longitudeRange[] = { -180 , 180 };
     double latitudeRange[] = { -90 , 90 };
     
-    NSInteger precision = 10;
+    NSInteger precision = kFAGeoHashPrecisionKey;
     
     char buffer[precision+1];
     buffer[precision] = 0;
