@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *ratingButton;
 @property (weak, nonatomic) IBOutlet UIView *statusGradiantView;
 @property (weak, nonatomic) IBOutlet UILabel *openLebal;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 
 @end
 
@@ -41,11 +42,13 @@
     self.ratingButton.layer.masksToBounds = YES;
     self.openLebal.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
     self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
+    self.priceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
+    
     [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
     self.itemNameLabel.text = self.itemObject.itemName;
     self.itemRestaurant.text = self.itemObject.itemRestaurant.restaurantName;
     self.itemLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
-    
+    self.priceLabel.text = [NSString stringWithFormat:@"%@%@",self.itemObject.itemCurrencySymbol, self.itemObject.itemPrice];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"EEEE"];
