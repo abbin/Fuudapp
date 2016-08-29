@@ -23,7 +23,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.ratingView.layer.cornerRadius = self.ratingView.frame.size.height/8;
+    self.ratingView.layer.cornerRadius = 5;
     self.ratingView.layer.masksToBounds = YES;
     self.cellImageView.layer.cornerRadius = self.cellImageView.frame.size.height/32;
     self.cellImageView.layer.masksToBounds = YES;

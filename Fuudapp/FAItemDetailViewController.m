@@ -17,15 +17,17 @@
 
 @import FirebaseRemoteConfig;
 
-@interface FAItemDetailViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface FAItemDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *itemRestaurant;
-@property (weak, nonatomic) IBOutlet UILabel *itemLocationLabel;
-@property (weak, nonatomic) IBOutlet UIButton *ratingButton;
 @property (weak, nonatomic) IBOutlet UIView *statusGradiantView;
-@property (weak, nonatomic) IBOutlet UILabel *openLebal;
+@property (weak, nonatomic) IBOutlet UITableView *detailTableView;
+@property (weak, nonatomic) IBOutlet UIView *tblHeaderView;
+@property (weak, nonatomic) IBOutlet UILabel *itemNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *restaurantLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UIButton *ratingButton;
+@property (weak, nonatomic) IBOutlet UILabel *openLebal;
 
 @end
 
@@ -33,22 +35,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSInteger headerHeight = self.view.frame.size.width *3/4 + 170;
+    
+    self.tblHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, headerHeight);
     self.itemNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:20.0];
-    self.itemRestaurant.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
-    self.itemLocationLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
-    [self.ratingButton.titleLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15.0]];
-    [self.ratingButton setBackgroundColor:[FAColor mainColor]];
+    self.restaurantNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
+    self.restaurantLocationLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
+    self.priceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
+    self.ratingButton.titleLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
+    self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
     self.ratingButton.layer.cornerRadius = 5;
     self.ratingButton.layer.masksToBounds = YES;
     self.openLebal.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
-    self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
-    self.priceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
     
     [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
     self.itemNameLabel.text = self.itemObject.itemName;
-    self.itemRestaurant.text = self.itemObject.itemRestaurant.restaurantName;
-    self.itemLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
-    self.priceLabel.text = [NSString stringWithFormat:@"%@%@",self.itemObject.itemCurrencySymbol, self.itemObject.itemPrice];
+    self.restaurantNameLabel.text = self.itemObject.itemRestaurant.restaurantName;
+    self.restaurantLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
+    self.priceLabel.text = [NSString stringWithFormat:@"%@%@",self.itemObject.itemCurrencySymbol,self.itemObject.itemPrice];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"EEEE"];
@@ -151,9 +156,17 @@
     return (hours * 60 * 60) + (minutes * 60);
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    return cell;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -174,15 +187,5 @@
 - (IBAction)back:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
