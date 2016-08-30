@@ -57,6 +57,8 @@ FOUNDATION_EXPORT NSString *const kFAItemImageMetaDataKey;
 FOUNDATION_EXPORT NSString *const kFAItemUserIDKey;
 FOUNDATION_EXPORT NSString *const kFAItemUserPhotoURLKey;
 FOUNDATION_EXPORT NSString *const kFAItemUserNameKey;
+FOUNDATION_EXPORT NSString *const kFAItemDistanceKey;
+FOUNDATION_EXPORT NSString *const kFAItemOpenHoursKey;
 
 
 

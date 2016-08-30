@@ -52,6 +52,8 @@
 		EDE6E3D21D675E7D00695E99 /* FAItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
 		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
+		EDFA99771D75668C0017B2F9 /* FATableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFA99761D75668C0017B2F9 /* FATableViewCell.m */; };
+		EDFA997A1D756E810017B2F9 /* FADirectionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFA99791D756E810017B2F9 /* FADirectionTableViewCell.m */; };
 		EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +140,10 @@
 		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
 		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
 		EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerThree.m; sourceTree = "<group>"; };
+		EDFA99751D75668C0017B2F9 /* FATableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATableViewCell.h; sourceTree = "<group>"; };
+		EDFA99761D75668C0017B2F9 /* FATableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATableViewCell.m; sourceTree = "<group>"; };
+		EDFA99781D756E810017B2F9 /* FADirectionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADirectionTableViewCell.h; sourceTree = "<group>"; };
+		EDFA99791D756E810017B2F9 /* FADirectionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADirectionTableViewCell.m; sourceTree = "<group>"; };
 		EDFF9CE11D5B79BF0085B9E1 /* FATabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATabBarController.h; sourceTree = "<group>"; };
 		EDFF9CE21D5B79BF0085B9E1 /* FATabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATabBarController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -466,6 +472,10 @@
 				ED898EBF1D65B2C2000701DF /* FALocationViewController.m */,
 				EDE6E3D01D675E7D00695E99 /* FAItemDetailViewController.h */,
 				EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */,
+				EDFA99751D75668C0017B2F9 /* FATableViewCell.h */,
+				EDFA99761D75668C0017B2F9 /* FATableViewCell.m */,
+				EDFA99781D756E810017B2F9 /* FADirectionTableViewCell.h */,
+				EDFA99791D756E810017B2F9 /* FADirectionTableViewCell.m */,
 				EDA886501D6993E600D3F022 /* FADetailedImageCollectionViewCell.h */,
 				EDA886511D6993E600D3F022 /* FADetailedImageCollectionViewCell.m */,
 			);
@@ -640,6 +650,7 @@
 				ED898EC41D65F983000701DF /* NSMutableDictionary+FALocality.m in Sources */,
 				EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */,
 				EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */,
+				EDFA99771D75668C0017B2F9 /* FATableViewCell.m in Sources */,
 				EDB89AE61D473E3C00EE4BBB /* NSIndexSet+Convenience.m in Sources */,
 				EDA886521D6993E600D3F022 /* FADetailedImageCollectionViewCell.m in Sources */,
 				ED044A081D53605100CF57DF /* FAManager.m in Sources */,
@@ -651,6 +662,7 @@
 				EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */,
 				ED49ADBB1D55E1D0004B293A /* FAAnalyticsManager.m in Sources */,
 				ED482FE61D4F429F00854980 /* FALocalityPickerController.m in Sources */,
+				EDFA997A1D756E810017B2F9 /* FADirectionTableViewCell.m in Sources */,
 				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
 				ED247B1B1D6C4BB50092285A /* FAUploadProgressController.m in Sources */,
 				ED9D778C1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m in Sources */,

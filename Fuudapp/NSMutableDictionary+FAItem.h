@@ -20,10 +20,12 @@
 @property (nonatomic, strong) NSString *itemUserID;
 @property (nonatomic, strong) NSString *itemUserPhotoURL;
 @property (nonatomic, strong) NSString *itemUserName;
+@property (nonatomic, strong) NSString *itemDistance;
 @property (nonatomic, strong) NSNumber *itemLatitude;
 @property (nonatomic, strong) NSNumber *itemLongitude;
 @property (nonatomic, strong) NSNumber *itemPrice;
 @property (nonatomic, strong) NSNumber *itemRating;
+@property (nonatomic, strong) NSAttributedString *itemOpenHours;
 
 @property (nonatomic, strong) NSMutableArray *itemImageArray;
 @property (nonatomic, strong) NSMutableArray *itemReviewArray;

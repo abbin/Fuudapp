@@ -9,12 +9,32 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>DACircularProgress.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>HCSStarRatingView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>IDMPhotoBrowser.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Fuudapp.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,12 +47,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>57E6279064E6907833496BB2520171D0</key>
+		<key>593D1A66907AC1D9F0188CD851420884</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>94624EC6C9739263AA965CFE2D8933F5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>97E5D28D3DA6F0CA23C263B2B5833B9F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A2F922BE828C93A517FBCD7125731FD3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F5766291EE1D711CA0BA9C3DF173BCDE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FF4793093BF21380B4CC21CB9093D2AB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

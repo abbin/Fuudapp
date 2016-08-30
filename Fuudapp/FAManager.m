@@ -13,7 +13,9 @@
 #import "NSMutableDictionary+FARestaurant.h"
 #import "NSMutableDictionary+FALocality.h"
 #import <UIKit/UIKit.h>
+#import "FAColor.h"
 
+@import CoreLocation;
 @import FirebaseDatabase;
 @import FirebaseStorage;
 @import FirebaseRemoteConfig;
@@ -106,7 +108,7 @@
     return [result mutableCopy];
 }
 
-+(void)observeEventWithCompletion:(void (^)(NSArray *items))completion{
++(void)observeEventWithCompletion:(void (^)(NSMutableArray *items))completion{
     NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults]objectForKey:kFASelectedLocalityKey];
     
     double lat = [loc.localityLatitude doubleValue];
@@ -121,16 +123,143 @@
     
     // Now you can create the short string
     NSString *shortString = [hash substringWithRange:stringRange];
-    
+
     FIRDatabaseReference *ref = [[[FIRDatabase database] reference] child:kFAItemPathKey];
     [[[[ref queryOrderedByChild:kFARestaurantLGeoHashKey] queryStartingAtValue:shortString] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",shortString]] observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
         if (snapshot.value != [NSNull null]) {
-            completion([snapshot.value allValues]);
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                completion([self sortAndModifyArray:[snapshot.value allValues]]);
+            });
         }
         else{
-            completion([NSArray new]);
+            completion([NSMutableArray new]);
         }
      }];
+}
+
++(NSMutableArray*)sortAndModifyArray:(NSArray*)itemsArray{
+    for (NSMutableDictionary *dict in itemsArray) {
+        double lat = [dict.itemLatitude doubleValue];
+        double lng = [dict.itemLongitude doubleValue];
+        dict.itemDistance = [self distanceBetweenstatLat:lat lon:lng];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"EEEE"];
+        NSString *dayName = [dateFormatter stringFromDate:[NSDate date]];
+        
+        NSString *predicateString = [NSString stringWithFormat:@"close.dayName like '%@'",dayName];
+        NSPredicate *pred = [NSPredicate predicateWithFormat:predicateString];
+        NSArray *result = [dict.itemRestaurant.restaurantWorkingHours filteredArrayUsingPredicate:pred];
+        NSMutableDictionary *todayDict = [result firstObject];
+        
+        NSString *closeString = [[todayDict objectForKey:@"close"] objectForKey:@"time"];
+        NSString *openString = [[todayDict objectForKey:@"open"] objectForKey:@"time"];
+        
+        [dateFormatter setDateFormat:@"HHmm"];
+        NSString *nowString = [dateFormatter stringFromDate:[NSDate date]];
+        
+        NSDate *openDate = [dateFormatter dateFromString:openString];
+        NSDate *closeDate = [dateFormatter dateFromString:closeString];
+        
+        [dateFormatter setDateFormat:@"h:mm a"];
+        
+        NSString *openingHour = [dateFormatter stringFromDate:openDate];
+        NSString *closingHour = [dateFormatter stringFromDate:closeDate];
+        
+        NSInteger nowSecond = [self dictTimeToSeconds:nowString];
+        NSInteger closeSecond = [self dictTimeToSeconds:closeString];
+        NSInteger openSecond = [self dictTimeToSeconds:openString];
+        
+        if (openSecond-closeSecond<0){
+            if (nowSecond>openSecond && nowSecond<closeSecond) {
+                NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
+                [atString addAttribute:NSFontAttributeName
+                                 value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                                 range:NSMakeRange(0, 8)];
+                [atString addAttribute:NSForegroundColorAttributeName
+                                 value:[FAColor openGreen]
+                                 range:NSMakeRange(0, 8)];
+                
+                dict.itemOpenHours = atString;
+            }
+            else{
+                NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Closed Now  Open from:%@ till:%@",openingHour,closingHour]];
+                [atString addAttribute:NSFontAttributeName
+                                 value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                                 range:NSMakeRange(0, 10)];
+                [atString addAttribute:NSForegroundColorAttributeName
+                                 value:[FAColor closedRed]
+                                 range:NSMakeRange(0, 10)];
+                
+                dict.itemOpenHours = atString;
+            }
+        }
+        else{
+            NSInteger midnightSecond = 23*60*60 + 59*60 + 59;
+            if (nowSecond>openSecond && nowSecond < midnightSecond) {
+                NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
+                [atString addAttribute:NSFontAttributeName
+                                 value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                                 range:NSMakeRange(0, 8)];
+                [atString addAttribute:NSForegroundColorAttributeName
+                                 value:[FAColor openGreen]
+                                 range:NSMakeRange(0, 8)];
+                
+                dict.itemOpenHours = atString;
+            }
+            else if (nowSecond >= 0 && nowSecond <closeSecond){
+                NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
+                [atString addAttribute:NSFontAttributeName
+                                 value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                                 range:NSMakeRange(0, 8)];
+                [atString addAttribute:NSForegroundColorAttributeName
+                                 value:[FAColor openGreen]
+                                 range:NSMakeRange(0, 8)];
+                
+                dict.itemOpenHours = atString;
+            }
+            else{
+                NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Closed Now  Open from:%@ till:%@",openingHour,closingHour]];
+                [atString addAttribute:NSFontAttributeName
+                                 value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
+                                 range:NSMakeRange(0, 10)];
+                [atString addAttribute:NSForegroundColorAttributeName
+                                 value:[FAColor closedRed]
+                                 range:NSMakeRange(0, 10)];
+                
+                dict.itemOpenHours = atString;
+            }
+        }
+        
+    }
+    NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemRatingKey ascending:NO];
+    NSArray *sortedArray = [itemsArray sortedArrayUsingDescriptors:@[voteDescriptor]];
+    return [sortedArray mutableCopy];
+}
+
++ (NSInteger)dictTimeToSeconds:(id)dictTime{
+    NSInteger time = [dictTime integerValue];
+    NSInteger hours = time / 100;
+    NSInteger minutes = time % 100;
+    return (hours * 60 * 60) + (minutes * 60);
+}
+
++(NSString*)distanceBetweenstatLat:(double)lat lon:(double)lng{
+    NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults] objectForKey:kFASelectedLocalityKey];
+    
+    CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
+    CLLocation *endLocation = [[CLLocation alloc] initWithLatitude:[loc.localityLatitude doubleValue] longitude:[loc.localityLongitude doubleValue]];
+    CLLocationDistance distance = [startLocation distanceFromLocation:endLocation];
+    if (distance>1000) {
+        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
+        [formatter setMaximumFractionDigits:0];
+        return [NSString stringWithFormat:@"%@ km away",[formatter stringFromNumber:[NSNumber numberWithDouble:distance/1000]]];
+    }
+    else{
+        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
+        [formatter setMaximumFractionDigits:0];
+        return [NSString stringWithFormat:@"%@ meters away",[formatter stringFromNumber:[NSNumber numberWithDouble:distance]]];
+    }
 }
 
 +(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{

@@ -63,6 +63,7 @@
 }
 
 - (IBAction)detectMyLocation:(id)sender {
+    self.view.userInteractionEnabled = NO;
     if (!self.locationManager) {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
@@ -97,11 +98,13 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    self.view.userInteractionEnabled = YES;
     [self.alert showWithText:@"Failed to get location"];
     [self.locationManager stopUpdatingLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    self.view.userInteractionEnabled = YES;
     if (!self.firstUpdate) {
         [self.locationManager stopUpdatingLocation];
         CLLocation *currentLocation = locations[0];

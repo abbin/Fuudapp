@@ -13,7 +13,7 @@
 
 @implementation NSMutableDictionary (FAItem)
 
-@dynamic itemName,itemCappedName,itemPrice,itemCurrency,itemDescription,itemRating,itemId,itemImageArray,itemRestaurant,itemLatitude,itemLongitude,itemGeoHash,itemReviewArray,itemCurrencySymbol, itemUserID,itemUserName,itemUserPhotoURL;
+@dynamic itemName,itemCappedName,itemPrice,itemCurrency,itemDescription,itemRating,itemId,itemImageArray,itemRestaurant,itemLatitude,itemLongitude,itemGeoHash,itemReviewArray,itemCurrencySymbol, itemUserID,itemUserName,itemUserPhotoURL,itemDistance,itemOpenHours;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setter Methods -
@@ -86,6 +86,14 @@
     [self setObject:itemUserPhotoURL forKey:kFAItemUserPhotoURLKey];
 }
 
+-(void)setItemDistance:(NSString *)itemDistance{
+    [self setObject:itemDistance forKey:kFAItemDistanceKey];
+}
+
+-(void)setItemOpenHours:(NSAttributedString *)itemOpenHours{
+    [self setObject:itemOpenHours forKey:kFAItemOpenHoursKey];
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Getter Methods -
@@ -156,6 +164,14 @@
 
 -(NSString *)itemUserPhotoURL{
     return [self objectForKey:kFAItemUserPhotoURLKey];
+}
+
+-(NSString *)itemDistance{
+    return [self objectForKey:kFAItemDistanceKey];
+}
+
+-(NSAttributedString *)itemOpenHours{
+    return [self objectForKey:kFAItemOpenHoursKey];
 }
 
 

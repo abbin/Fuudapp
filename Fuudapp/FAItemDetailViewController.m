@@ -14,6 +14,9 @@
 #import "FADetailedImageCollectionViewCell.h"
 #import "NSMutableDictionary+FAImage.m"
 #import "FAColor.h"
+#import "FATableViewCell.h"
+#import "FADirectionTableViewCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @import FirebaseRemoteConfig;
 
@@ -27,7 +30,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *restaurantLocationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceLabel;
 @property (weak, nonatomic) IBOutlet UIButton *ratingButton;
-@property (weak, nonatomic) IBOutlet UILabel *openLebal;
+@property (weak, nonatomic) IBOutlet UIImageView *userimageView;
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 
 @end
 
@@ -36,7 +40,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSInteger headerHeight = self.view.frame.size.width *3/4 + 170;
+    self.detailTableView.estimatedRowHeight = 44.0;
+    self.detailTableView.rowHeight = UITableViewAutomaticDimension;
+    
+    NSInteger headerHeight = self.view.frame.size.width *3/4 + 135;
     
     self.tblHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, headerHeight);
     self.itemNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:20.0];
@@ -47,101 +54,24 @@
     self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
     self.ratingButton.layer.cornerRadius = 5;
     self.ratingButton.layer.masksToBounds = YES;
-    self.openLebal.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
+    self.userimageView.layer.cornerRadius = self.userimageView.frame.size.height/2;
+    self.userimageView.layer.masksToBounds = YES;
+    self.userNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:12.0];
     
     [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
     self.itemNameLabel.text = self.itemObject.itemName;
     self.restaurantNameLabel.text = self.itemObject.itemRestaurant.restaurantName;
     self.restaurantLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
     self.priceLabel.text = [NSString stringWithFormat:@"%@%@",self.itemObject.itemCurrencySymbol,self.itemObject.itemPrice];
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.itemObject.itemUserPhotoURL]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"EEEE"];
-    NSString *dayName = [dateFormatter stringFromDate:[NSDate date]];
-    
-    NSString *predicateString = [NSString stringWithFormat:@"close.dayName like '%@'",dayName];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:predicateString];
-    NSArray *result = [self.itemObject.itemRestaurant.restaurantWorkingHours filteredArrayUsingPredicate:pred];
-    NSMutableDictionary *todayDict = [result firstObject];
-    
-    NSString *closeString = [[todayDict objectForKey:@"close"] objectForKey:@"time"];
-    NSString *openString = [[todayDict objectForKey:@"open"] objectForKey:@"time"];
-    
-    [dateFormatter setDateFormat:@"HHmm"];
-    NSString *nowString = [dateFormatter stringFromDate:[NSDate date]];
-    
-    NSDate *openDate = [dateFormatter dateFromString:openString];
-    NSDate *closeDate = [dateFormatter dateFromString:closeString];
-    
-    [dateFormatter setDateFormat:@"h:mm a"];
-    
-    NSString *openingHour = [dateFormatter stringFromDate:openDate];
-    NSString *closingHour = [dateFormatter stringFromDate:closeDate];
-    
-    NSInteger nowSecond = [self dictTimeToSeconds:nowString];
-    NSInteger closeSecond = [self dictTimeToSeconds:closeString];
-    NSInteger openSecond = [self dictTimeToSeconds:openString];
-    
-    if (openSecond-closeSecond<0){
-        if (nowSecond>openSecond && nowSecond<closeSecond) {
-            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
-            [atString addAttribute:NSFontAttributeName
-                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
-                             range:NSMakeRange(0, 8)];
-            [atString addAttribute:NSForegroundColorAttributeName
-                             value:[FAColor openGreen]
-                             range:NSMakeRange(0, 8)];
-            
-            self.openLebal.attributedText = atString;
-        }
-        else{
-            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Closed Now  Open from:%@ till:%@",openingHour,closingHour]];
-            [atString addAttribute:NSFontAttributeName
-                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
-                             range:NSMakeRange(0, 10)];
-            [atString addAttribute:NSForegroundColorAttributeName
-                             value:[FAColor closedRed]
-                             range:NSMakeRange(0, 10)];
-            
-            self.openLebal.attributedText = atString;
-        }
-    }
-    else{
-        NSInteger midnightSecond = 23*60*60 + 59*60 + 59;
-        if (nowSecond>openSecond && nowSecond < midnightSecond) {
-            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
-            [atString addAttribute:NSFontAttributeName
-                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
-                             range:NSMakeRange(0, 8)];
-            [atString addAttribute:NSForegroundColorAttributeName
-                             value:[FAColor openGreen]
-                             range:NSMakeRange(0, 8)];
-            
-            self.openLebal.attributedText = atString;
-        }
-        else if (nowSecond >= 0 && nowSecond <closeSecond){
-            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Open Now  from:%@ till:%@",openingHour,closingHour]];
-            [atString addAttribute:NSFontAttributeName
-                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
-                             range:NSMakeRange(0, 8)];
-            [atString addAttribute:NSForegroundColorAttributeName
-                             value:[FAColor openGreen]
-                             range:NSMakeRange(0, 8)];
-            
-            self.openLebal.attributedText = atString;
-        }
-        else{
-            NSMutableAttributedString *atString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Closed Now  Open from:%@ till:%@",openingHour,closingHour]];
-            [atString addAttribute:NSFontAttributeName
-                             value:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]
-                             range:NSMakeRange(0, 10)];
-            [atString addAttribute:NSForegroundColorAttributeName
-                             value:[FAColor closedRed]
-                             range:NSMakeRange(0, 10)];
-            
-            self.openLebal.attributedText = atString;
-        }
-    }
+    [self.userimageView setImageWithURLRequest:imageRequest
+                              placeholderImage:[UIImage imageNamed:@"background"]
+                                       success:nil
+                                       failure:nil];
+    self.userNameLabel.text = self.itemObject.itemUserName;
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.statusGradiantView.bounds;
@@ -149,15 +79,8 @@
     [self.statusGradiantView.layer insertSublayer:gradient atIndex:0];
 }
 
-- (NSInteger)dictTimeToSeconds:(id)dictTime{
-    NSInteger time = [dictTime integerValue];
-    NSInteger hours = time / 100;
-    NSInteger minutes = time % 100;
-    return (hours * 60 * 60) + (minutes * 60);
-}
-
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return 3;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -165,8 +88,34 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    return cell;
+    if (indexPath.section == 0) {
+        FATableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FATableViewCell"];
+        cell.cellTextLabel.attributedText = self.itemObject.itemOpenHours;
+        return cell;
+    }
+    else if (indexPath.section == 1) {
+        FATableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FATableViewCell"];
+        cell.cellTextLabel.text = self.itemObject.itemDescription;
+        return cell;
+    }
+    else if (indexPath.section == 2){
+        FADirectionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FADirectionTableViewCell"];
+        cell.cellRestaurantNameLabel.text = self.itemObject.itemRestaurant.restaurantName;;
+        cell.cellAddressLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
+        cell.cellDistanceLabel.text = self.itemObject.itemDistance;
+        return cell;
+    }
+    else{
+        return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 5;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 2.5;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

@@ -23,7 +23,7 @@
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (strong, nonatomic) NSArray *itemsArray;
+@property (strong, nonatomic) NSMutableArray *itemsArray;
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
 @property (strong, nonatomic)FIRDatabaseReference *ref;
 @property (strong, nonatomic)NSIndexPath *selectedIndex;
@@ -58,13 +58,10 @@
 
 -(void)startListining{
     [self addbarItems];
-    [FAManager observeEventWithCompletion:^(NSArray *items){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemRatingKey ascending:NO];
-            self.itemsArray = [items sortedArrayUsingDescriptors:@[voteDescriptor]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.itemTableView reloadData];
-            });
+    [FAManager observeEventWithCompletion:^(NSMutableArray *items){
+        self.itemsArray = items;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.itemTableView reloadData];
         });
     }];
 }
@@ -109,29 +106,13 @@
     cell.restaurantNameLabel.text = itemDict.itemRestaurant.restaurantName;
     cell.addressLabel.text = itemDict.itemRestaurant.restaurantAddress;
     [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.itemRating] forState:UIControlStateNormal];
-    cell.distanceLabel.text = [self distanceBetweenstatLat:[itemDict.itemLatitude doubleValue] lon:[itemDict.itemLongitude doubleValue]];
+    cell.distanceLabel.text = itemDict.itemDistance;
     cell.priceLabel.text = [NSString stringWithFormat:@"%@%@",itemDict.itemCurrencySymbol,itemDict.itemPrice];
     cell.userNameLabel.text = itemDict.itemUserName;
     cell.cellUserImageUrl = itemDict.itemUserPhotoURL;
     cell.ratingView.backgroundColor = [FAColor colorWithRating:itemDict.itemRating];
     
     return cell;
-}
-
--(NSString*)distanceBetweenstatLat:(double)lat lon:(double)lng{
-    CLLocation *startLocation = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
-    CLLocation *endLocation = [[CLLocation alloc] initWithLatitude:9.976250 longitude:76.293778];
-    CLLocationDistance distance = [startLocation distanceFromLocation:endLocation];
-    if (distance>1000) {
-        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
-        [formatter setMaximumFractionDigits:0];
-        return [NSString stringWithFormat:@"%@ km",[formatter stringFromNumber:[NSNumber numberWithDouble:distance/1000]]];
-    }
-    else{
-        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
-        [formatter setMaximumFractionDigits:0];
-        return [NSString stringWithFormat:@"%@ meters",[formatter stringFromNumber:[NSNumber numberWithDouble:distance]]];
-    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

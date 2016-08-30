@@ -17,5 +17,6 @@ pod 'Firebase/Storage'
 pod 'Firebase/Auth'
 pod 'Fabric'
 pod 'Crashlytics'
+pod 'IDMPhotoBrowser'
 
 end
