@@ -105,6 +105,10 @@
                                              selector:@selector(didReceiveSaveCompleteNotification:)
                                                  name:kFASaveCompleteNotificationKey
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveFASaveFailNotification:)
+                                                 name:kFASaveFailNotificationKey
+                                               object:nil];
     
     if (![FIRAuth auth].currentUser.isAnonymous) {
         [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
@@ -112,6 +116,10 @@
     else{
         [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
     }
+}
+
+-(void)didReceiveFASaveFailNotification:(NSNotification *) notification{
+    [self hideTableHeader];
 }
 
 -(void)didReceiveFASaveNotification:(NSNotification *) notification{

@@ -304,6 +304,9 @@
     [uploadTask observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot) {
         if (snapshot.error != nil) {
             
+            NSDictionary *userInfo = @{@"error":snapshot.error.localizedDescription};
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+            
             [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
                                       parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
                                                    kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
@@ -356,8 +359,11 @@
             [uploadTask2 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot2) {
                 if (snapshot2.error != nil) {
                     
+                    NSDictionary *userInfo = @{@"error":snapshot2.error.localizedDescription};
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+                    
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                              parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
+                                              parameters:@{kFAAnalyticsReasonKey:snapshot2.error.localizedDescription,
                                                            kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
                     
                     
@@ -407,13 +413,15 @@
                     
                     // Errors only occur in the "Failure" case
                     [uploadTask3 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                        
-                        [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                                  parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
-                                                               kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
-                        
-                        
                         if (snapshot3.error != nil) {
+                            
+                            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                                      parameters:@{kFAAnalyticsReasonKey:snapshot3.error.localizedDescription,
+                                                                   kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+                            
+                            NSDictionary *userInfo = @{@"error":snapshot3.error.localizedDescription};
+                            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+                            
                             switch (snapshot3.error.code) {
                                 case FIRStorageErrorCodeObjectNotFound:
                                     // File doesn't exist
@@ -588,6 +596,11 @@
 
 +(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images{
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveNotificationKey object:self];
+    
+    __block double progressCheck = 0;
+    __block double progress = 0;
+    
     [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];
     [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
     
@@ -614,11 +627,17 @@
         // Upload reported progress
         double percentComplete = 100.0 * (snapshot.progress.completedUnitCount) / (snapshot.progress.totalUnitCount);
         NSLog(@"First = %f",percentComplete);
+        progressCheck = progress + percentComplete/images.count;
+        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
     }];
     
     // Errors only occur in the "Failure" case
     [uploadTask observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot) {
         if (snapshot.error != nil) {
+            
+            NSDictionary *userInfo = @{@"error":snapshot.error.localizedDescription};
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
             
             [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
                                       parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
@@ -645,6 +664,7 @@
     }];
     
     [uploadTask observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot) {
+        progress = progressCheck;
         if (images.count>1) {
             
             FIRStorageReference *storageRef2 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
@@ -662,14 +682,20 @@
                 // Upload reported progress
                 double percentComplete = 100.0 * (snapshot2.progress.completedUnitCount) / (snapshot2.progress.totalUnitCount);
                 NSLog(@"Second = %f",percentComplete);
+                progressCheck = progress + percentComplete/images.count;
+                NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
             }];
             
             // Errors only occur in the "Failure" case
             [uploadTask2 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot2) {
                 if (snapshot2.error != nil) {
                     
+                    NSDictionary *userInfo = @{@"error":snapshot2.error.localizedDescription};
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+                    
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                              parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
+                                              parameters:@{kFAAnalyticsReasonKey:snapshot2.error.localizedDescription,
                                                            kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
 
                     
@@ -694,6 +720,7 @@
             }];
             
             [uploadTask2 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot2) {
+                progress = progressCheck;
                 if (images.count>2) {
                     
                     FIRStorageReference *storageRef3 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
@@ -711,17 +738,22 @@
                         // Upload reported progress
                         double percentComplete = 100.0 * (snapshot3.progress.completedUnitCount) / (snapshot3.progress.totalUnitCount);
                         NSLog(@"Thrid = %f",percentComplete);
+                        progressCheck = progress + percentComplete/images.count;
+                        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
                     }];
                     
                     // Errors only occur in the "Failure" case
                     [uploadTask3 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                        
-                        [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                                  parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
-                                                               kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
-
-                        
                         if (snapshot3.error != nil) {
+                            
+                            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+                                                      parameters:@{kFAAnalyticsReasonKey:snapshot3.error.localizedDescription,
+                                                                   kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+                            
+                            NSDictionary *userInfo = @{@"error":snapshot3.error.localizedDescription};
+                            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+                            
                             switch (snapshot3.error.code) {
                                 case FIRStorageErrorCodeObjectNotFound:
                                     // File doesn't exist
@@ -743,7 +775,7 @@
                     }];
                     
                     [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                        
+                        progress = progressCheck;
                         NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
                         NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
                                                @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
@@ -777,6 +809,8 @@
                                                        [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
                         
                         [ref updateChildValues:childUpdates];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
                         
                         [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                         [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
@@ -821,6 +855,8 @@
                     
                     [ref updateChildValues:childUpdates];
                     
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
+                    
                     [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                               parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
@@ -859,6 +895,8 @@
                                            [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
             
             [ref updateChildValues:childUpdates];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
             
             [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey

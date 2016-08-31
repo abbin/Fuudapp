@@ -95,6 +95,7 @@ NSString *const kFAObserveEventNotificationKey      = @"observeEventWithCompleti
 NSString *const kFASaveNotificationKey              = @"saveNotification";
 NSString *const kFASaveProgressNotificationKey      = @"saveProgressNotification";
 NSString *const kFASaveCompleteNotificationKey      = @"saveCompleteNotification";
+NSString *const kFASaveFailNotificationKey          = @"saveFailNotification";
 NSString *const kFASelectedLocalityKey              = @"user_locality";
 NSInteger const kFAGeoHashPrecisionKey              = 22;
 
