@@ -106,6 +106,10 @@ FOUNDATION_EXPORT NSString *const kFALocalityLongitudeKey;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - App -
 
+FOUNDATION_EXPORT NSString *const kFAObserveEventNotificationKey;
+FOUNDATION_EXPORT NSString *const kFASaveNotificationKey;
+FOUNDATION_EXPORT NSString *const kFASaveProgressNotificationKey;
+FOUNDATION_EXPORT NSString *const kFASaveCompleteNotificationKey;
 FOUNDATION_EXPORT NSString *const kFASelectedLocalityKey;
 FOUNDATION_EXPORT NSInteger const kFAGeoHashPrecisionKey;
 

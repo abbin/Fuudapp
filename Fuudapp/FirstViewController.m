@@ -29,12 +29,28 @@
 @property (strong, nonatomic)NSIndexPath *selectedIndex;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
 
+@property (strong, nonatomic) UIView *theHeaderView;
+@property (strong, nonatomic) UIProgressView *progressView;
+
 @end
 
 @implementation FirstViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.theHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 35)];
+    self.progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(8, 10, self.view.frame.size.width-16, 2)];
+    self.progressView.progressTintColor = [FAColor mainColor];
+    [self.theHeaderView addSubview:self.self.progressView];
+    
+    UILabel *uploadLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 10)];
+    uploadLabel.text = @"Uploading..";
+    uploadLabel.textColor = [UIColor colorWithWhite:0 alpha:0.54];
+    uploadLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    uploadLabel.textAlignment = NSTextAlignmentCenter;
+    [self.theHeaderView addSubview:uploadLabel];
+
     if ([FAManager isLocationSet]) {
         [self addbarItems];
         [self startListining];
@@ -42,7 +58,7 @@
     else{
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(startListining)
-                                                     name:@"observeEventWithCompletion"
+                                                     name:kFAObserveEventNotificationKey
                                                    object:nil];
     }
     
@@ -77,12 +93,95 @@
 }
 
 - (IBAction)add:(id)sender {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveFASaveNotification:)
+                                                 name:kFASaveNotificationKey
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveProgressNotification:)
+                                                 name:kFASaveProgressNotificationKey
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveSaveCompleteNotification:)
+                                                 name:kFASaveCompleteNotificationKey
+                                               object:nil];
+    
     if (![FIRAuth auth].currentUser.isAnonymous) {
         [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
     }
     else{
         [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
     }
+}
+
+-(void)didReceiveFASaveNotification:(NSNotification *) notification{
+    [self showTableHeader];
+}
+
+-(void)hideTableHeader{
+    CGRect frame = self.theHeaderView.frame;
+    frame.size.height = 0;
+    
+    CGPoint originalOffset = self.itemTableView.contentOffset;
+    
+    CGPoint animOffset = originalOffset;
+    animOffset.y += MAX(0, 35 - animOffset.y);
+    
+    CGPoint newOffset = originalOffset;
+    newOffset.y = MAX(0, newOffset.y - 35);
+    
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options: UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.theHeaderView.frame = frame;
+                         self.itemTableView.contentOffset = animOffset;
+                     }
+                     completion:^(BOOL finished){
+                         if (finished) {
+                             self.itemTableView.tableHeaderView = nil;
+                             self.theHeaderView.hidden = YES;
+                             
+                             self.itemTableView.contentOffset = newOffset;
+                         }
+                     }
+     ];
+}
+
+-(void)showTableHeader{
+    CGRect originalFrame = self.theHeaderView.frame;
+    originalFrame.size.height = 35;
+    self.theHeaderView.frame = originalFrame;
+    
+    self.itemTableView.tableHeaderView = self.theHeaderView;
+    self.theHeaderView.hidden = NO;
+    
+    CGPoint originalOffset = self.itemTableView.contentOffset;
+    
+    CGPoint startOffset = originalOffset;
+    startOffset.y += 35;
+    self.itemTableView.contentOffset = startOffset;
+    
+    CGPoint animOffset = originalOffset;
+    
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options: UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         self.itemTableView.contentOffset = animOffset;
+                     }
+                     completion:nil
+     ];
+}
+
+-(void)didReceiveSaveCompleteNotification:(NSNotification *) notification{
+    [self hideTableHeader];
+}
+
+-(void)didReceiveProgressNotification:(NSNotification *) notification{
+    double progress = [[notification.userInfo objectForKey:@"progress"] doubleValue];
+    double decimal = progress/100;
+    [self.progressView setProgress:decimal animated:YES];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

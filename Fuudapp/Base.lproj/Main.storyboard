@@ -474,7 +474,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O7u-kF-qbM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1012.5" y="421"/>
+            <point key="canvasLocation" x="1012.5" y="521"/>
         </scene>
         <!--Choose photos-->
         <scene sceneID="0TG-Tl-BdS">
@@ -2156,8 +2156,8 @@
         <image name="uncheck" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jK8-T2-pdj"/>
-        <segue reference="0SX-fA-f3h"/>
         <segue reference="ulC-oQ-QWO"/>
+        <segue reference="0SX-fA-f3h"/>
+        <segue reference="xzl-BW-8c4"/>
     </inferredMetricsTieBreakers>
 </document>

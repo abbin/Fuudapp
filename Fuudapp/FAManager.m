@@ -264,6 +264,11 @@
 
 +(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveNotificationKey object:self];
+    
+    __block double progressCheck = 0;
+    __block double progress = 0;
+    
     [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];
     [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
     
@@ -290,6 +295,9 @@
         // Upload reported progress
         double percentComplete = 100.0 * (snapshot.progress.completedUnitCount) / (snapshot.progress.totalUnitCount);
         NSLog(@"First = %f",percentComplete);
+        progressCheck = progress + percentComplete/images.count;
+        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
     }];
     
     // Errors only occur in the "Failure" case
@@ -321,6 +329,7 @@
     }];
     
     [uploadTask observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot) {
+        progress = progressCheck;
         if (images.count>1) {
             
             FIRStorageReference *storageRef2 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
@@ -338,6 +347,9 @@
                 // Upload reported progress
                 double percentComplete = 100.0 * (snapshot2.progress.completedUnitCount) / (snapshot2.progress.totalUnitCount);
                 NSLog(@"Second = %f",percentComplete);
+                progressCheck = progress + percentComplete/images.count;
+                NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+                [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
             }];
             
             // Errors only occur in the "Failure" case
@@ -370,6 +382,7 @@
             }];
             
             [uploadTask2 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot2) {
+                progress = progressCheck;
                 if (images.count>2) {
                     
                     FIRStorageReference *storageRef3 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
@@ -387,6 +400,9 @@
                         // Upload reported progress
                         double percentComplete = 100.0 * (snapshot3.progress.completedUnitCount) / (snapshot3.progress.totalUnitCount);
                         NSLog(@"Thrid = %f",percentComplete);
+                        progressCheck = progress + percentComplete/images.count;
+                        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
                     }];
                     
                     // Errors only occur in the "Failure" case
@@ -419,6 +435,7 @@
                     }];
                     
                     [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
+                        progress = progressCheck;
                         
                         NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
                         NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
@@ -457,6 +474,8 @@
                         NSString * itemKey = item.itemId;
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
                         [ref updateChildValues:childUpdates];
+                        
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
                         
                         [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                         [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
@@ -505,6 +524,8 @@
                     NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
                     [ref updateChildValues:childUpdates];
                     
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
+                    
                     [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
                     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                               parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
@@ -547,6 +568,8 @@
             NSString * itemKey = item.itemId;
             NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};
             [ref updateChildValues:childUpdates];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
             
             [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey

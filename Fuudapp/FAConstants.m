@@ -91,6 +91,10 @@ NSString *const kFALocalityLatitudeKey              = @"locality_latitude";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - APP -
 
+NSString *const kFAObserveEventNotificationKey      = @"observeEventWithCompletion";
+NSString *const kFASaveNotificationKey              = @"saveNotification";
+NSString *const kFASaveProgressNotificationKey      = @"saveProgressNotification";
+NSString *const kFASaveCompleteNotificationKey      = @"saveCompleteNotification";
 NSString *const kFASelectedLocalityKey              = @"user_locality";
 NSInteger const kFAGeoHashPrecisionKey              = 22;
 

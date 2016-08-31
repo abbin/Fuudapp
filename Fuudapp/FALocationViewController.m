@@ -90,7 +90,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"observeEventWithCompletion"
+         postNotificationName:kFAObserveEventNotificationKey
          object:self];
         
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -122,7 +122,7 @@
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 [[NSNotificationCenter defaultCenter]
-                 postNotificationName:@"observeEventWithCompletion"
+                 postNotificationName:kFAObserveEventNotificationKey
                  object:self];
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
