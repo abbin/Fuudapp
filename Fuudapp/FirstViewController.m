@@ -43,6 +43,7 @@
     self.progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(8, 10, self.view.frame.size.width-16, 2)];
     self.progressView.progressTintColor = [FAColor mainColor];
     [self.theHeaderView addSubview:self.self.progressView];
+    self.theHeaderView.alpha = 0;
     
     UILabel *uploadLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 10)];
     uploadLabel.text = @"Uploading..";
@@ -127,56 +128,27 @@
 }
 
 -(void)hideTableHeader{
-    CGRect frame = self.theHeaderView.frame;
-    frame.size.height = 0;
-    
-    CGPoint originalOffset = self.itemTableView.contentOffset;
-    
-    CGPoint animOffset = originalOffset;
-    animOffset.y += MAX(0, 35 - animOffset.y);
-    
-    CGPoint newOffset = originalOffset;
-    newOffset.y = MAX(0, newOffset.y - 35);
     
     [UIView animateWithDuration:0.3
                           delay:0.0
                         options: UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.theHeaderView.frame = frame;
-                         self.itemTableView.contentOffset = animOffset;
+                         self.itemTableView.tableHeaderView = nil;
+                         self.theHeaderView.alpha = 0;
                      }
                      completion:^(BOOL finished){
-                         if (finished) {
-                             self.itemTableView.tableHeaderView = nil;
-                             self.theHeaderView.hidden = YES;
-                             
-                             self.itemTableView.contentOffset = newOffset;
-                         }
+                         self.progressView.progress = 0;
                      }
      ];
 }
 
 -(void)showTableHeader{
-    CGRect originalFrame = self.theHeaderView.frame;
-    originalFrame.size.height = 35;
-    self.theHeaderView.frame = originalFrame;
-    
-    self.itemTableView.tableHeaderView = self.theHeaderView;
-    self.theHeaderView.hidden = NO;
-    
-    CGPoint originalOffset = self.itemTableView.contentOffset;
-    
-    CGPoint startOffset = originalOffset;
-    startOffset.y += 35;
-    self.itemTableView.contentOffset = startOffset;
-    
-    CGPoint animOffset = originalOffset;
-    
     [UIView animateWithDuration:0.3
                           delay:0.0
                         options: UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         self.itemTableView.contentOffset = animOffset;
+                         self.itemTableView.tableHeaderView = self.theHeaderView;
+                         self.theHeaderView.alpha = 1;
                      }
                      completion:nil
      ];
@@ -212,12 +184,18 @@
     cell.itemNameLavel.text = itemDict.itemName;
     cell.restaurantNameLabel.text = itemDict.itemRestaurant.restaurantName;
     cell.addressLabel.text = itemDict.itemRestaurant.restaurantAddress;
-    [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.itemRating] forState:UIControlStateNormal];
+    if (itemDict.itemRating) {
+        [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.itemRating] forState:UIControlStateNormal];
+        cell.ratingView.backgroundColor = [FAColor colorWithRating:itemDict.itemRating];
+    }
+    else{
+         [cell.ratingView setTitle:@"-" forState:UIControlStateNormal];
+        cell.ratingView.backgroundColor = [FAColor blackColor];
+    }
     cell.distanceLabel.text = itemDict.itemDistance;
     cell.priceLabel.text = [NSString stringWithFormat:@"%@%@",itemDict.itemCurrencySymbol,itemDict.itemPrice];
     cell.userNameLabel.text = itemDict.itemUserName;
     cell.cellUserImageUrl = itemDict.itemUserPhotoURL;
-    cell.ratingView.backgroundColor = [FAColor colorWithRating:itemDict.itemRating];
     
     return cell;
 }

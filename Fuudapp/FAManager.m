@@ -262,7 +262,7 @@
     }
 }
 
-+(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{
++(void)saveReview:(NSString*)review rating:(float)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images{
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveNotificationKey object:self];
     
@@ -475,9 +475,14 @@
                         [reviewArray addObject:@{kFAReviewTextKey:review}];
                         item.itemReviewArray = reviewArray;
                         
-                        NSInteger oldRting = [item.itemRating integerValue];
-                        NSInteger newRating = (oldRting + rating)/2;
-                        item.itemRating = [NSNumber numberWithInteger:newRating];
+                        if (item.itemRating) {
+                            float oldRting = [item.itemRating floatValue];
+                            float newRating = (oldRting + rating)/2;
+                            item.itemRating = [NSNumber numberWithFloat:newRating];
+                        }
+                        else{
+                            item.itemRating = [NSNumber numberWithFloat:rating];
+                        }
                         
                         NSString * itemKey = item.itemId;
                         NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,itemKey]: item};

@@ -12,7 +12,7 @@
 
 +(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images;
 
-+(void)saveReview:(NSString*)review rating:(NSInteger)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images;
++(void)saveReview:(NSString*)review rating:(float)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images;
 
 +(void)observeEventWithCompletion:(void (^)(NSMutableArray *items))completion;
 

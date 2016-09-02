@@ -83,7 +83,7 @@
         }
         
         vc.selectedImages = self.selectedImages;
-        vc.itemObject = [[NSMutableDictionary alloc]initItemWithName:self.nameTextField.text price:price currency:localizedMoneyString description:self.descriptionTextView.text rating:[NSNumber numberWithFloat:self.ratingView.value]];
+        vc.itemObject = [[NSMutableDictionary alloc]initItemWithName:self.nameTextField.text price:price currency:localizedMoneyString description:self.descriptionTextView.text];
     }
 }
 

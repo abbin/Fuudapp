@@ -133,8 +133,8 @@
     if (searchText.length>0) {
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
-        
-        [[[[[self.ref queryOrderedByChild:kFAItemCappedNameKey] queryLimitedToLast:10] queryStartingAtValue:[nospacestring lowercaseString]] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",[nospacestring lowercaseString]]]
+        NSString *cappedString = [nospacestring lowercaseString];
+        [[[[[self.ref queryOrderedByChild:kFAItemCappedNameKey] queryLimitedToLast:10] queryStartingAtValue:cappedString] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",cappedString]]
          observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
              
              if (snapshot.value != [NSNull null]) {

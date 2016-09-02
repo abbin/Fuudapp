@@ -51,14 +51,20 @@
     self.restaurantLocationLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
     self.priceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
     self.ratingButton.titleLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
-    self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
     self.ratingButton.layer.cornerRadius = 5;
     self.ratingButton.layer.masksToBounds = YES;
     self.userimageView.layer.cornerRadius = self.userimageView.frame.size.height/2;
     self.userimageView.layer.masksToBounds = YES;
     self.userNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:12.0];
     
-    [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
+    if (self.itemObject.itemRating) {
+        [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
+        self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
+    }
+    else{
+        [self.ratingButton setTitle:@"-" forState:UIControlStateNormal];
+        self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
+    }
     self.itemNameLabel.text = self.itemObject.itemName;
     self.restaurantNameLabel.text = self.itemObject.itemRestaurant.restaurantName;
     self.restaurantLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;

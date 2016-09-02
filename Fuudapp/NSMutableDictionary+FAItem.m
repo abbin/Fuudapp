@@ -178,14 +178,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Init Methods -
 
--(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description rating:(NSNumber*)rating{
+-(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description{
     self = [self init];
     if (self) {
         self.itemName = name;
         self.itemPrice = price;
         self.itemCurrency = currency;
         self.itemDescription = description;
-        self.itemRating = rating;
         self.itemCurrencySymbol = [[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol];
         id<FIRUserInfo> profile = [FIRAuth auth].currentUser.providerData[0];
         self.itemUserName = profile.displayName;

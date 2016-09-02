@@ -31,6 +31,6 @@
 @property (nonatomic, strong) NSMutableArray *itemReviewArray;
 @property (nonatomic, strong) NSMutableDictionary *itemRestaurant;
 
--(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description rating:(NSNumber*)rating;
+-(instancetype)initItemWithName:(NSString*)name price:(NSNumber*)price currency:(NSString*)currency description:(NSString*)description;
 
 @end
