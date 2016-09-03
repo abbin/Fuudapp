@@ -197,6 +197,9 @@
                 [self dismissViewControllerAnimated:YES completion:^{
                     
                     NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
+                    FARestaurantObject *restP = [FARestaurantObject initWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:[self.lat doubleValue] longitude:[self.lng doubleValue] phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
+                    
+                    [FAManager savePItem:self.itemobjectP andRestaurant:restP withImages:self.selectedImages];
                     [FAManager saveItem:self.itemobject andRestaurant:rest withImages:self.selectedImages];
                 }];
             }

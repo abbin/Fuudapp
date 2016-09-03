@@ -12,8 +12,9 @@
 #import "FAReviewViewController.h"
 #import "FAAddViewControllerOne.h"
 #import "FAAnalyticsManager.h"
+#import <Parse/Parse.h>
+#import "FAItemObject.h"
 
-@import FirebaseDatabase;
 @import FirebaseRemoteConfig;
 
 @interface FAAddViewControllerTwo ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
@@ -21,7 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) NSArray *itemArray;
-@property (strong, nonatomic) FIRDatabaseReference *ref;
 @property (strong, nonatomic) id selectedItem;
 
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
@@ -39,8 +39,6 @@
                              action:@selector(cancelButtonClicked:)];
     self.navigationItem.leftBarButtonItem = back;
     [self.navigationItem setHidesBackButton:YES];
-    
-    self.ref = [[[FIRDatabase database] reference]child:@"items"];
     
     [FAAnalyticsManager logEventWithName:kFAAnalyticsAddItemKey parameters:nil];
 }
@@ -127,47 +125,44 @@
 #pragma mark - UISearchBarDelegate -
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self.ref removeAllObservers];
     NSDate *start = [NSDate date];
-    
     if (searchText.length>0) {
         NSArray* words = [searchText componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* nospacestring = [words componentsJoinedByString:@""];
         NSString *cappedString = [nospacestring lowercaseString];
-        [[[[[self.ref queryOrderedByChild:kFAItemCappedNameKey] queryLimitedToLast:10] queryStartingAtValue:cappedString] queryEndingAtValue:[NSString stringWithFormat:@"%@\uf8ff",cappedString]]
-         observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot *snapshot) {
-             
-             if (snapshot.value != [NSNull null]) {
-                 self.itemArray = [snapshot.value allValues];
-                 [self.itemTableView reloadData];
-                 
-                 NSDate *end = [NSDate date];
-                 NSMutableDictionary *parameter = [NSMutableDictionary new];
-                 [parameter setObject:@"YES" forKey:kFAAnalyticsSucessKey];
-                 [parameter setObject:[NSString stringWithFormat:@"%lu",(unsigned long)self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
-                 [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
-                 [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
-                 
-                 [FAAnalyticsManager logSearchWithQuery:searchText
-                                       customAttributes:parameter];
-                 
-             }
-             else{
-                 
-                 NSDate *end = [NSDate date];
-                 NSMutableDictionary *parameter = [NSMutableDictionary new];
-                 [parameter setObject:@"YES" forKey:kFAAnalyticsSucessKey];
-                 [parameter setObject:[NSString stringWithFormat:@"%lu",(unsigned long)self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
-                 [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
-                 [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
-                 
-                 [FAAnalyticsManager logSearchWithQuery:searchText
-                                       customAttributes:parameter];
-                 
-                 self.itemArray = @[searchText];
-                 [self.itemTableView reloadData];
-             }
-         }];
+        
+        PFQuery *query = [PFQuery queryWithClassName:[FAItemObject parseClassName]];
+        [query whereKey:@"itemName" hasPrefix:cappedString];
+        [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            if (objects.count>0) {
+                self.itemArray = objects;
+                [self.itemTableView reloadData];
+                
+                NSDate *end = [NSDate date];
+                NSMutableDictionary *parameter = [NSMutableDictionary new];
+                [parameter setObject:@"YES" forKey:kFAAnalyticsSucessKey];
+                [parameter setObject:[NSString stringWithFormat:@"%lu",(unsigned long)self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
+                [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                
+                [FAAnalyticsManager logSearchWithQuery:searchText
+                                      customAttributes:parameter];
+            }
+            else{
+                NSDate *end = [NSDate date];
+                NSMutableDictionary *parameter = [NSMutableDictionary new];
+                [parameter setObject:@"YES" forKey:kFAAnalyticsSucessKey];
+                [parameter setObject:[NSString stringWithFormat:@"%lu",(unsigned long)self.itemArray.count] forKey:kFAAnalyticsResultCountKey];
+                [parameter setObject:[NSString stringWithFormat:@"%f",[end timeIntervalSinceDate:start]] forKey:kFAAnalyticsResultTimeKey];
+                [parameter setObject:kFAAnalyticsRestaurantSearchKey forKey:kFAAnalyticsSectionKey];
+                
+                [FAAnalyticsManager logSearchWithQuery:searchText
+                                      customAttributes:parameter];
+                
+                self.itemArray = @[searchText];
+                [self.itemTableView reloadData];
+            }
+        }];
     }
     else{
         self.itemArray = nil;

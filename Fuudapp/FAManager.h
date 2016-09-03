@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FAItemObject.h"
 
 @interface FAManager : NSObject
 
 +(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images;
++(void)savePItem:(FAItemObject*)item andRestaurant:(FARestaurantObject*)restaurant withImages:(NSArray*)images;
 
 +(void)saveReview:(NSString*)review rating:(float)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images;
 

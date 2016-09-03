@@ -16,10 +16,10 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "FAManager.h"
 #import "FALocationViewController.h"
+#import <Parse/Parse.h>
 
 @import GoogleMaps;
 @import Firebase;
-
 @interface AppDelegate ()
 
 @end
@@ -38,6 +38,14 @@
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
     [FBSDKLoginButton class];
+    
+    [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        
+        configuration.applicationId = @"Ph3YlcRPtxvK4Y8yDAARLosc5lvu4ErH8XZm6aX5";
+        
+        configuration.server = @"http://fuudapp.herokuapp.com/parse";
+        
+    }]];
     
 //    NSError *error;
 //    [[FIRAuth auth] signOut:&error];

@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - Bolts/Tasks (1.8.4)
   - Crashlytics (3.7.3):
     - Fabric (~> 1.6.3)
   - DACircularProgress (2.3.1)
@@ -82,6 +83,8 @@ PODS:
     - DACircularProgress
     - pop
     - SDWebImage
+  - Parse (1.14.2):
+    - Bolts/Tasks (~> 1.8)
   - pop (1.0.9)
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
@@ -99,9 +102,11 @@ DEPENDENCIES:
   - GoogleMaps
   - HCSStarRatingView (~> 1.4.5)
   - IDMPhotoBrowser
+  - Parse
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
   Crashlytics: 76f6beaff70acf226139582c09c78461597c2b98
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
@@ -121,9 +126,10 @@ SPEC CHECKSUMS:
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
   HCSStarRatingView: bff3f89314d3b5013ce826ea11897d3129ff6b8c
   IDMPhotoBrowser: b574fe3229754e701f32df271afbc4ac7e4e1997
+  Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
 
-PODFILE CHECKSUM: 8e7e9a3e6a9760b2343ace2342881d0e215982b5
+PODFILE CHECKSUM: 1397872142dd9b7817d9216f90da74d8344dbbae
 
 COCOAPODS: 1.0.1

@@ -14,6 +14,7 @@
 #import "FAAnalyticsManager.h"
 #import "FARestaurantPickerController.h"
 #import "NSMutableDictionary+FAItem.h"
+#import "FAItemObject.h"
 
 @import FirebaseRemoteConfig;
 
@@ -76,14 +77,23 @@
         
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setLocale:[NSLocale currentLocale]];
-        NSString *localizedMoneyString = [formatter currencyCode];
         
         if ([self.descriptionTextView.text isEqualToString:@"type here"]) {
             self.descriptionTextView.text = @"";
         }
         
         vc.selectedImages = self.selectedImages;
-        vc.itemObject = [[NSMutableDictionary alloc]initItemWithName:self.nameTextField.text price:price currency:localizedMoneyString description:self.descriptionTextView.text];
+        vc.itemObject = [[NSMutableDictionary alloc]initItemWithName:self.nameTextField.text price:price currency:[formatter currencyCode] description:self.descriptionTextView.text];
+        vc.itemObjectP = [FAItemObject object];
+        vc.itemObjectP.itemName = self.nameTextField.text;
+        vc.itemObjectP.itemPrice = price;
+        vc.itemObjectP.itemDescription = self.descriptionTextView.text;
+        vc.itemObjectP.itemCurrency = [formatter currencyCode];
+        vc.itemObjectP.itemCurrencySymbol = [formatter currencySymbol];
+        vc.itemObjectP.itemUser = [PFUser currentUser];
+        NSArray* words = [self.nameTextField.text componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* trimmedString = [words componentsJoinedByString:@""];
+        vc.itemObjectP.itemCappedName = [trimmedString lowercaseString];
     }
 }
 

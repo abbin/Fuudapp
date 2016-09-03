@@ -15,6 +15,7 @@
 #import "FAAnalyticsManager.h"
 #import "FAAddViewControllerThree.h"
 #import "FAManager.h"
+#import "FARestaurantObject.h"
 
 @import FirebaseRemoteConfig;
 
@@ -26,6 +27,7 @@
 @property (strong, nonatomic) NSArray *restArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
 @property (strong, nonatomic) id selectedRest;
+@property (strong, nonatomic) FARestaurantObject *selectedRestP;
 
 @end
 
@@ -58,6 +60,7 @@
         vc.itemobject = self.itemObject;
         vc.selectedImages = self.selectedImages;
         vc.restName = self.searchBar.text;
+        vc.itemobjectP = self.itemObjectP;
     }
 }
 
@@ -204,10 +207,13 @@
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
                 self.selectedRest = [[NSMutableDictionary alloc]initRestaurantWithDictionary:[responseObject objectForKey:@"result"]];
+                self.selectedRestP = [FARestaurantObject initWithDictionary:[responseObject objectForKey:@"result"]];
+                
                  [FAAnalyticsManager sharedManager].userRestaurant = @"NO";
                 
                 [self dismissViewControllerAnimated:YES completion:^{
                     [FAManager saveItem:self.itemObject andRestaurant:self.selectedRest withImages:self.selectedImages];
+                    [FAManager savePItem:self.itemObjectP andRestaurant:self.selectedRestP withImages:self.selectedImages];
                 }];
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
             }

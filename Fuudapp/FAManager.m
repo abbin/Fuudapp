@@ -77,6 +77,37 @@
     return [NSString stringWithUTF8String:buffer];
 }
 
++(NSMutableArray*)addArrayP:(NSArray*)newArray toOldArray:(NSMutableArray*)oldArray{
+    NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesVoteKey ascending:NO];
+    NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesTimeStampKey ascending:NO];
+    
+    NSMutableArray *finalArray = [NSMutableArray new];
+    NSMutableArray *existingArray = oldArray;
+    
+    [existingArray sortUsingDescriptors:@[voteDescriptor,dateDescriptor]];
+    [finalArray addObjectsFromArray:[existingArray subarrayWithRange:NSMakeRange(0, MIN(5,existingArray.count))]];
+    
+    [existingArray removeObjectsInRange:NSMakeRange(0, MIN(5,existingArray.count))];
+    [existingArray addObjectsFromArray:newArray];
+    [existingArray sortUsingDescriptors:@[dateDescriptor]];
+    [finalArray addObjectsFromArray:existingArray];
+    
+    NSArray *result = [finalArray subarrayWithRange:NSMakeRange(0, MIN(10, finalArray.count))];
+    [finalArray removeObjectsInRange:NSMakeRange(0, MIN(10, finalArray.count))];
+//    for (NSDictionary *dict in finalArray) {
+//        FIRStorageReference *storageRefdel = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@%@",kFAStoragePathKey,[dict objectForKey:kFAItemImagesPathKey]]];
+//        // Delete the file
+//        [storageRefdel deleteWithCompletion:^(NSError *error){
+//            if (error) {
+//                [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+//                                          parameters:@{kFAAnalyticsReasonKey:error.localizedDescription,
+//                                                       kFAAnalyticsSectionKey:kFAAnalyticsStorageDeleteTaskKey}];
+//            }
+//        }];
+//    }
+    return [result mutableCopy];
+}
+
 +(NSMutableArray*)addArray:(NSArray*)newArray toOldArray:(NSMutableArray*)oldArray{
     NSSortDescriptor *voteDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesVoteKey ascending:NO];
     NSSortDescriptor *dateDescriptor = [NSSortDescriptor sortDescriptorWithKey:kFAItemImagesTimeStampKey ascending:NO];
@@ -601,322 +632,381 @@
 
 +(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images{
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveNotificationKey object:self];
-    
-    __block double progressCheck = 0;
-    __block double progress = 0;
-    
-    [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];
-    [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
-    
-    FIRDatabaseReference *ref = [[FIRDatabase database] reference];
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"MM"];
-    NSString *myMonthString = [df stringFromDate:[NSDate date]];
-    [df setDateFormat:@"yyyy"];
-    NSString *myYearString = [df stringFromDate:[NSDate date]];
-    
-    FIRStorageReference *storageRef = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-    
-    UIImage *imageOne = images[0];
-    // Create the file metadata
-    FIRStorageMetadata *metadata = [[FIRStorageMetadata alloc] init];
-    metadata.contentType = @"image/jpeg";
-    metadata.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageOne.size.height],
-                                kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageOne.size.width]};
-    
-    // Upload file and metadata to the object 'images/mountains.jpg'
-    FIRStorageUploadTask *uploadTask = [storageRef putData:UIImageJPEGRepresentation(imageOne, 0.5) metadata:metadata];
-    
-    [uploadTask observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot) {
-        // Upload reported progress
-        double percentComplete = 100.0 * (snapshot.progress.completedUnitCount) / (snapshot.progress.totalUnitCount);
-        NSLog(@"First = %f",percentComplete);
-        progressCheck = progress + percentComplete/images.count;
-        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
-        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
-    }];
-    
-    // Errors only occur in the "Failure" case
-    [uploadTask observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot) {
-        if (snapshot.error != nil) {
-            
-            NSDictionary *userInfo = @{@"error":snapshot.error.localizedDescription};
-            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
-            
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                      parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
-                                                   kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
-            
-            switch (snapshot.error.code) {
-                case FIRStorageErrorCodeObjectNotFound:
-                    // File doesn't exist
-                    break;
-                    
-                case FIRStorageErrorCodeUnauthorized:
-                    // User doesn't have permission to access file
-                    break;
-                    
-                case FIRStorageErrorCodeCancelled:
-                    // User canceled the upload
-                    break;
-                    
-                case FIRStorageErrorCodeUnknown:
-                    // Unknown error occurred, inspect the server response
-                    break;
-            }
-        }
-    }];
-    
-    [uploadTask observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot) {
-        progress = progressCheck;
-        if (images.count>1) {
-            
-            FIRStorageReference *storageRef2 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-            
-            UIImage *imageTwo = images[1];
-            // Create the file metadata
-            FIRStorageMetadata *metadataTwo = [[FIRStorageMetadata alloc] init];
-            metadataTwo.contentType = @"image/jpeg";
-            metadataTwo.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageTwo.size.height],
-                                        kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageTwo.size.width]};
-            
-            FIRStorageUploadTask *uploadTask2 = [storageRef2 putData:UIImageJPEGRepresentation(imageTwo, 0.5) metadata:metadataTwo];
-            
-            [uploadTask2 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot2) {
-                // Upload reported progress
-                double percentComplete = 100.0 * (snapshot2.progress.completedUnitCount) / (snapshot2.progress.totalUnitCount);
-                NSLog(@"Second = %f",percentComplete);
-                progressCheck = progress + percentComplete/images.count;
-                NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
-                [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
-            }];
-            
-            // Errors only occur in the "Failure" case
-            [uploadTask2 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot2) {
-                if (snapshot2.error != nil) {
-                    
-                    NSDictionary *userInfo = @{@"error":snapshot2.error.localizedDescription};
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
-                    
-                    [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                              parameters:@{kFAAnalyticsReasonKey:snapshot2.error.localizedDescription,
-                                                           kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveNotificationKey object:self];
+//    
+//    __block double progressCheck = 0;
+//    __block double progress = 0;
+//    
+//    [FAAnalyticsManager sharedManager].networkTimeStart = [NSDate date];
+//    [FAAnalyticsManager sharedManager].screenTimeEnd = [NSDate date];
+//    
+//    FIRDatabaseReference *ref = [[FIRDatabase database] reference];
+//    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+//    [df setDateFormat:@"MM"];
+//    NSString *myMonthString = [df stringFromDate:[NSDate date]];
+//    [df setDateFormat:@"yyyy"];
+//    NSString *myYearString = [df stringFromDate:[NSDate date]];
+//    
+//    FIRStorageReference *storageRef = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
+//    
+//    UIImage *imageOne = images[0];
+//    // Create the file metadata
+//    FIRStorageMetadata *metadata = [[FIRStorageMetadata alloc] init];
+//    metadata.contentType = @"image/jpeg";
+//    metadata.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageOne.size.height],
+//                                kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageOne.size.width]};
+//    
+//    // Upload file and metadata to the object 'images/mountains.jpg'
+//    FIRStorageUploadTask *uploadTask = [storageRef putData:UIImageJPEGRepresentation(imageOne, 0.5) metadata:metadata];
+//    
+//    [uploadTask observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot) {
+//        // Upload reported progress
+//        double percentComplete = 100.0 * (snapshot.progress.completedUnitCount) / (snapshot.progress.totalUnitCount);
+//        NSLog(@"First = %f",percentComplete);
+//        progressCheck = progress + percentComplete/images.count;
+//        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+//        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
+//    }];
+//    
+//    // Errors only occur in the "Failure" case
+//    [uploadTask observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot) {
+//        if (snapshot.error != nil) {
+//            
+//            NSDictionary *userInfo = @{@"error":snapshot.error.localizedDescription};
+//            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+//            
+//            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+//                                      parameters:@{kFAAnalyticsReasonKey:snapshot.error.localizedDescription,
+//                                                   kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+//            
+//            switch (snapshot.error.code) {
+//                case FIRStorageErrorCodeObjectNotFound:
+//                    // File doesn't exist
+//                    break;
+//                    
+//                case FIRStorageErrorCodeUnauthorized:
+//                    // User doesn't have permission to access file
+//                    break;
+//                    
+//                case FIRStorageErrorCodeCancelled:
+//                    // User canceled the upload
+//                    break;
+//                    
+//                case FIRStorageErrorCodeUnknown:
+//                    // Unknown error occurred, inspect the server response
+//                    break;
+//            }
+//        }
+//    }];
+//    
+//    [uploadTask observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot) {
+//        progress = progressCheck;
+//        if (images.count>1) {
+//            
+//            FIRStorageReference *storageRef2 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
+//            
+//            UIImage *imageTwo = images[1];
+//            // Create the file metadata
+//            FIRStorageMetadata *metadataTwo = [[FIRStorageMetadata alloc] init];
+//            metadataTwo.contentType = @"image/jpeg";
+//            metadataTwo.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageTwo.size.height],
+//                                        kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageTwo.size.width]};
+//            
+//            FIRStorageUploadTask *uploadTask2 = [storageRef2 putData:UIImageJPEGRepresentation(imageTwo, 0.5) metadata:metadataTwo];
+//            
+//            [uploadTask2 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot2) {
+//                // Upload reported progress
+//                double percentComplete = 100.0 * (snapshot2.progress.completedUnitCount) / (snapshot2.progress.totalUnitCount);
+//                NSLog(@"Second = %f",percentComplete);
+//                progressCheck = progress + percentComplete/images.count;
+//                NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+//                [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
+//            }];
+//            
+//            // Errors only occur in the "Failure" case
+//            [uploadTask2 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot2) {
+//                if (snapshot2.error != nil) {
+//                    
+//                    NSDictionary *userInfo = @{@"error":snapshot2.error.localizedDescription};
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+//                    
+//                    [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+//                                              parameters:@{kFAAnalyticsReasonKey:snapshot2.error.localizedDescription,
+//                                                           kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+//
+//                    
+//                    switch (snapshot2.error.code) {
+//                        case FIRStorageErrorCodeObjectNotFound:
+//                            // File doesn't exist
+//                            break;
+//                            
+//                        case FIRStorageErrorCodeUnauthorized:
+//                            // User doesn't have permission to access file
+//                            break;
+//                            
+//                        case FIRStorageErrorCodeCancelled:
+//                            // User canceled the upload
+//                            break;
+//                            
+//                        case FIRStorageErrorCodeUnknown:
+//                            // Unknown error occurred, inspect the server response
+//                            break;
+//                    }
+//                }
+//            }];
+//            
+//            [uploadTask2 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot2) {
+//                progress = progressCheck;
+//                if (images.count>2) {
+//                    
+//                    FIRStorageReference *storageRef3 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
+//                    
+//                    UIImage *imageThree = images[2];
+//                    // Create the file metadata
+//                    FIRStorageMetadata *metadataThree = [[FIRStorageMetadata alloc] init];
+//                    metadataThree.contentType = @"image/jpeg";
+//                    metadataThree.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageThree.size.height],
+//                                                   kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageThree.size.width]};
+//                    
+//                    FIRStorageUploadTask *uploadTask3 = [storageRef3 putData:UIImageJPEGRepresentation(imageThree, 0.5) metadata:metadataThree];
+//                    
+//                    [uploadTask3 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot3) {
+//                        // Upload reported progress
+//                        double percentComplete = 100.0 * (snapshot3.progress.completedUnitCount) / (snapshot3.progress.totalUnitCount);
+//                        NSLog(@"Thrid = %f",percentComplete);
+//                        progressCheck = progress + percentComplete/images.count;
+//                        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
+//                    }];
+//                    
+//                    // Errors only occur in the "Failure" case
+//                    [uploadTask3 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot3) {
+//                        if (snapshot3.error != nil) {
+//                            
+//                            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
+//                                                      parameters:@{kFAAnalyticsReasonKey:snapshot3.error.localizedDescription,
+//                                                                   kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
+//                            
+//                            NSDictionary *userInfo = @{@"error":snapshot3.error.localizedDescription};
+//                            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
+//                            
+//                            switch (snapshot3.error.code) {
+//                                case FIRStorageErrorCodeObjectNotFound:
+//                                    // File doesn't exist
+//                                    break;
+//                                    
+//                                case FIRStorageErrorCodeUnauthorized:
+//                                    // User doesn't have permission to access file
+//                                    break;
+//                                    
+//                                case FIRStorageErrorCodeCancelled:
+//                                    // User canceled the upload
+//                                    break;
+//                                    
+//                                case FIRStorageErrorCodeUnknown:
+//                                    // Unknown error occurred, inspect the server response
+//                                    break;
+//                            }
+//                        }
+//                    }];
+//                    
+//                    [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
+//                        progress = progressCheck;
+//                        NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+//                        NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+//                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+//                                                 kFAItemImagesTimeStampKey:timeStamp,
+//                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+//                                                 kFAItemImagesPathKey:snapshot.metadata.path,
+//                                                 kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+//                                                 kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
+//                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
+//                                                 kFAItemImagesTimeStampKey:timeStamp,
+//                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+//                                                 kFAItemImagesPathKey:snapshot2.metadata.path,
+//                                                 kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+//                                                 kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
+//                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],
+//                                                 kFAItemImagesTimeStampKey:timeStamp,
+//                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+//                                                 kFAItemImagesPathKey:snapshot3.metadata.path,
+//                                                 kFAItemImagesHeightKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+//                                                 kFAItemImagesWidthKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
+//                        
+//                        NSString *restKey = restaurant.restaurantID;
+//                        
+//                        item.itemRestaurant = restaurant;
+//                        item.itemImageArray = imageArray;
+//                        item.itemLatitude = restaurant.restaurantlatitude;
+//                        item.itemLongitude = restaurant.restaurantLongitude;
+//                        item.itemGeoHash = restaurant.restaurantGeohash;
+//                        
+//                        NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
+//                                                       [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
+//                        
+//                        [ref updateChildValues:childUpdates];
+//                        
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
+//                        
+//                        [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
+//                        [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
+//                                                  parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+//                                                               kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+//                                                               kFAAnalyticsImageCountKey: @"3",
+//                                                               kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
+//                                                               kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
+//                                                               kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+//                        [[FAAnalyticsManager sharedManager]resetManager];
+//                        
+//                        NSLog(@"All Uploads Finished");
+//                    }];
+//                }
+//                else{
+//                    
+//                    NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+//                    NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+//                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+//                                                    kFAItemImagesTimeStampKey:timeStamp,
+//                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+//                                                    kFAItemImagesPathKey:snapshot.metadata.path,
+//                                                    kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+//                                                    kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
+//                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
+//                                                    kFAItemImagesTimeStampKey:timeStamp,
+//                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+//                                                    kFAItemImagesPathKey:snapshot2.metadata.path,
+//                                                    kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+//                                                    kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
+//                    
+//                    NSString *restKey = restaurant.restaurantID;
+//                    
+//                    item.itemRestaurant = restaurant;
+//                    item.itemImageArray = imageArray;
+//                    item.itemLatitude = restaurant.restaurantlatitude;
+//                    item.itemLongitude = restaurant.restaurantLongitude;
+//                    item.itemGeoHash = restaurant.restaurantGeohash;
+//                    
+//                    NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
+//                                                   [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
+//                    
+//                    [ref updateChildValues:childUpdates];
+//                    
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
+//                    
+//                    [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
+//                    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
+//                                              parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+//                                                           kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+//                                                           kFAAnalyticsImageCountKey: @"2",
+//                                                           kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
+//                                                           kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
+//                                                           kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+//                    [[FAAnalyticsManager sharedManager]resetManager];
+//                    
+//                    NSLog(@"All Uploads Finished");
+//                }
+//            }];
+//            
+//        }
+//        else{
+//            
+//            NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+//            NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
+//                                          @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
+//                                            kFAItemImagesTimeStampKey:timeStamp,
+//                                            kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
+//                                            kFAItemImagesPathKey:snapshot.metadata.path,
+//                                            kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
+//                                            kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
+//            
+//            NSString *restKey = restaurant.restaurantID;
+//            
+//            item.itemRestaurant = restaurant;
+//            item.itemImageArray = imageArray;
+//            item.itemLatitude = restaurant.restaurantlatitude;
+//            item.itemLongitude = restaurant.restaurantLongitude;
+//            item.itemGeoHash = restaurant.restaurantGeohash;
+//            
+//            NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
+//                                           [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
+//            
+//            [ref updateChildValues:childUpdates];
+//            
+//            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
+//            
+//            [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
+//            [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
+//                                      parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
+//                                                   kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
+//                                                   kFAAnalyticsImageCountKey: @"1",
+//                                                   kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
+//                                                   kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
+//                                                   kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
+//            [[FAAnalyticsManager sharedManager]resetManager];
+//            
+//            NSLog(@"All Uploads Finished");
+//        }
+//    }];
+}
 
-                    
-                    switch (snapshot2.error.code) {
-                        case FIRStorageErrorCodeObjectNotFound:
-                            // File doesn't exist
-                            break;
-                            
-                        case FIRStorageErrorCodeUnauthorized:
-                            // User doesn't have permission to access file
-                            break;
-                            
-                        case FIRStorageErrorCodeCancelled:
-                            // User canceled the upload
-                            break;
-                            
-                        case FIRStorageErrorCodeUnknown:
-                            // Unknown error occurred, inspect the server response
-                            break;
-                    }
-                }
-            }];
-            
-            [uploadTask2 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot2) {
-                progress = progressCheck;
-                if (images.count>2) {
-                    
-                    FIRStorageReference *storageRef3 = [[FIRStorage storage] referenceForURL:[NSString stringWithFormat:@"%@item_images/%@%@/%@.jpg",kFAStoragePathKey,myYearString,myMonthString,[self uuid]]];
-                    
-                    UIImage *imageThree = images[2];
-                    // Create the file metadata
-                    FIRStorageMetadata *metadataThree = [[FIRStorageMetadata alloc] init];
-                    metadataThree.contentType = @"image/jpeg";
-                    metadataThree.customMetadata = @{kFAItemImagesHeightKey:[NSNumber numberWithFloat:imageThree.size.height],
-                                                   kFAItemImagesWidthKey:[NSNumber numberWithFloat:imageThree.size.width]};
-                    
-                    FIRStorageUploadTask *uploadTask3 = [storageRef3 putData:UIImageJPEGRepresentation(imageThree, 0.5) metadata:metadataThree];
-                    
-                    [uploadTask3 observeStatus:FIRStorageTaskStatusProgress handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                        // Upload reported progress
-                        double percentComplete = 100.0 * (snapshot3.progress.completedUnitCount) / (snapshot3.progress.totalUnitCount);
-                        NSLog(@"Thrid = %f",percentComplete);
-                        progressCheck = progress + percentComplete/images.count;
-                        NSDictionary *userInfo = @{@"progress":[NSNumber numberWithDouble:progressCheck]};
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveProgressNotificationKey object:self userInfo:userInfo];
-                    }];
-                    
-                    // Errors only occur in the "Failure" case
-                    [uploadTask3 observeStatus:FIRStorageTaskStatusFailure handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                        if (snapshot3.error != nil) {
-                            
-                            [FAAnalyticsManager logEventWithName:kFAAnalyticsFailureKey
-                                                      parameters:@{kFAAnalyticsReasonKey:snapshot3.error.localizedDescription,
-                                                                   kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
-                            
-                            NSDictionary *userInfo = @{@"error":snapshot3.error.localizedDescription};
-                            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveFailNotificationKey object:self userInfo:userInfo];
-                            
-                            switch (snapshot3.error.code) {
-                                case FIRStorageErrorCodeObjectNotFound:
-                                    // File doesn't exist
-                                    break;
-                                    
-                                case FIRStorageErrorCodeUnauthorized:
-                                    // User doesn't have permission to access file
-                                    break;
-                                    
-                                case FIRStorageErrorCodeCancelled:
-                                    // User canceled the upload
-                                    break;
-                                    
-                                case FIRStorageErrorCodeUnknown:
-                                    // Unknown error occurred, inspect the server response
-                                    break;
-                            }
-                        }
-                    }];
-                    
-                    [uploadTask3 observeStatus:FIRStorageTaskStatusSuccess handler:^(FIRStorageTaskSnapshot *snapshot3) {
-                        progress = progressCheck;
-                        NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-                        NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
-                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                                 kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot.metadata.path,
-                                                 kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
-                                                 kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
-                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
-                                                 kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot2.metadata.path,
-                                                 kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
-                                                 kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
-                                               @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot3.metadata.downloadURL],
-                                                 kFAItemImagesTimeStampKey:timeStamp,
-                                                 kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                 kFAItemImagesPathKey:snapshot3.metadata.path,
-                                                 kFAItemImagesHeightKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
-                                                 kFAItemImagesWidthKey:[snapshot3.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
-                        
-                        NSString *restKey = restaurant.restaurantID;
-                        
-                        item.itemRestaurant = restaurant;
-                        item.itemImageArray = imageArray;
-                        item.itemLatitude = restaurant.restaurantlatitude;
-                        item.itemLongitude = restaurant.restaurantLongitude;
-                        item.itemGeoHash = restaurant.restaurantGeohash;
-                        
-                        NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
-                                                       [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
-                        
-                        [ref updateChildValues:childUpdates];
-                        
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
-                        
-                        [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
-                        [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                                  parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                               kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                               kFAAnalyticsImageCountKey: @"3",
-                                                               kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
-                                                               kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
-                                                               kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
-                        [[FAAnalyticsManager sharedManager]resetManager];
-                        
-                        NSLog(@"All Uploads Finished");
-                    }];
-                }
-                else{
-                    
-                    NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-                    NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
-                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                                    kFAItemImagesTimeStampKey:timeStamp,
-                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                    kFAItemImagesPathKey:snapshot.metadata.path,
-                                                    kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
-                                                    kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},
-                                                  @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot2.metadata.downloadURL],
-                                                    kFAItemImagesTimeStampKey:timeStamp,
-                                                    kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                                    kFAItemImagesPathKey:snapshot2.metadata.path,
-                                                    kFAItemImagesHeightKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
-                                                    kFAItemImagesWidthKey:[snapshot2.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
-                    
-                    NSString *restKey = restaurant.restaurantID;
-                    
-                    item.itemRestaurant = restaurant;
-                    item.itemImageArray = imageArray;
-                    item.itemLatitude = restaurant.restaurantlatitude;
-                    item.itemLongitude = restaurant.restaurantLongitude;
-                    item.itemGeoHash = restaurant.restaurantGeohash;
-                    
-                    NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
-                                                   [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
-                    
-                    [ref updateChildValues:childUpdates];
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
-                    
-                    [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
-                    [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                              parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                           kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                           kFAAnalyticsImageCountKey: @"2",
-                                                           kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
-                                                           kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
-                                                           kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
-                    [[FAAnalyticsManager sharedManager]resetManager];
-                    
-                    NSLog(@"All Uploads Finished");
-                }
-            }];
-            
++(void)savePItem:(FAItemObject*)item andRestaurant:(FARestaurantObject*)restaurant withImages:(NSArray*)images{
+    NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+    NSMutableArray *imageArray = [NSMutableArray new];
+    for (UIImage *image in images) {
+        NSDictionary *dict = @{kFAItemImagesURLKey:[PFFile fileWithName:@"name.jpeg" data:UIImageJPEGRepresentation(image, 0.5)],
+                               kFAItemImagesTimeStampKey:timeStamp,
+                               kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]};
+        [imageArray addObject:dict];
+    }
+    item.itemRestaurant = restaurant;
+    item.itemImageArray = imageArray;
+    item.itemLocation = restaurant.restaurantLocation;
+    
+    [item saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"item %@",error.localizedDescription);
         }
-        else{
-            
-            NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
-            NSMutableArray *imageArray = [NSMutableArray arrayWithObjects:
-                                          @{kFAItemImagesURLKey:[NSString stringWithFormat:@"%@",snapshot.metadata.downloadURL],
-                                            kFAItemImagesTimeStampKey:timeStamp,
-                                            kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0],
-                                            kFAItemImagesPathKey:snapshot.metadata.path,
-                                            kFAItemImagesHeightKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesHeightKey],
-                                            kFAItemImagesWidthKey:[snapshot.metadata.customMetadata objectForKey: kFAItemImagesWidthKey]},nil];
-            
-            NSString *restKey = restaurant.restaurantID;
-            
-            item.itemRestaurant = restaurant;
-            item.itemImageArray = imageArray;
-            item.itemLatitude = restaurant.restaurantlatitude;
-            item.itemLongitude = restaurant.restaurantLongitude;
-            item.itemGeoHash = restaurant.restaurantGeohash;
-            
-            NSDictionary *childUpdates = @{[NSString stringWithFormat:@"/%@/%@",kFAItemPathKey,item.itemId]: item,
-                                           [NSString stringWithFormat:@"/%@/%@/", kFARestaurantPathKey, restKey]: restaurant};
-            
-            [ref updateChildValues:childUpdates];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
-            
-            [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
-            [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
-                                      parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
-                                                   kFAAnalyticsScreenTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].screenTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].screenTimeStart]],
-                                                   kFAAnalyticsImageCountKey: @"1",
-                                                   kFAAnalyticsImageSourceKey: [FAAnalyticsManager sharedManager].imageSource,
-                                                   kFAAnalyticsUserItemKey: [FAAnalyticsManager sharedManager].userItem,
-                                                   kFAAnalyticsUserRestaurantKey: [FAAnalyticsManager sharedManager].userRestaurant}];
-            [[FAAnalyticsManager sharedManager]resetManager];
-            
-            NSLog(@"All Uploads Finished");
+    }];
+    
+    [restaurant saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"restaurant %@",error.localizedDescription);
         }
     }];
 }
+
++(void)saveReviewP:(NSString*)review rating:(float)rating forItem:(FAItemObject*)item withImages:(NSArray*)images{
+    NSNumber *timeStamp = [NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]];
+    NSMutableArray *imageArray = [NSMutableArray new];
+    for (UIImage *image in images) {
+        NSDictionary *dict = @{kFAItemImagesURLKey:[PFFile fileWithName:@"name.jpeg" data:UIImageJPEGRepresentation(image, 0.5)],
+                               kFAItemImagesTimeStampKey:timeStamp,
+                               kFAItemImagesVoteKey:[NSNumber numberWithUnsignedLong:0]};
+        [imageArray addObject:dict];
+    }
+    item.itemImageArray = [self addArrayP:imageArray toOldArray:item.itemImageArray];
+    NSMutableArray *reviewArray = item.itemReviewArray;
+    if (reviewArray == nil) {
+        reviewArray = [NSMutableArray new];
+    }
+    [reviewArray addObject:@{kFAReviewTextKey:review}];
+    item.itemReviewArray = reviewArray;
+    
+    if (item.itemRating) {
+        float oldRting = [item.itemRating floatValue];
+        float newRating = (oldRting + rating)/2;
+        item.itemRating = [NSNumber numberWithFloat:newRating];
+    }
+    else{
+        item.itemRating = [NSNumber numberWithFloat:rating];
+    }
+    [item saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"item %@",error.localizedDescription);
+        }
+    }];
+}
+
 
 +(BOOL)isLocationSet{
     if ([[NSUserDefaults standardUserDefaults] objectForKey:kFASelectedLocalityKey]) {
