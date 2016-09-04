@@ -11,15 +11,12 @@
 
 @interface FAManager : NSObject
 
-+(void)saveItem:(NSMutableDictionary*)item andRestaurant:(NSMutableDictionary*)restaurant withImages:(NSArray*)images;
 +(void)savePItem:(FAItemObject*)item andRestaurant:(FARestaurantObject*)restaurant withImages:(NSArray*)images;
 
-+(void)saveReview:(NSString*)review rating:(float)rating forItem:(NSMutableDictionary*)item withImages:(NSArray*)images;
-
-+(void)observeEventWithCompletion:(void (^)(NSMutableArray *items))completion;
-
-+(void)remoteConfig;
++(void)saveReviewP:(NSString*)review rating:(float)rating forItem:(FAItemObject*)item withImages:(NSArray*)images;
 
 +(BOOL)isLocationSet;
+
++(void)observeEventWithCompletion:(void (^)(NSMutableArray *items))completion;
 
 @end

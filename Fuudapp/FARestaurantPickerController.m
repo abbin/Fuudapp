@@ -10,14 +10,12 @@
 #import "FAConstants.h"
 #import "AFNetworking.h"
 #import "FARestaurantPickerController.h"
-#import "NSMutableDictionary+FARestaurant.h"
 #import "NSMutableDictionary+FALocality.h"
 #import "FAAnalyticsManager.h"
 #import "FAAddViewControllerThree.h"
 #import "FAManager.h"
 #import "FARestaurantObject.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @interface FARestaurantPickerController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -26,7 +24,6 @@
 
 @property (strong, nonatomic) NSArray *restArray;
 @property (strong, nonatomic) NSURLSessionDataTask *dataTask;
-@property (strong, nonatomic) id selectedRest;
 @property (strong, nonatomic) FARestaurantObject *selectedRestP;
 
 @end
@@ -57,7 +54,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"FAAddViewControllerThreeSegue"]) {
         FAAddViewControllerThree *vc = segue.destinationViewController;
-        vc.itemobject = self.itemObject;
+        vc.itemobjectP = self.itemObjectP;
         vc.selectedImages = self.selectedImages;
         vc.restName = self.searchBar.text;
         vc.itemobjectP = self.itemObjectP;
@@ -165,8 +162,8 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
     
-    cell.textLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15];
-    cell.detailTextLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    cell.textLabel.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:15];
+    cell.detailTextLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     
     if ([[self.restArray objectAtIndex:indexPath.row] isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = [self.restArray objectAtIndex:indexPath.row];
@@ -190,7 +187,6 @@
     [self.dataTask cancel];
     if ([[self.restArray objectAtIndex:indexPath.row] isKindOfClass:[NSString class]]) {
         [self.searchBar resignFirstResponder];
-        self.selectedRest = self.searchBar.text;
         [self performSegueWithIdentifier:@"FAAddViewControllerThreeSegue" sender:self];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -206,13 +202,11 @@
         
         self.dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
             if (!error) {
-                self.selectedRest = [[NSMutableDictionary alloc]initRestaurantWithDictionary:[responseObject objectForKey:@"result"]];
                 self.selectedRestP = [FARestaurantObject initWithDictionary:[responseObject objectForKey:@"result"]];
                 
                  [FAAnalyticsManager sharedManager].userRestaurant = @"NO";
                 
                 [self dismissViewControllerAnimated:YES completion:^{
-                    [FAManager saveItem:self.itemObject andRestaurant:self.selectedRest withImages:self.selectedImages];
                     [FAManager savePItem:self.itemObjectP andRestaurant:self.selectedRestP withImages:self.selectedImages];
                 }];
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];

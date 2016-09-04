@@ -11,7 +11,7 @@
 
 @implementation NSMutableDictionary (FAImage)
 
-@dynamic imageHeight,imagePath,imageTimeStamp,imageUrl,imageVote,imageWidth;
+@dynamic imageHeight,imagePath,imageTimeStamp,imageVote,imageWidth,imagefile;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Setter Methods -
@@ -28,8 +28,8 @@
     [self setObject:imageTimeStamp forKey:kFAItemImagesTimeStampKey];
 }
 
--(void)setImageUrl:(NSString *)imageUrl{
-    [self setObject:imageUrl forKey:kFAItemImagesURLKey];
+-(void)setImagefile:(PFFile *)imagefile{
+    [self setObject:imagefile forKey:kFAItemImagesFileKey];
 }
 
 -(void)setImageVote:(NSNumber *)imageVote{
@@ -57,8 +57,8 @@
     return [self objectForKey:kFAItemImagesTimeStampKey];
 }
 
--(NSString *)imageUrl{
-    return [self objectForKey:kFAItemImagesURLKey];
+-(PFFile *)imagefile{
+    return [self objectForKey:kFAItemImagesFileKey];
 }
 
 -(NSNumber *)imageVote{

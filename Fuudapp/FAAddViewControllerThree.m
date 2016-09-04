@@ -15,12 +15,9 @@
 #import "FAWorkingDaysViewController.h"
 #import "FARestaurantPickerController.h"
 #import "FAManager.h"
-#import "NSMutableDictionary+FAItem.h"
-#import "NSMutableDictionary+FARestaurant.h"
 #import "NSMutableDictionary+FALocality.h"
 #import "FAAnalyticsManager.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
@@ -117,22 +114,22 @@
     [self.tagControl reloadTagSubviews];
     [self.workingDayTagControl reloadTagSubviews];
     
-    self.restaurantSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.addressSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.localitySectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.coordinatesSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.phoneNumberSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.workingDaysSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.workingDaysSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.fromSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.tillSectionHeader.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.restaurantSectionHeader.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.addressSectionHeading.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.localitySectionHeader.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.coordinatesSectionHeader.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.phoneNumberSectionHeading.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.workingDaysSectionHeader.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.workingDaysSectionHeader.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.fromSectionHeader.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.tillSectionHeader.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     
-    self.restaurantNameTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
-    self.addressTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
-    self.localityTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
-    self.coordinatesTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
-    self.fromTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
-    self.tillTExtField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    self.restaurantNameTextField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
+    self.addressTextField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
+    self.localityTextField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
+    self.coordinatesTextField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
+    self.fromTextField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
+    self.tillTExtField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -195,12 +192,9 @@
                 [self.view endEditing:YES];
                 
                 [self dismissViewControllerAnimated:YES completion:^{
-                    
-                    NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
                     FARestaurantObject *restP = [FARestaurantObject initWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:[self.lat doubleValue] longitude:[self.lng doubleValue] phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
                     
                     [FAManager savePItem:self.itemobjectP andRestaurant:restP withImages:self.selectedImages];
-                    [FAManager saveItem:self.itemobject andRestaurant:rest withImages:self.selectedImages];
                 }];
             }
             else{
@@ -213,8 +207,8 @@
         else{
             [self.view endEditing:YES];
             [self dismissViewControllerAnimated:YES completion:^{
-                NSMutableDictionary *rest = [[NSMutableDictionary alloc]initRestaurantWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:self.lat longitude:self.lng phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
-                [FAManager saveItem:self.itemobject andRestaurant:rest withImages:self.selectedImages];
+                FARestaurantObject *restP = [FARestaurantObject initWithName:self.restaurantNameTextField.text address:[NSString stringWithFormat:@"%@, %@",self.addressTextField.text,self.localityTextField.text] latitude:[self.lat doubleValue] longitude:[self.lng doubleValue] phonumber:self.tagControl.tags workingDays:self.workingDaysArray from:self.fromTime till:self.tillTime];
+                [FAManager savePItem:self.itemobjectP andRestaurant:restP withImages:self.selectedImages];
             }];
         }
     }

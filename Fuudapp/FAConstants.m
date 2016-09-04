@@ -51,7 +51,7 @@ NSString *const kFAItemOpenHoursKey                 = @"item_open_hours";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Image -
 
-NSString *const kFAItemImagesURLKey                 = @"item_image_url";
+NSString *const kFAItemImagesFileKey                = @"item_image_file";
 NSString *const kFAItemImagesTimeStampKey           = @"item_image_timeStamp";
 NSString *const kFAItemImagesVoteKey                = @"item_image_vote";
 NSString *const kFAItemImagesPathKey                = @"item_image_path";

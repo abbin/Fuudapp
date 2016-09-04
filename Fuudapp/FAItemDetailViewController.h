@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAItemObject.h"
 
 @interface FAItemDetailViewController : UIViewController
 
-@property (nonatomic, strong) NSMutableDictionary *itemObject;
+@property (nonatomic, strong) FAItemObject *itemObject;
 
 @end

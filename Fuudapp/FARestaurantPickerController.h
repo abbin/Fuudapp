@@ -12,7 +12,6 @@
 
 @interface FARestaurantPickerController : UIViewController
 
-@property (strong, nonatomic) NSMutableDictionary *itemObject;
 @property (strong, nonatomic) FAItemObject *itemObjectP;
 @property (strong, nonatomic) NSArray *selectedImages;
 

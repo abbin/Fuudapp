@@ -12,9 +12,8 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-
-@import FirebaseRemoteConfig;
-@import FirebaseAuth;
+#import "FAUser.h"
+#import "FARemoteConfig.h"
 
 @interface FASignInViewController ()<FBSDKLoginButtonDelegate>
 
@@ -60,12 +59,12 @@
                                              selector:@selector(playerStartPlaying)
                                                  name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    NSDictionary * linkAttributes = @{NSFontAttributeName:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10],
+    NSDictionary * linkAttributes = @{NSFontAttributeName:[UIFont fontWithName:[FARemoteConfig primaryFontName] size:10],
                                       NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)};
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.noThanksButton.titleLabel.text attributes:linkAttributes];
     [self.noThanksButton.titleLabel setAttributedText:attributedString];
     
-    [self.headingLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:20]];
+    [self.headingLabel setFont:[UIFont fontWithName:[FARemoteConfig primaryFontName] size:20]];
 
 }
 
@@ -98,20 +97,51 @@
 
 - (void)loginButton:(FBSDKLoginButton *)loginButton didCompleteWithResult:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error {
     if (error == nil && [FBSDKAccessToken currentAccessToken].tokenString) {
-        FIRAuthCredential *credential = [FIRFacebookAuthProvider
-                                         credentialWithAccessToken:[FBSDKAccessToken currentAccessToken]
-                                         .tokenString];
-        [[FIRAuth auth] signInWithCredential:credential
-                                  completion:^(FIRUser *user, NSError *error) {
-                                      if (error == nil) {
-                                          if (![FAManager isLocationSet]) {
-                                              [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
-                                          }
-                                          else{
-                                              [self dismissViewControllerAnimated:YES completion:nil];
-                                          }
-                                      }
-                                  }];
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{ @"fields" : @"id,first_name,last_name,email,picture.width(100).height(100)"}]startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+            if (!error) {
+                if ([result objectForKey:@"email"]) {
+                    PFQuery *query = [FAUser query];
+                    [query whereKey:@"email" equalTo:[result objectForKey:@"email"]]; // find all the women
+                    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                        
+                        if (objects.count==0) {
+                            FAUser *user = [FAUser user];
+                            user.password = @"";
+                            user.email = [result objectForKey:@"email"];
+                            user.username = [NSString stringWithFormat:@"%@ %@",[result objectForKey:@"first_name"],[result objectForKey:@"last_name"]];
+                            NSString *url = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
+                            user.profilePhotoUrl = url;
+                            [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                if (!error) {
+                                    if (![FAManager isLocationSet]) {
+                                        [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+                                    }
+                                    else{
+                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                    }
+                                }
+                            }];
+                            
+                        }
+                        else{
+                            [PFUser logInWithUsernameInBackground:[result objectForKey:@"email"] password:@""
+                                                            block:^(PFUser *user, NSError *error) {
+                                                                if (user && error == nil) {
+                                                                    if (![FAManager isLocationSet]) {
+                                                                        [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+                                                                    }
+                                                                    else{
+                                                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                                                    }
+                                                                }
+                                                            }];
+                            
+                        }
+                        
+                    }];
+                }
+            }
+        }];
     }
 }
 
@@ -120,18 +150,7 @@
 }
 
 - (IBAction)noThanks:(id)sender {
-    if ([FIRAuth auth].currentUser == nil) {
-        self.noThanksButton.enabled = NO;
-        [[FIRAuth auth] signInAnonymouslyWithCompletion:^(FIRUser *_Nullable user, NSError *_Nullable error) {
-            self.noThanksButton.enabled = YES;
-            if (error == nil) {
-                [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
-            }
-        }];
-    }
-    else{
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

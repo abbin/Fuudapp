@@ -16,9 +16,6 @@ NSString *const FAAnalyticsImageSourceCamera                    = @"camera";
 + (void)logEventWithName:(nonnull NSString *)name
               parameters:(nullable NSDictionary<NSString *, NSObject *> *)parameters{
     
-    [FIRAnalytics logEventWithName:name
-                        parameters:parameters];
-    
     [Answers logCustomEventWithName:name
                    customAttributes:parameters];
 }
@@ -27,10 +24,6 @@ NSString *const FAAnalyticsImageSourceCamera                    = @"camera";
           customAttributes:(nullable NSMutableDictionary *)customAttributes{
     [Answers logSearchWithQuery:query
                customAttributes:customAttributes];
-    
-    [customAttributes setObject:query forKey:kFIRParameterSearchTerm];
-    [FIRAnalytics logEventWithName:kFIREventSearch
-                        parameters:customAttributes];
     
 }
 

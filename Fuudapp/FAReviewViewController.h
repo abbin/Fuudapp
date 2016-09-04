@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAItemObject.h"
 
 @interface FAReviewViewController : UIViewController
 
 @property (strong, nonatomic) NSArray *selectedImages;
-@property (strong, nonatomic) NSMutableDictionary *itemObject;
+@property (strong, nonatomic) FAItemObject *itemObject;
 
 @end

@@ -9,17 +9,16 @@
 #import "FADirectionTableViewCell.h"
 #import "FAConstants.h"
 #import "FAColor.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @implementation FADirectionTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.cellRestaurantNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
-    self.cellAddressLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
-    self.cellDistanceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
-    [self.getdirectionButton.titleLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15.0]];
+    self.cellRestaurantNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10.0];
+    self.cellAddressLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10.0];
+    self.cellDistanceLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10.0];
+    [self.getdirectionButton.titleLabel setFont:[UIFont fontWithName:[FARemoteConfig primaryFontName] size:15.0]];
     [self.getdirectionButton setTitleColor:[FAColor mainColor] forState:UIControlStateNormal];
 }
 

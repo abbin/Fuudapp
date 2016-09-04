@@ -124,78 +124,6 @@ THE SOFTWARE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2016 Google Inc.</string>
-			<key>Title</key>
-			<string>Firebase</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
-			<key>Title</key>
-			<string>FirebaseAnalytics</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
-			<key>Title</key>
-			<string>FirebaseAuth</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google</string>
-			<key>Title</key>
-			<string>FirebaseDatabase</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google Inc.</string>
-			<key>Title</key>
-			<string>FirebaseInstanceID</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google Inc.</string>
-			<key>Title</key>
-			<string>FirebaseRemoteConfig</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2016 Google Inc.</string>
-			<key>Title</key>
-			<string>FirebaseStorage</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleIPhoneUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleInterchangeUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>If you use the Google Maps SDK for iOS in your application, you must
 include the attribution text as part of a legal notices section in your
 application. Including legal notices as an independent menu item, or as
@@ -206,38 +134,6 @@ GMSServices.openSourceLicenseInfo().
 </string>
 			<key>Title</key>
 			<string>GoogleMaps</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleNetworkingUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleParsingUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleSymbolUtilities</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2015 Google Inc.</string>
-			<key>Title</key>
-			<string>GoogleUtilities</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

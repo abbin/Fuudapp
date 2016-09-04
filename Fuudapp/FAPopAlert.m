@@ -9,8 +9,7 @@
 #import "FAPopAlert.h"
 #import "AppDelegate.h"
 #import "FAConstants.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @interface FAPopAlert()
 
@@ -53,7 +52,7 @@
         [self.vibrantLabel setText:@"Do not schedule an upload task."];
         [self.vibrantLabel setTextAlignment:NSTextAlignmentCenter];
         [self.vibrantLabel setNumberOfLines:1];
-        [self.vibrantLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15.0]];
+        [self.vibrantLabel setFont:[UIFont fontWithName:[FARemoteConfig primaryFontName] size:15.0]];
         [self.vibrantLabel setFrame:CGRectMake(52, 20, self.frame.size.width-60, self.height-34)];
         [self.vibrantLabel setTextColor:[UIColor whiteColor]];
         [[self contentView] addSubview:self.vibrantLabel];

@@ -10,22 +10,18 @@
 #import "FAManager.h"
 #import "FAFirstViewTableViewCell.h"
 #import "FAConstants.h"
-#import "NSMutableDictionary+FAItem.h"
-#import "NSMutableDictionary+FARestaurant.h"
 #import "NSMutableDictionary+FALocality.h"
 #import <MapKit/MapKit.h>
 #import "FAItemDetailViewController.h"
 #import "FAColor.h"
-
-@import FirebaseRemoteConfig;
-@import FirebaseDatabase;
-@import FirebaseAuth;
+#import "FARemoteConfig.h"
+#import "FAItemObject.h"
+#import "NSMutableDictionary+FAImage.h"
 
 @interface FirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (strong, nonatomic) NSMutableArray *itemsArray;
 @property (weak, nonatomic) IBOutlet UITableView *itemTableView;
-@property (strong, nonatomic)FIRDatabaseReference *ref;
 @property (strong, nonatomic)NSIndexPath *selectedIndex;
 @property (weak, nonatomic) IBOutlet UINavigationItem *navBar;
 
@@ -48,7 +44,7 @@
     UILabel *uploadLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 10)];
     uploadLabel.text = @"Uploading..";
     uploadLabel.textColor = [UIColor colorWithWhite:0 alpha:0.54];
-    uploadLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    uploadLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     uploadLabel.textAlignment = NSTextAlignmentCenter;
     [self.theHeaderView addSubview:uploadLabel];
 
@@ -111,7 +107,7 @@
                                                  name:kFASaveFailNotificationKey
                                                object:nil];
     
-    if (![FIRAuth auth].currentUser.isAnonymous) {
+    if ([FAUser currentUser]) {
         [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
     }
     else{
@@ -173,29 +169,29 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSMutableDictionary *itemDict = [self.itemsArray objectAtIndex:indexPath.section];
-    NSArray *imageArray = [itemDict objectForKey:kFAItemImagesKey];
-    NSDictionary *imageDict = [imageArray objectAtIndex:0];
-    NSString *imageUrl = [imageDict objectForKey:kFAItemImagesURLKey];
+    FAItemObject *item = [self.itemsArray objectAtIndex:indexPath.section];
+    NSArray *imageArray = item.itemImageArray;
+    NSMutableDictionary *imageDict = [imageArray objectAtIndex:0];
+    PFFile *file = imageDict.imagefile;
     
     FAFirstViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FAFirstViewTableViewCell"];
 
-    cell.cellImageUrl = imageUrl;
-    cell.itemNameLavel.text = itemDict.itemName;
-    cell.restaurantNameLabel.text = itemDict.itemRestaurant.restaurantName;
-    cell.addressLabel.text = itemDict.itemRestaurant.restaurantAddress;
-    if (itemDict.itemRating) {
-        [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",itemDict.itemRating] forState:UIControlStateNormal];
-        cell.ratingView.backgroundColor = [FAColor colorWithRating:itemDict.itemRating];
+    cell.cellImageUrl = file.url;
+    cell.itemNameLavel.text = item.itemName;
+    cell.restaurantNameLabel.text = item.itemRestaurant.restaurantName;
+    cell.addressLabel.text = item.itemRestaurant.restaurantAddress;
+    if (item.itemRating) {
+        [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",item.itemRating] forState:UIControlStateNormal];
+        cell.ratingView.backgroundColor = [FAColor colorWithRating:item.itemRating];
     }
     else{
          [cell.ratingView setTitle:@"-" forState:UIControlStateNormal];
         cell.ratingView.backgroundColor = [FAColor blackColor];
     }
-    cell.distanceLabel.text = itemDict.itemDistance;
-    cell.priceLabel.text = [NSString stringWithFormat:@"%@%@",itemDict.itemCurrencySymbol,itemDict.itemPrice];
-    cell.userNameLabel.text = itemDict.itemUserName;
-    cell.cellUserImageUrl = itemDict.itemUserPhotoURL;
+    cell.distanceLabel.text = item.itemDistance;
+    cell.priceLabel.text = [NSString stringWithFormat:@"%@%@",item.itemCurrencySymbol,item.itemPrice];
+    cell.userNameLabel.text = item.itemUser.username;
+    cell.cellUserImageUrl = item.itemUser.profilePhotoUrl;
     
     return cell;
 }

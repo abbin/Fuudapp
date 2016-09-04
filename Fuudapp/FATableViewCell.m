@@ -8,14 +8,13 @@
 
 #import "FATableViewCell.h"
 #import "FAConstants.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @implementation FATableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.cellTextLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
+    self.cellTextLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10.0];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

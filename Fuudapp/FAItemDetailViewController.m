@@ -8,8 +8,6 @@
 
 #import "FAItemDetailViewController.h"
 #import "FAConstants.h"
-#import "NSMutableDictionary+FAItem.m"
-#import "NSMutableDictionary+FARestaurant.h"
 #import "FAColor.h"
 #import "FADetailedImageCollectionViewCell.h"
 #import "NSMutableDictionary+FAImage.m"
@@ -17,8 +15,7 @@
 #import "FATableViewCell.h"
 #import "FADirectionTableViewCell.h"
 #import "UIImageView+AFNetworking.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @interface FAItemDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -46,16 +43,16 @@
     NSInteger headerHeight = self.view.frame.size.width *3/4 + 135;
     
     self.tblHeaderView.frame = CGRectMake(0, 0, self.view.frame.size.width, headerHeight);
-    self.itemNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:20.0];
-    self.restaurantNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
-    self.restaurantLocationLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10.0];
-    self.priceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
-    self.ratingButton.titleLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:15.0];
+    self.itemNameLabel.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:20.0];
+    self.restaurantNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:15.0];
+    self.restaurantLocationLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10.0];
+    self.priceLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:15.0];
+    self.ratingButton.titleLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:15.0];
     self.ratingButton.layer.cornerRadius = 5;
     self.ratingButton.layer.masksToBounds = YES;
     self.userimageView.layer.cornerRadius = self.userimageView.frame.size.height/2;
     self.userimageView.layer.masksToBounds = YES;
-    self.userNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:12.0];
+    self.userNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:12.0];
     
     if (self.itemObject.itemRating) {
         [self.ratingButton setTitle:[NSString stringWithFormat:@"%@",self.itemObject.itemRating] forState:UIControlStateNormal];
@@ -69,7 +66,7 @@
     self.restaurantNameLabel.text = self.itemObject.itemRestaurant.restaurantName;
     self.restaurantLocationLabel.text = self.itemObject.itemRestaurant.restaurantAddress;
     self.priceLabel.text = [NSString stringWithFormat:@"%@%@",self.itemObject.itemCurrencySymbol,self.itemObject.itemPrice];
-    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.itemObject.itemUserPhotoURL]
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:self.itemObject.itemUser.profilePhotoUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
     
@@ -77,7 +74,7 @@
                               placeholderImage:[UIImage imageNamed:@"background"]
                                        success:nil
                                        failure:nil];
-    self.userNameLabel.text = self.itemObject.itemUserName;
+    self.userNameLabel.text = self.itemObject.itemUser.username;
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
     gradient.frame = self.statusGradiantView.bounds;
@@ -96,7 +93,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         FATableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FATableViewCell"];
-        cell.cellTextLabel.attributedText = self.itemObject.itemOpenHours;
+        cell.cellTextLabel.attributedText = [[NSAttributedString alloc]initWithString:self.itemObject.itemOpenHours];
         return cell;
     }
     else if (indexPath.section == 1) {
@@ -131,7 +128,7 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FADetailedImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FADetailedImageCollectionViewCell" forIndexPath:indexPath];
     NSMutableDictionary *imageDict = [self.itemObject.itemImageArray objectAtIndex:indexPath.row];
-    cell.imageURL = imageDict.imageUrl;
+    cell.imageURL = imageDict.imagefile.url;
     return cell;
 }
 

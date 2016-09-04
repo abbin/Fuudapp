@@ -65,7 +65,7 @@ FOUNDATION_EXPORT NSString *const kFAItemOpenHoursKey;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark - Image -
 
-FOUNDATION_EXPORT NSString *const kFAItemImagesURLKey;
+FOUNDATION_EXPORT NSString *const kFAItemImagesFileKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesTimeStampKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesVoteKey;
 FOUNDATION_EXPORT NSString *const kFAItemImagesPathKey;

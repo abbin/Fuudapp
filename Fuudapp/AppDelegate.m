@@ -17,9 +17,9 @@
 #import "FAManager.h"
 #import "FALocationViewController.h"
 #import <Parse/Parse.h>
+#import "FARemoteConfig.h"
 
 @import GoogleMaps;
-@import Firebase;
 @interface AppDelegate ()
 
 @end
@@ -30,10 +30,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [Fabric with:@[[Crashlytics class]]];
-    [FIRApp configure];
     [GMSServices provideAPIKey:kFAGoogleMapsKey];
-    [FAManager remoteConfig];
-    [FIRDatabase database].persistenceEnabled = YES;
     
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
@@ -41,33 +38,27 @@
     
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
-        configuration.applicationId = @"Ph3YlcRPtxvK4Y8yDAARLosc5lvu4ErH8XZm6aX5";
+        configuration.applicationId = @"0C6B889A28A74B37B3DAC2B14EC0F49C";
         
-        configuration.server = @"http://fuudapp.herokuapp.com/parse";
+        configuration.server = @"http://fuudappdevelopment.herokuapp.com/parse";
         
     }]];
-    
-//    NSError *error;
-//    [[FIRAuth auth] signOut:&error];
-//    if (!error) {
-//        // Sign-out succeeded
-//    }
     
     [[UINavigationBar appearance] setBarTintColor:[FAColor mainColor]];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:17.0]}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:[FARemoteConfig primaryFontName] size:17.0]}];
     
-    [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10.0]} forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:[FARemoteConfig primaryFontName] size:10.0]} forState:UIControlStateNormal];
     
     [[UITabBar appearance] setTintColor:[FAColor mainColor]];
     [[UITabBar appearance] setBarTintColor:[FAColor whiteColor]];
     [[UITabBar appearance] setTranslucent:NO];
     
     [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setTintColor:[FAColor whiteColor]];
-    [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15.0]} forState:UIControlStateNormal];
+    [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:[FARemoteConfig primaryFontName] size:15.0]} forState:UIControlStateNormal];
     
-    [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:[UIFont systemFontSize]]];
+    [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setFont:[UIFont fontWithName:[FARemoteConfig secondaryFontName] size:[UIFont systemFontSize]]];
     
     return YES;
 }

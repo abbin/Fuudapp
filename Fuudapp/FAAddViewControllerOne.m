@@ -13,10 +13,8 @@
 #import "FAConstants.h"
 #import "FAAnalyticsManager.h"
 #import "FARestaurantPickerController.h"
-#import "NSMutableDictionary+FAItem.h"
 #import "FAItemObject.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @interface FAAddViewControllerOne ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextViewDelegate,UITextFieldDelegate>
 
@@ -57,14 +55,14 @@
     
     self.nameTextField.text = self.itemName;
     
-    self.imagePreviewSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.nameSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.priceSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.descriptionSectionHeading.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
+    self.imagePreviewSectionHeading.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.nameSectionHeading.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.priceSectionHeading.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.descriptionSectionHeading.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     
-        self.nameTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
-            self.priceTextField.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
-            self.descriptionTextView.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    self.nameTextField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
+    self.priceTextField.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
+    self.descriptionTextView.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -83,14 +81,13 @@
         }
         
         vc.selectedImages = self.selectedImages;
-        vc.itemObject = [[NSMutableDictionary alloc]initItemWithName:self.nameTextField.text price:price currency:[formatter currencyCode] description:self.descriptionTextView.text];
         vc.itemObjectP = [FAItemObject object];
         vc.itemObjectP.itemName = self.nameTextField.text;
         vc.itemObjectP.itemPrice = price;
         vc.itemObjectP.itemDescription = self.descriptionTextView.text;
         vc.itemObjectP.itemCurrency = [formatter currencyCode];
         vc.itemObjectP.itemCurrencySymbol = [formatter currencySymbol];
-        vc.itemObjectP.itemUser = [PFUser currentUser];
+        vc.itemObjectP.itemUser = [FAUser currentUser];
         NSArray* words = [self.nameTextField.text componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString* trimmedString = [words componentsJoinedByString:@""];
         vc.itemObjectP.itemCappedName = [trimmedString lowercaseString];

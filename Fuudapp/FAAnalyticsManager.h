@@ -12,8 +12,6 @@
 FOUNDATION_EXPORT NSString * __nonnull const FAAnalyticsImageSourceGallery;
 FOUNDATION_EXPORT NSString * __nonnull const FAAnalyticsImageSourceCamera;
 
-@import FirebaseAnalytics;
-
 @interface FAAnalyticsManager : NSObject
 
 + (nonnull instancetype)sharedManager;

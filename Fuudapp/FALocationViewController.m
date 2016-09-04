@@ -14,9 +14,9 @@
 #import "FAManager.h"
 #import "AppDelegate.h"
 #import "FATabBarController.h"
+#import "FARemoteConfig.h"
 
 @import CoreLocation;
-@import FirebaseRemoteConfig;
 
 @interface FALocationViewController ()<FALocalityPickerControllerDelegate,CLLocationManagerDelegate>
 
@@ -40,12 +40,12 @@
     
     self.geocoder = [[CLGeocoder alloc] init];
     
-    NSDictionary * linkAttributes = @{NSFontAttributeName:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10],
+    NSDictionary * linkAttributes = @{NSFontAttributeName:[UIFont fontWithName:[FARemoteConfig primaryFontName] size:10],
                                       NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle)};
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:self.manuallButton.titleLabel.text attributes:linkAttributes];
     [self.manuallButton.titleLabel setAttributedText:attributedString];
-    [self.detectLocationButton.titleLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15]];
-    [self.headingLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:20]];
+    [self.detectLocationButton.titleLabel setFont:[UIFont fontWithName:[FARemoteConfig primaryFontName] size:15]];
+    [self.headingLabel setFont:[UIFont fontWithName:[FARemoteConfig primaryFontName] size:20]];
 }
 
 - (void)didReceiveMemoryWarning {

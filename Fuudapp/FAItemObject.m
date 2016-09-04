@@ -24,6 +24,8 @@
 @dynamic itemReviewArray;
 @dynamic itemRestaurant;
 @dynamic itemCappedName;
+@dynamic itemDistance;
+@dynamic itemOpenHours;
 
 + (void)load {
     [self registerSubclass];

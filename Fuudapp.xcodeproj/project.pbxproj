@@ -19,7 +19,6 @@
 		ED6570361D4B4E7A002B680E /* FAMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED6570351D4B4E7A002B680E /* FAMapViewController.m */; };
 		ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */; };
 		ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = ED74239E1D4A48B40030CE45 /* FAConstants.m */; };
-		ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */; };
 		ED898EB31D64A6DB000701DF /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED898EB01D64A6DB000701DF /* FBSDKCoreKit.framework */; };
 		ED898EB41D64A6DB000701DF /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED898EB11D64A6DB000701DF /* FBSDKLoginKit.framework */; };
 		ED898EB51D64A6DB000701DF /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED898EB21D64A6DB000701DF /* FBSDKShareKit.framework */; };
@@ -35,7 +34,6 @@
 		ED8D6E001D46552A00CA8777 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED8D6DFE1D46552A00CA8777 /* LaunchScreen.storyboard */; };
 		ED9D77851D5EF0240058C235 /* FAPopAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D77841D5EF0240058C235 /* FAPopAlert.m */; };
 		ED9D778C1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9D778B1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m */; };
-		EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */; };
 		EDA886521D6993E600D3F022 /* FADetailedImageCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDA886511D6993E600D3F022 /* FADetailedImageCollectionViewCell.m */; };
 		EDAB2C051D6EED78006EDB8B /* RemoteConfigDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = EDAB2C041D6EED78006EDB8B /* RemoteConfigDefaults.plist */; };
 		EDAD34371D506C6F001E5D74 /* FAWorkingDaysViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDAD34361D506C6F001E5D74 /* FAWorkingDaysViewController.m */; };
@@ -50,7 +48,9 @@
 		EDCE81A01D64632D00921F8D /* IMG_0102.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = EDCE819F1D64632D00921F8D /* IMG_0102.mp4 */; };
 		EDD299E41D7AB6CE0026F451 /* FAItemObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EDD299E31D7AB6CE0026F451 /* FAItemObject.m */; };
 		EDD299E71D7ABB540026F451 /* FARestaurantObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EDD299E61D7ABB540026F451 /* FARestaurantObject.m */; };
+		EDD606B51D7B41B6002A1E06 /* FARemoteConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = EDD606B41D7B41B6002A1E06 /* FARemoteConfig.m */; };
 		EDE6E3D21D675E7D00695E99 /* FAItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */; };
+		EDE8EF0F1D7BF6D70012D548 /* FAUser.m in Sources */ = {isa = PBXBuildFile; fileRef = EDE8EF0E1D7BF6D70012D548 /* FAUser.m */; };
 		EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */; };
 		EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */ = {isa = PBXBuildFile; fileRef = EDEC4C921D491997007C0786 /* FAAddViewControllerThree.m */; };
 		EDFA99771D75668C0017B2F9 /* FATableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EDFA99761D75668C0017B2F9 /* FATableViewCell.m */; };
@@ -83,8 +83,6 @@
 		ED7423971D4A05160030CE45 /* FARestaurantPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARestaurantPickerController.m; sourceTree = "<group>"; };
 		ED74239D1D4A48B40030CE45 /* FAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAConstants.h; sourceTree = "<group>"; };
 		ED74239E1D4A48B40030CE45 /* FAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAConstants.m; sourceTree = "<group>"; };
-		ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FARestaurant.h"; sourceTree = "<group>"; };
-		ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FARestaurant.m"; sourceTree = "<group>"; };
 		ED898EB01D64A6DB000701DF /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		ED898EB11D64A6DB000701DF /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		ED898EB21D64A6DB000701DF /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -109,8 +107,6 @@
 		ED9D77841D5EF0240058C235 /* FAPopAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPopAlert.m; sourceTree = "<group>"; };
 		ED9D778A1D5F8D7B0058C235 /* FAFirstViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAFirstViewTableViewCell.h; sourceTree = "<group>"; };
 		ED9D778B1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAFirstViewTableViewCell.m; sourceTree = "<group>"; };
-		EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+FAItem.h"; sourceTree = "<group>"; };
-		EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+FAItem.m"; sourceTree = "<group>"; };
 		EDA886501D6993E600D3F022 /* FADetailedImageCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADetailedImageCollectionViewCell.h; sourceTree = "<group>"; };
 		EDA886511D6993E600D3F022 /* FADetailedImageCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailedImageCollectionViewCell.m; sourceTree = "<group>"; };
 		EDAB2C041D6EED78006EDB8B /* RemoteConfigDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RemoteConfigDefaults.plist; sourceTree = "<group>"; };
@@ -136,9 +132,13 @@
 		EDD299E31D7AB6CE0026F451 /* FAItemObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAItemObject.m; sourceTree = "<group>"; };
 		EDD299E51D7ABB540026F451 /* FARestaurantObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARestaurantObject.h; sourceTree = "<group>"; };
 		EDD299E61D7ABB540026F451 /* FARestaurantObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARestaurantObject.m; sourceTree = "<group>"; };
+		EDD606B31D7B41B6002A1E06 /* FARemoteConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARemoteConfig.h; sourceTree = "<group>"; };
+		EDD606B41D7B41B6002A1E06 /* FARemoteConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARemoteConfig.m; sourceTree = "<group>"; };
 		EDE6E3CF1D67427C00695E99 /* HomeLoc.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HomeLoc.gpx; sourceTree = "<group>"; };
 		EDE6E3D01D675E7D00695E99 /* FAItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAItemDetailViewController.h; sourceTree = "<group>"; };
 		EDE6E3D11D675E7D00695E99 /* FAItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAItemDetailViewController.m; sourceTree = "<group>"; };
+		EDE8EF0D1D7BF6D70012D548 /* FAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUser.h; sourceTree = "<group>"; };
+		EDE8EF0E1D7BF6D70012D548 /* FAUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAUser.m; sourceTree = "<group>"; };
 		EDEC4C8E1D48C917007C0786 /* FAAddViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerTwo.h; sourceTree = "<group>"; };
 		EDEC4C8F1D48C917007C0786 /* FAAddViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAddViewControllerTwo.m; sourceTree = "<group>"; };
 		EDEC4C911D491997007C0786 /* FAAddViewControllerThree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAddViewControllerThree.h; sourceTree = "<group>"; };
@@ -229,6 +229,8 @@
 			children = (
 				ED8D6DF01D46552A00CA8777 /* AppDelegate.h */,
 				ED8D6DF11D46552A00CA8777 /* AppDelegate.m */,
+				EDD606B31D7B41B6002A1E06 /* FARemoteConfig.h */,
+				EDD606B41D7B41B6002A1E06 /* FARemoteConfig.m */,
 				EDE6E3CF1D67427C00695E99 /* HomeLoc.gpx */,
 				EDA5FE3D1D54DB3300BD4F57 /* UI */,
 				EDA5FE361D54DABC00BD4F57 /* Picker */,
@@ -273,6 +275,7 @@
 				ED49ADBA1D55E1D0004B293A /* FAAnalyticsManager.m */,
 				ED74239D1D4A48B40030CE45 /* FAConstants.h */,
 				ED74239E1D4A48B40030CE45 /* FAConstants.m */,
+				EDE8EF0C1D7BF6BE0012D548 /* User */,
 				ED1E7E061D6AE58B0026EE6D /* Image */,
 				ED898EC11D65F928000701DF /* Locality */,
 				EDA5FE321D54D9CE00BD4F57 /* Restaurant */,
@@ -284,8 +287,6 @@
 		EDA5FE311D54D9C400BD4F57 /* Item */ = {
 			isa = PBXGroup;
 			children = (
-				EDA5FE2B1D54649600BD4F57 /* NSMutableDictionary+FAItem.h */,
-				EDA5FE2C1D54649600BD4F57 /* NSMutableDictionary+FAItem.m */,
 				EDD299E21D7AB6CE0026F451 /* FAItemObject.h */,
 				EDD299E31D7AB6CE0026F451 /* FAItemObject.m */,
 			);
@@ -295,8 +296,6 @@
 		EDA5FE321D54D9CE00BD4F57 /* Restaurant */ = {
 			isa = PBXGroup;
 			children = (
-				ED7423A01D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.h */,
-				ED7423A11D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m */,
 				EDD299E51D7ABB540026F451 /* FARestaurantObject.h */,
 				EDD299E61D7ABB540026F451 /* FARestaurantObject.m */,
 			);
@@ -479,6 +478,15 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
+		EDE8EF0C1D7BF6BE0012D548 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				EDE8EF0D1D7BF6D70012D548 /* FAUser.h */,
+				EDE8EF0E1D7BF6D70012D548 /* FAUser.m */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -639,6 +647,7 @@
 				ED482FEC1D4F7C5300854980 /* TLTagsControl.m in Sources */,
 				EDEC4C901D48C917007C0786 /* FAAddViewControllerTwo.m in Sources */,
 				ED8D6DF81D46552A00CA8777 /* SecondViewController.m in Sources */,
+				EDD606B51D7B41B6002A1E06 /* FARemoteConfig.m in Sources */,
 				ED3AA5181D586493004A27B1 /* FAReviewViewController.m in Sources */,
 				EDFF9CE31D5B79BF0085B9E1 /* FATabBarController.m in Sources */,
 				EDB89AE11D473DA000EE4BBB /* FAImagePickerCollectionViewCell.m in Sources */,
@@ -647,11 +656,11 @@
 				ED8D6DF21D46552A00CA8777 /* AppDelegate.m in Sources */,
 				ED898EC41D65F983000701DF /* NSMutableDictionary+FALocality.m in Sources */,
 				EDB89AF01D47984A00EE4BBB /* FAAddOneCollectionViewCell.m in Sources */,
-				EDA5FE2D1D54649600BD4F57 /* NSMutableDictionary+FAItem.m in Sources */,
 				EDFA99771D75668C0017B2F9 /* FATableViewCell.m in Sources */,
 				EDB89AE61D473E3C00EE4BBB /* NSIndexSet+Convenience.m in Sources */,
 				EDA886521D6993E600D3F022 /* FADetailedImageCollectionViewCell.m in Sources */,
 				ED044A081D53605100CF57DF /* FAManager.m in Sources */,
+				EDE8EF0F1D7BF6D70012D548 /* FAUser.m in Sources */,
 				ED8D6DF51D46552A00CA8777 /* FirstViewController.m in Sources */,
 				ED8D6DEF1D46552A00CA8777 /* main.m in Sources */,
 				ED4733701D63607300280BC0 /* FASignInViewController.m in Sources */,
@@ -664,7 +673,6 @@
 				EDB89AEA1D475ED900EE4BBB /* FAColor.m in Sources */,
 				ED9D778C1D5F8D7B0058C235 /* FAFirstViewTableViewCell.m in Sources */,
 				ED74239F1D4A48B40030CE45 /* FAConstants.m in Sources */,
-				ED7423A21D4A5DA40030CE45 /* NSMutableDictionary+FARestaurant.m in Sources */,
 				EDEC4C931D491997007C0786 /* FAAddViewControllerThree.m in Sources */,
 				ED7423981D4A05160030CE45 /* FARestaurantPickerController.m in Sources */,
 				ED898EC01D65B2C2000701DF /* FALocationViewController.m in Sources */,

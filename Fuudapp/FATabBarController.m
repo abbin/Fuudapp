@@ -8,8 +8,7 @@
 
 #import "FATabBarController.h"
 #import "FAManager.h"
-
-@import FirebaseAuth;
+#import "FAUser.h"
 
 @interface FATabBarController ()
 
@@ -29,7 +28,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if ([FIRAuth auth].currentUser == nil) {
+    if ([FAUser currentUser] == nil) {
         [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
     }
     else if (![FAManager isLocationSet]){

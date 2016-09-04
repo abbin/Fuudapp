@@ -8,8 +8,7 @@
 
 #import "TLTagsControl.h"
 #import "FAConstants.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @interface TLTagsControl () <UITextFieldDelegate, UIGestureRecognizerDelegate>
 
@@ -81,7 +80,7 @@
     tagInputField_.layer.borderColor = [UIColor lightGrayColor].CGColor;
     tagInputField_.backgroundColor = [UIColor colorWithWhite:0.90 alpha:1];
     tagInputField_.delegate = self;
-    tagInputField_.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:14];
+    tagInputField_.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:14];
     tagInputField_.placeholder = @"";
     tagInputField_.keyboardType = UIKeyboardTypePhonePad;
     

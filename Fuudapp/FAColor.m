@@ -8,39 +8,38 @@
 
 #import "FAColor.h"
 #import "FAConstants.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @implementation FAColor
 
 +(UIColor *)mainColor{
-    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigMainColorHexKey].stringValue];
+    return [self colorFromHexString:[FARemoteConfig mainColorHex]];
 }
 
 +(UIColor *)openGreen{
-    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigOpenGreenColorHexKey].stringValue];
+    return [self colorFromHexString:[FARemoteConfig openGreenColorHex]];
 }
 
 +(UIColor *)closedRed{
-    return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigClosedRedColorHexKey].stringValue];
+    return [self colorFromHexString:[FARemoteConfig closedRedColorHex]];
 }
 
 +(UIColor *)colorWithRating:(id)rating{
     NSInteger rate = [rating integerValue];
     if (rate>4) {
-        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingFiveColorHexKey].stringValue];
+        return [self colorFromHexString:[FARemoteConfig fiveColorHex]];
     }
     else if (rate>3){
-        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingFourColorHexKey].stringValue];
+        return [self colorFromHexString:[FARemoteConfig fourColorHex]];
     }
     else if (rate>2){
-        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingThreeColorHexKey].stringValue];
+        return [self colorFromHexString:[FARemoteConfig threeColorHex]];
     }
     else if (rate>1){
-        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingTwoColorHexKey].stringValue];
+        return [self colorFromHexString:[FARemoteConfig twoColorHex]];
     }
     else{
-        return [self colorFromHexString:[FIRRemoteConfig remoteConfig][kFARemoteConfigRatingOneColorHexKey].stringValue];
+        return [self colorFromHexString:[FARemoteConfig oneColorHex]];
     }
 }
 

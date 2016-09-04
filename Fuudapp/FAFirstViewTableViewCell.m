@@ -10,8 +10,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "FAColor.h"
 #import "FAConstants.h"
-
-@import FirebaseRemoteConfig;
+#import "FARemoteConfig.h"
 
 @interface FAFirstViewTableViewCell()
 
@@ -30,13 +29,13 @@
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.height/2;
     self.userImageView.layer.masksToBounds = YES;
     
-    self.itemNameLavel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:15];
-    self.restaurantNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:13];
-    self.distanceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.priceLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.addressLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    self.userNameLabel.font = [UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigSecondaryKey].stringValue size:10];
-    [self.ratingView.titleLabel setFont:[UIFont fontWithName:[FIRRemoteConfig remoteConfig][kFARemoteConfigPrimaryFontKey].stringValue size:10]];
+    self.itemNameLavel.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:15];
+    self.restaurantNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:13];
+    self.distanceLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.priceLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.addressLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    self.userNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
+    [self.ratingView.titleLabel setFont:[UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

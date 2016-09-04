@@ -54,7 +54,7 @@
     if (self.ratingView.value>0 && ![self.reviewTextView.text isEqualToString:@"type here"] && self.reviewTextView.text.length>0){
         [self.reviewTextView resignFirstResponder];
         [self dismissViewControllerAnimated:YES completion:^{
-            [FAManager saveReview:self.reviewTextView.text rating:self.ratingView.value forItem:self.itemObject withImages:self.selectedImages];
+            [FAManager saveReviewP:self.reviewTextView.text rating:self.ratingView.value forItem:self.itemObject withImages:self.selectedImages];
         }];
     }
     else{

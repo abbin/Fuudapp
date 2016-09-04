@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <Parse/Parse.h>
 @interface NSMutableDictionary (FAImage)
 
 @property (nonatomic, strong) NSNumber *imageHeight;
 @property (nonatomic, strong) NSString *imagePath;
 @property (nonatomic, strong) NSNumber *imageTimeStamp;
-@property (nonatomic, strong) NSString *imageUrl;
+@property (nonatomic, strong) PFFile *imagefile;
 @property (nonatomic, strong) NSNumber *imageVote;
 @property (nonatomic, strong) NSNumber *imageWidth;
 

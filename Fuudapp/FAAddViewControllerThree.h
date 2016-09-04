@@ -11,7 +11,6 @@
 
 @interface FAAddViewControllerThree : UIViewController
 
-@property (strong, nonatomic) NSMutableDictionary *itemobject;
 @property (strong, nonatomic) FAItemObject *itemobjectP;
 @property (strong, nonatomic) NSArray *selectedImages;
 @property (strong, nonatomic) NSString *restName;
