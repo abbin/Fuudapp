@@ -68,6 +68,58 @@
 
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if ([FBSDKAccessToken currentAccessToken].tokenString) {
+        self.view.userInteractionEnabled = NO;
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:@{ @"fields" : @"id,first_name,last_name,email,picture.width(100).height(100)"}]startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+            if (!error) {
+                if ([result objectForKey:@"email"]) {
+                    PFQuery *query = [FAUser query];
+                    [query whereKey:@"email" equalTo:[result objectForKey:@"email"]]; // find all the women
+                    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+                        
+                        if (objects.count==0) {
+                            FAUser *user = [FAUser user];
+                            user.password = @"password";
+                            user.email = [result objectForKey:@"email"];
+                            user.username = [NSString stringWithFormat:@"%@ %@",[result objectForKey:@"first_name"],[result objectForKey:@"last_name"]];
+                            NSString *url = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
+                            user.profilePhotoUrl = url;
+                            [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                if (!error) {
+                                    if (![FAManager isLocationSet]) {
+                                        [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+                                    }
+                                    else{
+                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                    }
+                                }
+                            }];
+                            
+                        }
+                        else{
+                            [PFUser logInWithUsernameInBackground:[result objectForKey:@"email"] password:@"password"
+                                                            block:^(PFUser *user, NSError *error) {
+                                                                if (user && error == nil) {
+                                                                    if (![FAManager isLocationSet]) {
+                                                                        [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+                                                                    }
+                                                                    else{
+                                                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                                                    }
+                                                                }
+                                                            }];
+                            
+                        }
+                        
+                    }];
+                }
+            }
+        }];
+    }
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -106,7 +158,7 @@
                         
                         if (objects.count==0) {
                             FAUser *user = [FAUser user];
-                            user.password = @"";
+                            user.password = @"password";
                             user.email = [result objectForKey:@"email"];
                             user.username = [NSString stringWithFormat:@"%@ %@",[result objectForKey:@"first_name"],[result objectForKey:@"last_name"]];
                             NSString *url = [[[result objectForKey:@"picture"] objectForKey:@"data"] objectForKey:@"url"];
@@ -124,7 +176,7 @@
                             
                         }
                         else{
-                            [PFUser logInWithUsernameInBackground:[result objectForKey:@"email"] password:@""
+                            [PFUser logInWithUsernameInBackground:[result objectForKey:@"email"] password:@"password"
                                                             block:^(PFUser *user, NSError *error) {
                                                                 if (user && error == nil) {
                                                                     if (![FAManager isLocationSet]) {

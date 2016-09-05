@@ -35,6 +35,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.itemTableView.estimatedRowHeight = 177;
+    self.itemTableView.rowHeight = UITableViewAutomaticDimension;
+    
     self.theHeaderView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 35)];
     self.progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(8, 10, self.view.frame.size.width-16, 2)];
     self.progressView.progressTintColor = [FAColor mainColor];
@@ -151,7 +154,11 @@
 }
 
 -(void)didReceiveSaveCompleteNotification:(NSNotification *) notification{
-    [self hideTableHeader];
+//    [self hideTableHeader];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Completed" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ac = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:ac];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 -(void)didReceiveProgressNotification:(NSNotification *) notification{
@@ -186,7 +193,7 @@
     }
     else{
          [cell.ratingView setTitle:@"-" forState:UIControlStateNormal];
-        cell.ratingView.backgroundColor = [FAColor blackColor];
+        cell.ratingView.backgroundColor = [FAColor grayColor];
     }
     cell.distanceLabel.text = item.itemDistance;
     cell.priceLabel.text = [NSString stringWithFormat:@"%@%@",item.itemCurrencySymbol,item.itemPrice];
@@ -194,10 +201,6 @@
     cell.cellUserImageUrl = item.itemUser.profilePhotoUrl;
     
     return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 165;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

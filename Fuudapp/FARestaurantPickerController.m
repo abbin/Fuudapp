@@ -91,7 +91,7 @@
         double lat = [loc.localityLatitude doubleValue];
         double lng = [loc.localityLongitude doubleValue];
         
-        NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&rankby=distance&type=restaurant&keyword=%@&key=%@",lat,lng,nospacestring,kFAGoogleServerKey];
+        NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%f,%f&rankby=distance&type=restaurant&name=%@&key=%@",lat,lng,nospacestring,kFAGoogleServerKey];
         NSURL *URL = [NSURL URLWithString:urlString];
         NSURLRequest *request = [NSURLRequest requestWithURL:URL];
         

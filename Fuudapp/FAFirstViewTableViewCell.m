@@ -24,8 +24,6 @@
     [super awakeFromNib];
     self.ratingView.layer.cornerRadius = 5;
     self.ratingView.layer.masksToBounds = YES;
-    self.cellImageView.layer.cornerRadius = self.cellImageView.frame.size.height/32;
-    self.cellImageView.layer.masksToBounds = YES;
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.height/2;
     self.userImageView.layer.masksToBounds = YES;
     

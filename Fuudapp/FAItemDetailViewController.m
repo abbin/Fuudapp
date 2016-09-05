@@ -60,7 +60,7 @@
     }
     else{
         [self.ratingButton setTitle:@"-" forState:UIControlStateNormal];
-        self.ratingButton.backgroundColor = [FAColor colorWithRating:self.itemObject.itemRating];
+        self.ratingButton.backgroundColor = [FAColor grayColor];
     }
     self.itemNameLabel.text = self.itemObject.itemName;
     self.restaurantNameLabel.text = self.itemObject.itemRestaurant.restaurantName;

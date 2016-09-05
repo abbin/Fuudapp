@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIView *priceContainerView;
 @property (weak, nonatomic) IBOutlet UIView *nameContainerView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet HCSStarRatingView *ratingView;
 @property (weak, nonatomic) IBOutlet UILabel *imagePreviewSectionHeading;
 @property (weak, nonatomic) IBOutlet UILabel *nameSectionHeading;
 @property (weak, nonatomic) IBOutlet UILabel *priceSectionHeading;
@@ -50,8 +49,6 @@
                                action:@selector(backButtonClicked:)];
     
     self.navigationItem.leftBarButtonItem = cancel;
-    
-    self.ratingView.tintColor = [FAColor mainColor];
     
     self.nameTextField.text = self.itemName;
     
@@ -109,33 +106,11 @@
         [self performSelector:@selector(nextButtonClicked:) withObject:nil afterDelay:0.3];
     }
     else{
-        if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1 && self.ratingView.value>0) {
+        if (self.nameTextField.text.length>0 && self.priceTextField.text.length>1) {
             [self.view endEditing:YES];
             [self performSegueWithIdentifier:@"FARestaurantPickerControllerSegue" sender:self];
         }
         else{
-            if (self.ratingView.value == 0) {
-                [self.view endEditing:YES];
-                // Create a basic animation changing the transform.scale value
-                CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-                
-                // Set the initial and the final values
-                [animation setFromValue:[NSValue valueWithCGPoint:
-                                         CGPointMake([self.ratingView center].x - 3.0f, [self.ratingView center].y)]];
-                [animation setToValue:[NSValue valueWithCGPoint:
-                                       CGPointMake([self.ratingView center].x + 3.0f, [self.ratingView center].y)]];
-                [animation setAutoreverses:YES];
-                [animation setRepeatCount:3];
-                // Set duration
-                [animation setDuration:0.05];
-                
-                // Set animation to be consistent on completion
-                [animation setRemovedOnCompletion:YES];
-                [animation setFillMode:kCAFillModeForwards];
-                [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-                // Add animation to the view's layer
-                [[self.ratingView layer] addAnimation:animation forKey:@"position"];
-            }
             if (self.nameTextField.text.length == 0) {
                 // Create a basic animation changing the transform.scale value
                 CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
@@ -228,19 +203,19 @@
         }
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 285) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 240) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_5){
-        [self.scrollView setContentOffset:CGPointMake(0, 275) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 230) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_6){
-        [self.scrollView setContentOffset:CGPointMake(0, 215) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 170) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else{
-        [self.scrollView setContentOffset:CGPointMake(0, 183) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 138) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
 }
@@ -252,11 +227,7 @@
         }
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 110) animated:YES];
-        [self.scrollView setScrollEnabled:YES];
-    }
-    else if (IS_IPHONE_5){
-        [self.scrollView setContentOffset:CGPointMake(0, 57) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 65) animated:YES];
         [self.scrollView setScrollEnabled:YES];
     }
     else{
@@ -267,7 +238,7 @@
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     if (textField.tag == 1) {
-        if (range.location == 0 && range.length == 1) {
+        if ((range.location == 0 && range.length == 1) || (range.location > 6 && range.length == 0)) {
             return NO;
         }
         else{
@@ -298,19 +269,19 @@
         textView.textColor = [UIColor darkTextColor];
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 369) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 324) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_5){
-        [self.scrollView setContentOffset:CGPointMake(0, 311) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 266) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else if (IS_IPHONE_6){
-        [self.scrollView setContentOffset:CGPointMake(0, 257) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 212) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
     else{
-        [self.scrollView setContentOffset:CGPointMake(0, 230) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 185) animated:YES];
         [self.scrollView setScrollEnabled:NO];
     }
 }
@@ -321,11 +292,11 @@
         textView.textColor = [UIColor colorWithWhite:0 alpha:0.25];
     }
     if (IS_IPHONE_4_OR_LESS) {
-        [self.scrollView setContentOffset:CGPointMake(0, 110) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 65) animated:YES];
         [self.scrollView setScrollEnabled:YES];
     }
     else if (IS_IPHONE_5){
-        [self.scrollView setContentOffset:CGPointMake(0, 57) animated:YES];
+        [self.scrollView setContentOffset:CGPointMake(0, 0) animated:YES];
         [self.scrollView setScrollEnabled:YES];
     }
     else{

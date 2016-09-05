@@ -39,7 +39,7 @@
     
     self.navigationItem.leftBarButtonItem = cancel;
     
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
         if (!self.locationManager) {
             self.locationManager = [[CLLocationManager alloc] init];
             self.locationManager.delegate = self;

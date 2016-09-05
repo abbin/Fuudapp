@@ -97,6 +97,7 @@
     
     PFGeoPoint *userGeoPoint = [PFGeoPoint geoPointWithLatitude:lat longitude:lng];
     PFQuery *query = [PFQuery queryWithClassName:kFAItemPathKey];
+    [query setCachePolicy:kPFCachePolicyCacheThenNetwork];
     [query includeKeys:@[@"itemRestaurant",@"itemUser"]];
     [query whereKey:@"itemLocation" nearGeoPoint:userGeoPoint withinKilometers:10];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -261,6 +262,7 @@
 
         }
         else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
             [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                       parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
@@ -319,6 +321,7 @@
                                                    kFAAnalyticsSectionKey:kFAAnalyticsStorageTaskKey}];
         }
         else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:kFASaveCompleteNotificationKey object:self];
             [FAAnalyticsManager sharedManager].networkTimeEnd = [NSDate date];
             [FAAnalyticsManager logEventWithName:kFAAnalyticsAddCompletedKey
                                       parameters:@{kFAAnalyticsNetworkTimeKey: [NSString stringWithFormat:@"%f",[[FAAnalyticsManager sharedManager].networkTimeEnd timeIntervalSinceDate:[FAAnalyticsManager sharedManager].networkTimeStart]],
