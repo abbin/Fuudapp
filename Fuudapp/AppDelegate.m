@@ -38,9 +38,9 @@
     
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
         
-        configuration.applicationId = @"0C6B889A28A74B37B3DAC2B14EC0F49C";
+        configuration.applicationId = @"57B4120ED0F845239EDF8AFD9C71579E";
         
-        configuration.server = @"http://fuudappdevelopment.herokuapp.com/parse";
+        configuration.server = @"http://menuproject.herokuapp.com/parse";
         
     }]];
     
@@ -56,6 +56,7 @@
     [[UITabBar appearance] setTranslucent:NO];
     
     [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setTintColor:[FAColor whiteColor]];
+    
     [[UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UINavigationBar class]]] setTitleTextAttributes:@{NSFontAttributeName: [UIFont fontWithName:[FARemoteConfig primaryFontName] size:15.0]} forState:UIControlStateNormal];
     
     [[UITextField appearanceWhenContainedInInstancesOfClasses:@[[UISearchBar class]]] setFont:[UIFont fontWithName:[FARemoteConfig secondaryFontName] size:[UIFont systemFontSize]]];

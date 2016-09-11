@@ -28,10 +28,9 @@
     self.userImageView.layer.masksToBounds = YES;
     
     self.itemNameLavel.font = [UIFont fontWithName:[FARemoteConfig primaryFontName] size:15];
-    self.restaurantNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:13];
+    self.restaurantNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     self.distanceLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     self.priceLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
-    self.addressLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     self.userNameLabel.font = [UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10];
     [self.ratingView.titleLabel setFont:[UIFont fontWithName:[FARemoteConfig secondaryFontName] size:10]];
 }

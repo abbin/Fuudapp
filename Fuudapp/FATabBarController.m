@@ -28,7 +28,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if ([FAUser currentUser] == nil) {
+    if (![FAManager isLocationSet]) {
         [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
     }
     else if (![FAManager isLocationSet]){

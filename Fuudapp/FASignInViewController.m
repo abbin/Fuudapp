@@ -202,7 +202,12 @@
 }
 
 - (IBAction)noThanks:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (![FAManager isLocationSet]) {
+        [self performSegueWithIdentifier:@"FALocationViewControllerSegue" sender:self];
+    }
+    else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end

@@ -228,12 +228,12 @@
     if (distance>1000) {
         NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
         [formatter setMaximumFractionDigits:0];
-        return [NSString stringWithFormat:@"%@ km away",[formatter stringFromNumber:[NSNumber numberWithDouble:distance/1000]]];
+        return [NSString stringWithFormat:@"%@ km",[formatter stringFromNumber:[NSNumber numberWithDouble:distance/1000]]];
     }
     else{
         NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
         [formatter setMaximumFractionDigits:0];
-        return [NSString stringWithFormat:@"%@ meters away",[formatter stringFromNumber:[NSNumber numberWithDouble:distance]]];
+        return [NSString stringWithFormat:@"%@ m",[formatter stringFromNumber:[NSNumber numberWithDouble:distance]]];
     }
 }
 

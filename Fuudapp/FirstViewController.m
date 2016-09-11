@@ -85,6 +85,12 @@
 -(void)addbarItems{
     NSMutableDictionary *loc = [[NSUserDefaults standardUserDefaults] objectForKey:kFASelectedLocalityKey];
     self.navBar.title = loc.localityName;
+    UIBarButtonItem *next = [[UIBarButtonItem alloc]
+                             initWithTitle:@"Add" style:UIBarButtonItemStylePlain
+                             target:self
+                             action:@selector(add:)];
+    
+    self.navigationItem.rightBarButtonItem = next;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,13 +115,13 @@
                                              selector:@selector(didReceiveFASaveFailNotification:)
                                                  name:kFASaveFailNotificationKey
                                                object:nil];
-    
-    if ([FAUser currentUser]) {
+//    
+//    if ([FAUser currentUser]) {
         [self performSegueWithIdentifier:@"FAImagePickerControllerSegue" sender:self];
-    }
-    else{
-        [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
-    }
+//    }
+//    else{
+//        [self performSegueWithIdentifier:@"FASignInViewControllerSegue" sender:self];
+//    }
 }
 
 -(void)didReceiveFASaveFailNotification:(NSNotification *) notification{
@@ -186,7 +192,6 @@
     cell.cellImageUrl = file.url;
     cell.itemNameLavel.text = item.itemName;
     cell.restaurantNameLabel.text = item.itemRestaurant.restaurantName;
-    cell.addressLabel.text = item.itemRestaurant.restaurantAddress;
     if (item.itemRating) {
         [cell.ratingView setTitle:[NSString stringWithFormat:@"%@",item.itemRating] forState:UIControlStateNormal];
         cell.ratingView.backgroundColor = [FAColor colorWithRating:item.itemRating];
